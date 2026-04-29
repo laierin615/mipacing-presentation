@@ -1095,6 +1095,18 @@
                 </div>`).join('')}
             </div>
 
+            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.maskTitle}</h3>
+            <p class="text-base mb-3">${l.maskIntro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+              ${l.maskEffects.map(e => `
+                <div class="keypoint-card text-center" style="border-top: 4px solid var(--c-sun)">
+                  <div class="text-4xl mb-2">${e.icon}</div>
+                  <h4 class="font-bold mb-1" style="color: var(--c-deep)">${e.title}</h4>
+                  <p class="text-sm">${e.text}</p>
+                </div>`).join('')}
+            </div>
+            <p class="text-sm p-3 rounded-lg mb-6" style="background: #fef4d7"><b>💡 原因：</b>${l.maskWhy}</p>
+
             <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.scenariosTitle}</h3>
             <p class="text-base mb-4">${l.scenariosIntro}</p>
             <div class="space-y-4 mb-6">
@@ -1115,19 +1127,56 @@
                       </div>
                     </div>
                     <p class="mb-2"><b>視覺效果：</b>${s.effect}</p>
-                    <p class="p-2 rounded font-bold" style="background: ${s.color}22; color: ${s.color}">${s.aim}</p>
+                    <p class="p-3 rounded font-bold text-lg" style="background: ${s.color}22; color: ${s.color}">${s.aim}</p>
                     <p class="text-sm mt-2 text-gray-600"><b>原因：</b>${s.why}</p>
+                    ${s.when ? `<p class="text-xs mt-1 text-gray-500">📍 適用：${s.when}</p>` : ''}
                   </div>
                 </div>`).join('')}
             </div>
 
-            <div class="elder-quote my-6">
-              <h3 class="font-bold text-xl mb-2" style="color: var(--c-red)">${l.aimSummary.title}</h3>
-              <p class="mb-3">${l.aimSummary.text}</p>
-              <ul class="space-y-2">
-                ${l.aimSummary.points.map(p => `<li class="leading-relaxed">${p.replace(/\*\*(.*?)\*\*/g, '<b style="color:var(--c-red)">$1</b>')}</li>`).join('')}
-              </ul>
+            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.dropTitle}</h3>
+            <p class="text-base mb-3">${l.dropIntro}</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+              ${l.dropFactors.map(d => `
+                <div class="keypoint-card flex items-start gap-3" style="border-top: 4px solid var(--c-red)">
+                  <div class="text-3xl flex-shrink-0">${d.icon}</div>
+                  <div>
+                    <h4 class="font-bold mb-1" style="color: var(--c-red)">${d.title}</h4>
+                    <p class="text-sm">${d.text}</p>
+                  </div>
+                </div>`).join('')}
             </div>
+            <p class="p-4 rounded-lg mb-6 font-bold" style="background: #fbe6e2; color: var(--c-red)">📌 ${l.dropConclusion}</p>
+
+            <div class="elder-quote my-6">
+              <h3 class="font-bold text-xl mb-3" style="color: var(--c-red)">${l.aimSummary.title}</h3>
+              <p class="mb-3">${l.aimSummary.text}</p>
+              <table class="w-full text-base border-collapse mb-3 bg-white rounded-xl overflow-hidden">
+                <thead style="background: var(--c-deep); color: white;">
+                  <tr><th class="p-3 text-left">情境</th><th class="p-3">瞄準方向</th><th class="p-3 text-left">原因</th><th class="p-3">主導因素</th></tr>
+                </thead>
+                <tbody>
+                  ${l.aimSummary.table.map(r => `
+                    <tr class="border-b">
+                      <td class="p-3">${r.situation}</td>
+                      <td class="p-3 font-bold text-lg" style="color: var(--c-deep)">${r.aim}</td>
+                      <td class="p-3 text-sm">${r.reason}</td>
+                      <td class="p-3 text-sm font-bold" style="color: var(--c-red)">${r.dominant}</td>
+                    </tr>`).join('')}
+                </tbody>
+              </table>
+              <p class="p-3 rounded-lg mt-3" style="background: white;">${l.aimSummary.insight}</p>
+            </div>
+
+            <details class="academic-collapsible">
+              <summary>${l.verification.title}</summary>
+              <div class="academic-body">
+                <p class="mb-3">這個整合結論不是我們自己想出來的，而是綜合 4 種來源交叉驗證：</p>
+                <ul class="citation-list">
+                  ${l.verification.sources.map(s => `<li><b style="color:var(--c-sun)">${s.source}</b><br><span style="opacity:0.9">${s.point}</span></li>`).join('')}
+                </ul>
+              </div>
+            </details>
 
             ${renderMethodDetails('exp3')}
 
@@ -1701,7 +1750,8 @@
       const c = document.getElementById('ix-content-refraction');
       if (!c) return;
       c.innerHTML = `
-        <p class="mb-3 text-base">拉動下方滑桿改變水深，看看魚的「真實位置」（紅）和「眼睛看到的位置」（橙）差多少！</p>
+        <p class="mb-2 text-base">拉動下方滑桿改變水深，看看魚的「真實位置」（紅）和「眼睛看到的位置」（橙）差多少！</p>
+        <p class="mb-3 text-sm p-2 rounded" style="background: #fef4d7; border-left: 4px solid var(--c-sun);">📌 <b>注意：</b>這個模擬是「<b style="color: var(--c-wave)">情境 1：岸上俯視</b>」。Mipacing 戴蛙鏡水下射魚時，主要要補償的是「魚標下墜」（往上瞄），不是這個！</p>
         <div class="flex flex-col gap-4">
           <svg class="refraction-svg w-full max-w-2xl mx-auto" viewBox="0 0 500 320" style="background: linear-gradient(180deg, #fff 50%, #c5e8f5 50%); border-radius: 12px;">
             <!-- 觀察者眼睛 -->
