@@ -1082,8 +1082,56 @@
         case 'exp3':
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
-            ${renderMethodDetails('exp3')}
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              ${l.principleSteps.map(s => `
+                <div class="keypoint-card flex items-start gap-3">
+                  <div class="text-4xl flex-shrink-0">${s.icon}</div>
+                  <div>
+                    <h4 class="font-bold mb-1" style="color: var(--c-deep)"><span style="color: var(--c-sun)">${s.num}.</span> ${s.title}</h4>
+                    <p class="text-sm">${s.text}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+
+            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.scenariosTitle}</h3>
+            <p class="text-base mb-4">${l.scenariosIntro}</p>
+            <div class="space-y-4 mb-6">
+              ${l.scenarios.map(s => `
+                <div class="rounded-2xl overflow-hidden shadow" style="border-left: 6px solid ${s.color}">
+                  <div class="px-4 py-3 font-bold text-lg" style="background: ${s.color}; color: white;">
+                    ${s.label}
+                  </div>
+                  <div class="p-4 bg-white">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 text-sm">
+                      <div class="p-2 rounded" style="background: #e8f4fa;">
+                        <span class="text-xs text-gray-500">👁️ 眼睛在</span>
+                        <span class="font-bold ml-2">${s.eyeIn}</span>
+                      </div>
+                      <div class="p-2 rounded" style="background: #fef4d7;">
+                        <span class="text-xs text-gray-500">🐟 魚在</span>
+                        <span class="font-bold ml-2">${s.fishIn}</span>
+                      </div>
+                    </div>
+                    <p class="mb-2"><b>視覺效果：</b>${s.effect}</p>
+                    <p class="p-2 rounded font-bold" style="background: ${s.color}22; color: ${s.color}">${s.aim}</p>
+                    <p class="text-sm mt-2 text-gray-600"><b>原因：</b>${s.why}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+
             <div class="elder-quote my-6">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-red)">${l.aimSummary.title}</h3>
+              <p class="mb-3">${l.aimSummary.text}</p>
+              <ul class="space-y-2">
+                ${l.aimSummary.points.map(p => `<li class="leading-relaxed">${p.replace(/\*\*(.*?)\*\*/g, '<b style="color:var(--c-red)">$1</b>')}</li>`).join('')}
+              </ul>
+            </div>
+
+            ${renderMethodDetails('exp3')}
+
+            <div class="elder-quote my-6" style="border-left-color: var(--c-wave)">
               <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">🤔 ${l.whyTitle}</h3>
               <p>${l.whyText} ${speakBtn(l.whyText)}</p>
             </div>
@@ -1671,6 +1719,16 @@
             <g id="real-fish"><text font-size="30">🐟</text></g>
             <!-- 表觀的魚（虛影） -->
             <g id="apparent-fish" opacity="0.5"><text font-size="30">🐟</text></g>
+            <!-- 瞄準箭頭：從表觀位置往下指到真實位置 -->
+            <g id="aim-arrow" opacity="0.9">
+              <line id="aim-line" x1="380" y1="160" x2="380" y2="200" stroke="#0B3D5C" stroke-width="3" marker-end="url(#arrowhead)"/>
+              <text id="aim-label" x="395" y="185" font-size="13" fill="#0B3D5C" font-weight="bold">⬇ 瞄這</text>
+            </g>
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <polygon points="0 0, 10 4, 0 8" fill="#0B3D5C"/>
+              </marker>
+            </defs>
             <!-- 量尺 -->
             <line x1="450" y1="160" x2="450" y2="300" stroke="#888"/>
             <text x="455" y="170" font-size="10" fill="#666">0</text>
@@ -1690,8 +1748,12 @@
                 <div class="font-bold"><span id="apparent-depth">11.3</span> cm 深</div>
               </div>
             </div>
-            <p class="text-center font-bold mt-3 text-lg">偏差量：<span id="diff-mm" style="color: var(--c-deep)">37</span> mm</p>
-            <p class="text-center text-sm" style="color: var(--c-red)">📏 阿公要瞄準「魚頭上方一點」才能命中！</p>
+            <p class="text-center font-bold mt-3 text-lg">偏差量：<span id="diff-mm" style="color: var(--c-deep)">37</span> mm <span class="text-sm font-normal text-gray-600">（看到的比實際淺）</span></p>
+            <div class="mt-4 p-4 rounded-lg" style="background: #fef4d7; border: 2px solid var(--c-sun)">
+              <div class="font-bold mb-1" style="color: var(--c-red); font-size: 1.1rem;">🎯 阿公的瞄準口訣</div>
+              <div class="text-base">看到的魚比實際 <b style="color:var(--c-red)">「淺」</b> → 槍口要 <b style="color:var(--c-deep); font-size: 1.3rem;">⬇️ 往下壓</b> 約 <span id="aim-mm" class="font-mono font-bold" style="color: var(--c-deep)">37</span> mm 才會射中！</div>
+              <div class="text-xs mt-2 text-gray-600">距離越遠（水越深），偏差越大，要壓得越多。試試把滑桿拉到 30 cm 看看！</div>
+            </div>
           </div>
         </div>`;
 
@@ -1705,6 +1767,9 @@
       const apparentRay = document.getElementById('apparent-ray');
       const realFish = document.getElementById('real-fish');
       const apparentFish = document.getElementById('apparent-fish');
+      const aimLine = document.getElementById('aim-line');
+      const aimLabel = document.getElementById('aim-label');
+      const aimMm = document.getElementById('aim-mm');
 
       // 觀察者位置：(80, 80)，水面 y=160
       const eyeX = 80, eyeY = 80, surfaceY = 160;
@@ -1727,7 +1792,9 @@
         depthDisplay.textContent = depth;
         realDepthEl.textContent = depth;
         apparentDepthEl.textContent = apparentDepth.toFixed(1);
-        diffEl.textContent = ((depth - apparentDepth) * 10).toFixed(0); // mm
+        const diffMm = ((depth - apparentDepth) * 10).toFixed(0);
+        diffEl.textContent = diffMm;
+        if (aimMm) aimMm.textContent = diffMm;
 
         // 表觀光線（直線到表觀魚）
         apparentRay.setAttribute('x1', eyeX); apparentRay.setAttribute('y1', eyeY);
@@ -1741,6 +1808,18 @@
 
         realFish.setAttribute('transform', `translate(${fishX-15}, ${realY+10})`);
         apparentFish.setAttribute('transform', `translate(${fishX-15}, ${apparentY+10})`);
+
+        // 瞄準箭頭：從表觀位置往下指到真實位置
+        if (aimLine) {
+          aimLine.setAttribute('x1', fishX);
+          aimLine.setAttribute('y1', apparentY + 8);
+          aimLine.setAttribute('x2', fishX);
+          aimLine.setAttribute('y2', realY - 5);
+        }
+        if (aimLabel) {
+          aimLabel.setAttribute('x', fishX + 18);
+          aimLabel.setAttribute('y', (apparentY + realY) / 2 + 4);
+        }
       }
 
       slider.addEventListener('input', e => update(parseInt(e.target.value)));
