@@ -829,7 +829,9 @@ const TIDE_BULGE_SVG = `<div style="position:relative">
   </g>
 
   <!-- ===== 區塊 4：水位變化 chart（570-680） ===== -->
-  <text x="500" y="595" font-size="16" fill="#5fb3d9" font-weight="bold" text-anchor="middle">📊 觀察點的水位變化（24 小時內）</text>
+  <text x="380" y="595" font-size="16" fill="#5fb3d9" font-weight="bold" text-anchor="middle">📊 觀察點的水位變化（24 小時內）</text>
+  <!-- 動態潮汐類型標籤（隨月相變化）-->
+  <text id="tide-type-label" x="700" y="595" font-size="16" fill="#FFD700" font-weight="bold" text-anchor="middle">⭐ 目前：大潮</text>
 
   <!-- chart 軸 -->
   <line x1="80" y1="610" x2="80" y2="685" stroke="#888" stroke-width="2"/>

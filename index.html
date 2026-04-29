@@ -2914,6 +2914,7 @@
       const moonG = document.getElementById('tide-moon');
       const moonEmoji = document.getElementById('tide-moon-emoji');
       const moonPhase = document.getElementById('tide-moon-phase');
+      const tideTypeLabel = document.getElementById('tide-type-label');
       if (!observer || !curve) return;
 
       const earthCx = 280, earthCy = 220, earthR = 42;
@@ -2922,16 +2923,19 @@
       const curveWidth = chartRight - chartLeft;
       const curveHeight = chartBottom - chartTop;
 
-      // 預先繪製整條 24h 水位曲線
-      let path = '';
-      for (let t = 0; t <= 24; t += 0.25) {
-        const a = (t / 24) * 2 * Math.PI;
-        const level = 1 + Math.cos(2 * a); // 0~2，兩個峰
-        const x = chartLeft + (t / 24) * curveWidth;
-        const y = chartBottom - (level / 2) * curveHeight;
-        path += (t === 0 ? 'M' : ' L') + ` ${x.toFixed(1)} ${y.toFixed(1)}`;
+      // 水位曲線函式：依當前月相 amplitude 重繪 24h 曲線
+      function redrawTideCurve(amplitude) {
+        let p = '';
+        for (let t = 0; t <= 24; t += 0.25) {
+          const a = (t / 24) * 2 * Math.PI;
+          const level = 1 + amplitude * Math.cos(2 * a); // 1±amplitude
+          const x = chartLeft + (t / 24) * curveWidth;
+          const y = chartBottom - (level / 2) * curveHeight;
+          p += (t === 0 ? 'M' : ' L') + ` ${x.toFixed(1)} ${y.toFixed(1)}`;
+        }
+        curve.setAttribute('d', p);
       }
-      curve.setAttribute('d', path);
+      redrawTideCurve(1.0); // 初始大潮
 
       let angle = 0; // 自轉角度（觀察點）
       let moonAngle = 0; // 月亮公轉角度
@@ -2958,6 +2962,20 @@
         const phaseIdx = Math.floor(((moonAngle % 360) / 45)) % 8;
         if (moonEmoji) moonEmoji.textContent = MOON_PHASES[phaseIdx];
         if (moonPhase) moonPhase.textContent = `月相：${MOON_PHASES[phaseIdx]} ${MOON_NAMES[phaseIdx]}`;
+
+        // 潮汐振幅：朔月(0°)/滿月(180°) → 大潮（amp 1.0）；上弦(90°)/下弦(270°) → 小潮（amp 0.4）
+        // amplitude = 0.4 + 0.6 × |cos(moonRad)| → 0°/180° peak, 90°/270° trough
+        const amplitude = 0.4 + 0.6 * Math.abs(Math.cos(moonRad));
+        redrawTideCurve(amplitude);
+        // 潮汐類型
+        let tideType, tideColor;
+        if (amplitude > 0.85) { tideType = '⭐ 目前：大潮（朔月/滿月）'; tideColor = '#FFD700'; }
+        else if (amplitude > 0.65) { tideType = '🌗 目前：中潮'; tideColor = '#E89B3C'; }
+        else { tideType = '🔹 目前：小潮（上下弦月）'; tideColor = '#5fb3d9'; }
+        if (tideTypeLabel) {
+          tideTypeLabel.textContent = tideType;
+          tideTypeLabel.setAttribute('fill', tideColor);
+        }
         // 觀察點標籤位置（避免擋住地球）
         const labelOffset = 22;
         const lx = earthCx + (earthR + labelOffset) * Math.cos(rad);
@@ -2972,8 +2990,8 @@
         const m = Math.floor((hours - h) * 60);
         time.textContent = `時間：${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 
-        // 水位 marker
-        const level = 1 + Math.cos(2 * rad); // 0~2
+        // 水位 marker（用同樣的 amplitude）
+        const level = 1 + amplitude * Math.cos(2 * rad);
         const mx = chartLeft + (hours / 24) * curveWidth;
         const my = chartBottom - (level / 2) * curveHeight;
         marker.setAttribute('cx', mx);
