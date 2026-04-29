@@ -727,7 +727,7 @@ const TIDE_SYSTEM_SVG = `<svg viewBox="0 0 640 280" xmlns="http://www.w3.org/200
 
 // 一天兩次漲潮的離心力效應 — 動畫版（v2：大尺寸 + 太陽 + 公轉）
 const TIDE_BULGE_SVG = `<div style="position:relative">
-<button onclick="initTideAnimation()" style="position:absolute;top:12px;right:12px;z-index:10;padding:8px 18px;border-radius:999px;background:#FFD700;color:#0d1929;font-weight:bold;border:none;cursor:pointer;font-size:0.95rem;box-shadow:0 2px 8px rgba(0,0,0,0.3)">▶ 重新播放</button>
+<button onclick="initTideAnimation()" style="position:absolute;top:8px;right:8px;z-index:10;padding:5px 11px;border-radius:999px;background:rgba(255,215,0,0.9);color:#0d1929;font-weight:bold;border:none;cursor:pointer;font-size:0.78rem;box-shadow:0 1px 4px rgba(0,0,0,0.3)">▶ 重播</button>
 <svg id="tide-anim-svg" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:1000px;background:linear-gradient(180deg,#0d1929 0%,#1a2540 60%,#0d1929 100%);border-radius:16px">
   <!-- ===== 區塊 1：標題（0-50） ===== -->
   <text x="500" y="35" font-size="22" fill="#FFD700" font-weight="bold" text-anchor="middle">🌊 為什麼一天有兩次漲潮？太陽—月亮—地球系統動畫</text>
@@ -768,15 +768,12 @@ const TIDE_BULGE_SVG = `<div style="position:relative">
 
   <!-- 月亮（公轉，由 JS 控制 transform 與 emoji）-->
   <g id="tide-moon" transform="translate(420 220)">
-    <circle r="16" fill="#aaa" stroke="#f5f1d8" stroke-width="1.5"/>
-    <text id="tide-moon-emoji" x="0" y="8" font-size="26" text-anchor="middle">🌑</text>
+    <circle r="14" fill="#aaa" stroke="#f5f1d8" stroke-width="1.5"/>
+    <text id="tide-moon-emoji" x="0" y="6" font-size="22" text-anchor="middle">🌑</text>
   </g>
 
-  <!-- 月相文字（地球上方，動態更新）-->
-  <text id="tide-moon-phase" x="280" y="118" font-size="15" fill="#f5f1d8" font-weight="bold" text-anchor="middle">月相：朔月（新月）</text>
-
-  <!-- 月亮引力箭頭 -->
-  <text x="350" y="190" font-size="13" fill="#FFD700" text-anchor="middle">🌑 月亮引力（強、近）</text>
+  <!-- 月亮引力箭頭（移到地球右下，不擋月亮軌道頂部）-->
+  <text x="350" y="278" font-size="12" fill="#FFD700" text-anchor="middle">🌑 月亮引力（強、近）</text>
 
   <!-- 觀察點（自轉，JS 控制；SVG 內建脈衝 fallback）-->
   <g id="tide-observer-group">
@@ -786,19 +783,22 @@ const TIDE_BULGE_SVG = `<div style="position:relative">
     <text id="tide-observer-label" x="338" y="225" font-size="13" fill="#C2452D" font-weight="bold">觀察點</text>
   </g>
 
-  <!-- 自轉箭頭（地球周圍弧線 + 標籤）-->
-  <path d="M 240 168 A 50 50 0 0 1 320 168" stroke="#FFD700" stroke-width="2" fill="none" marker-end="url(#tideArrG)"/>
-  <text x="280" y="155" font-size="13" fill="#FFD700" font-weight="bold" text-anchor="middle">⟳ 地球自轉</text>
+  <!-- 自轉箭頭（地球右下小弧線，避開月亮軌道）-->
+  <path d="M 320 250 A 45 45 0 0 1 320 270" stroke="#FFD700" stroke-width="2" fill="none" marker-end="url(#tideArrG)"/>
+  <text x="380" y="262" font-size="12" fill="#FFD700" font-weight="bold">⟳ 地球自轉</text>
 
-  <!-- 鼓起標註（上方，遠離主體）-->
-  <text x="170" y="115" font-size="13" fill="#fff" font-weight="bold" text-anchor="middle">←背對月亮側</text>
-  <text x="170" y="135" font-size="11" fill="#5fb3d9" text-anchor="middle">（離心力把海水甩起）</text>
-  <text x="395" y="115" font-size="13" fill="#fff" font-weight="bold" text-anchor="middle">面對月亮側→</text>
-  <text x="395" y="135" font-size="11" fill="#5fb3d9" text-anchor="middle">（引力把海水拉起）</text>
+  <!-- 鼓起標註（軌道上方，y=70 / y=88，遠離月亮軌道頂 y=130）-->
+  <text x="160" y="68" font-size="13" fill="#fff" font-weight="bold" text-anchor="middle">←背對月亮側</text>
+  <text x="160" y="85" font-size="11" fill="#5fb3d9" text-anchor="middle">（離心力把海水甩起）</text>
+  <text x="400" y="68" font-size="13" fill="#fff" font-weight="bold" text-anchor="middle">面對月亮側→</text>
+  <text x="400" y="85" font-size="11" fill="#5fb3d9" text-anchor="middle">（引力把海水拉起）</text>
 
-  <!-- 時間顯示（地球下方）-->
-  <rect x="220" y="338" width="120" height="38" fill="#1a2540" stroke="#FFD700" stroke-width="2" rx="8"/>
-  <text id="tide-time" x="280" y="362" font-size="20" fill="#FFD700" font-weight="bold" text-anchor="middle">時間：00:00</text>
+  <!-- 時間 + 月相（地球下方並列兩框）-->
+  <rect x="80" y="338" width="180" height="44" fill="#1a2540" stroke="#FFD700" stroke-width="2" rx="8"/>
+  <text id="tide-time" x="170" y="365" font-size="18" fill="#FFD700" font-weight="bold" text-anchor="middle">時間：00:00</text>
+
+  <rect x="280" y="338" width="240" height="44" fill="#1a2540" stroke="#f5f1d8" stroke-width="2" rx="8"/>
+  <text id="tide-moon-phase" x="400" y="365" font-size="16" fill="#f5f1d8" font-weight="bold" text-anchor="middle">月相：🌑 朔月（新月）</text>
 
   <!-- ===== 區塊 3：天文小常識三欄（420-540） ===== -->
   <line x1="40" y1="410" x2="960" y2="410" stroke="#444" stroke-width="1"/>

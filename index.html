@@ -2957,7 +2957,7 @@
         // 月相：太陽在右側 (angle=0=右=朔)；公轉到 angle=180 (左) 時是滿月
         const phaseIdx = Math.floor(((moonAngle % 360) / 45)) % 8;
         if (moonEmoji) moonEmoji.textContent = MOON_PHASES[phaseIdx];
-        if (moonPhase) moonPhase.textContent = `月相：${MOON_NAMES[phaseIdx]}`;
+        if (moonPhase) moonPhase.textContent = `月相：${MOON_PHASES[phaseIdx]} ${MOON_NAMES[phaseIdx]}`;
         // 觀察點標籤位置（避免擋住地球）
         const labelOffset = 22;
         const lx = earthCx + (earthR + labelOffset) * Math.cos(rad);
