@@ -766,15 +766,14 @@ const TIDE_BULGE_SVG = `<div style="position:relative">
   <circle cx="280" cy="220" r="42" fill="#4A7C59" stroke="#0B3D5C" stroke-width="2.5"/>
   <text x="280" y="232" font-size="38" text-anchor="middle">🌍</text>
 
-  <!-- 月亮（公轉動畫，使用 SVG animateTransform）-->
-  <g>
-    <animateTransform attributeName="transform" type="rotate" from="0 280 220" to="360 280 220" dur="20s" repeatCount="indefinite"/>
-    <g transform="translate(420 220)">
-      <circle r="14" fill="#aaa" stroke="#f5f1d8" stroke-width="1.5"/>
-      <text x="0" y="6" font-size="22" text-anchor="middle">🌑</text>
-    </g>
+  <!-- 月亮（公轉，由 JS 控制 transform 與 emoji）-->
+  <g id="tide-moon" transform="translate(420 220)">
+    <circle r="16" fill="#aaa" stroke="#f5f1d8" stroke-width="1.5"/>
+    <text id="tide-moon-emoji" x="0" y="8" font-size="26" text-anchor="middle">🌑</text>
   </g>
-  <text x="425" y="120" font-size="14" fill="#f5f1d8" font-weight="bold" text-anchor="middle">🌑 月亮（公轉中）</text>
+
+  <!-- 月相文字（地球上方，動態更新）-->
+  <text id="tide-moon-phase" x="280" y="118" font-size="15" fill="#f5f1d8" font-weight="bold" text-anchor="middle">月相：朔月（新月）</text>
 
   <!-- 月亮引力箭頭 -->
   <text x="350" y="190" font-size="13" fill="#FFD700" text-anchor="middle">🌑 月亮引力（強、近）</text>
@@ -818,8 +817,8 @@ const TIDE_BULGE_SVG = `<div style="position:relative">
     <rect x="355" y="455" width="290" height="90" fill="#1a2540" stroke="#5fb3d9" stroke-opacity="0.5" rx="8"/>
     <text x="370" y="480" font-size="14" fill="#FFD700" font-weight="bold">🌑 月亮公轉</text>
     <text x="370" y="500" font-size="11" fill="#fff">月亮繞地球 = 約 27.3 天</text>
-    <text x="370" y="518" font-size="11" fill="#aaa">圖中加速展示（20 秒一圈）</text>
-    <text x="370" y="535" font-size="11" fill="#aaa">公轉造成月相變化</text>
+    <text x="370" y="518" font-size="11" fill="#aaa">圖中比例 10:1 加速</text>
+    <text x="370" y="535" font-size="11" fill="#aaa">月相 🌑→🌒→🌓→🌔→🌕→🌖→🌗→🌘</text>
   </g>
   <g>
     <rect x="670" y="455" width="290" height="90" fill="#1a2540" stroke="#5fb3d9" stroke-opacity="0.5" rx="8"/>

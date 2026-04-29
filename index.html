@@ -2896,8 +2896,10 @@
     }
 
     // ==========================
-    // 一天兩次漲潮動畫
+    // 一天兩次漲潮動畫（含月亮公轉 + 月相變化）
     // ==========================
+    const MOON_PHASES = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    const MOON_NAMES = ['朔月（新月）', '蛾眉月', '上弦月', '盈凸月', '滿月', '虧凸月', '下弦月', '殘月'];
     let tideAnimInterval = null;
     function initTideAnimation() {
       // 清掉舊的
@@ -2909,9 +2911,13 @@
       const marker = document.getElementById('tide-marker');
       const peak1 = document.getElementById('tide-peak1');
       const peak2 = document.getElementById('tide-peak2');
+      const moonG = document.getElementById('tide-moon');
+      const moonEmoji = document.getElementById('tide-moon-emoji');
+      const moonPhase = document.getElementById('tide-moon-phase');
       if (!observer || !curve) return;
 
       const earthCx = 280, earthCy = 220, earthR = 42;
+      const moonOrbitRx = 140, moonOrbitRy = 90;
       const chartLeft = 80, chartRight = 920, chartBottom = 685, chartTop = 610;
       const curveWidth = chartRight - chartLeft;
       const curveHeight = chartBottom - chartTop;
@@ -2927,16 +2933,31 @@
       }
       curve.setAttribute('d', path);
 
-      let angle = 0;
+      let angle = 0; // 自轉角度（觀察點）
+      let moonAngle = 0; // 月亮公轉角度
+      // 速度比例：自轉 6 秒一圈、公轉 60 秒一圈 = 10:1（真實比例 27.3:1，圖中加速以便觀察）
       tideAnimInterval = setInterval(() => {
-        angle = (angle + 1.2) % 360;
+        angle = (angle + 3.0) % 360; // 6 秒一圈（每 50ms +3°）
+        moonAngle = (moonAngle + 0.3) % 360; // 60 秒一圈（每 50ms +0.3°）
         const rad = (angle / 360) * 2 * Math.PI;
+        const moonRad = (moonAngle / 360) * 2 * Math.PI;
 
         // 觀察點繞地球（在地球邊緣）
         const ox = earthCx + earthR * Math.cos(rad);
         const oy = earthCy + earthR * Math.sin(rad);
         observer.setAttribute('cx', ox);
         observer.setAttribute('cy', oy);
+
+        // 月亮公轉：依公轉位置更新座標 + 月相 emoji
+        if (moonG) {
+          const mx = earthCx + moonOrbitRx * Math.cos(moonRad);
+          const my = earthCy + moonOrbitRy * Math.sin(moonRad);
+          moonG.setAttribute('transform', `translate(${mx} ${my})`);
+        }
+        // 月相：太陽在右側 (angle=0=右=朔)；公轉到 angle=180 (左) 時是滿月
+        const phaseIdx = Math.floor(((moonAngle % 360) / 45)) % 8;
+        if (moonEmoji) moonEmoji.textContent = MOON_PHASES[phaseIdx];
+        if (moonPhase) moonPhase.textContent = `月相：${MOON_NAMES[phaseIdx]}`;
         // 觀察點標籤位置（避免擋住地球）
         const labelOffset = 22;
         const lx = earthCx + (earthR + labelOffset) * Math.cos(rad);
