@@ -1048,7 +1048,7 @@
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
 
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               ${l.principleSteps.map(s => `
                 <div class="keypoint-card flex items-start gap-3">
                   <div class="text-4xl flex-shrink-0">${s.icon}</div>
@@ -1059,6 +1059,12 @@
                 </div>`).join('')}
             </div>
 
+            <div class="my-6 flex justify-center">${TIDE_SYSTEM_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 月亮和太陽的位置決定潮汐強度</p>
+
+            <div class="my-6 flex justify-center">${TIDE_BULGE_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 解密「一天兩次漲潮」的物理原因</p>
+
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
             <div class="space-y-3 mb-6">
               ${l.multiAngle.map(item => `
@@ -1067,6 +1073,9 @@
                   <p class="text-sm">${item.a}</p>
                 </div>`).join('')}
             </div>
+
+            <div class="my-6 flex justify-center">${MOON_FISH_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 月相、潮汐、魚的行為一目瞭然</p>
 
             ${renderMethodDetails('exp1')}
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📅 月相 × 潮汐 × Mipacing 對照表</h3>
@@ -1094,7 +1103,7 @@
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
 
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               ${l.principleSteps.map(s => `
                 <div class="keypoint-card flex items-start gap-3">
                   <div class="text-4xl flex-shrink-0">${s.icon}</div>
@@ -1104,6 +1113,12 @@
                   </div>
                 </div>`).join('')}
             </div>
+
+            <div class="my-6 flex justify-center">${BUOYANCY_3_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 浮力 vs 重力的三種狀態</p>
+
+            <div class="my-6 flex justify-center">${BUOYANCY_SALT_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 海水 vs 淡水：為什麼海水浮力更大</p>
 
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
             <div class="space-y-3 mb-6">

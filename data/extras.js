@@ -638,29 +638,269 @@ const SCENE_SVGS = {
     <text x="160" y="198" font-size="10" fill="#666">人眼角膜在水中無法對焦（折射率太接近）</text>
   </svg>`,
 
-  C: `<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;background:#cde7f5;border-radius:12px;border:2px solid #E89B3C">
+  C: `<svg viewBox="0 0 460 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;background:#cde7f5;border-radius:12px;border:2px solid #E89B3C">
     <text x="10" y="20" font-size="12" fill="#0a4f6e">💧 全部都在水中</text>
-    <text x="40" y="100" font-size="50">🤿</text>
-    <text x="42" y="138" font-size="11" fill="#444" font-weight="bold">戴蛙鏡獵人</text>
-    <rect x="48" y="62" width="42" height="22" fill="white" stroke="#0B3D5C" stroke-width="1.5" rx="3"/>
-    <text x="54" y="78" font-size="9" fill="#0B3D5C" font-weight="bold">空氣腔</text>
-    <line x1="95" y1="92" x2="225" y2="92" stroke="#E89B3C" stroke-width="2" stroke-dasharray="5 3"/>
-    <text x="195" y="108" font-size="42">🐟</text>
-    <text x="178" y="142" font-size="10" fill="#E89B3C" font-weight="bold">看到（大 33%、近 25%）</text>
-    <text x="312" y="100" font-size="22">🐟</text>
-    <text x="304" y="120" font-size="9" fill="#C2452D" font-weight="bold">實際（遠）</text>
-    <path d="M 240 75 L 314 88" stroke="#0B3D5C" stroke-width="3" marker-end="url(#arrC)"/>
-    <text x="248" y="58" font-size="14" fill="#0B3D5C" font-weight="bold">⬆️ 瞄上面</text>
-    <text x="248" y="73" font-size="9" fill="#0B3D5C">（補償下墜）</text>
-    <path d="M 105 112 Q 200 145 305 200" stroke="#C2452D" stroke-width="2.5" fill="none" stroke-dasharray="6 3"/>
-    <text x="130" y="225" font-size="11" fill="#C2452D" font-weight="bold">魚標飛行 → 受重力下墜</text>
-    <text x="252" y="240" font-size="9" fill="#C2452D">距離越遠下墜越多</text>
+    <!-- 獵人 emoji，完全不被任何標籤擋住 -->
+    <text x="30" y="125" font-size="55">🤿</text>
+    <text x="22" y="160" font-size="11" fill="#444" font-weight="bold">戴蛙鏡獵人</text>
+    <!-- 面鏡玻璃面：垂直線 -->
+    <line x1="115" y1="78" x2="115" y2="125" stroke="#0B3D5C" stroke-width="2.5"/>
+    <text x="62" y="65" font-size="10" fill="#0B3D5C" font-weight="bold">面鏡玻璃 ↓</text>
+    <!-- 空氣腔／水分界標籤（在獵人下方，不擋圖）-->
+    <text x="50" y="180" font-size="11" fill="#E89B3C" font-weight="bold">←空氣腔</text>
+    <text x="125" y="180" font-size="11" fill="#0a4f6e" font-weight="bold">水→</text>
+    <!-- 視線水平虛線（從面鏡出去到看到的魚）-->
+    <line x1="118" y1="98" x2="240" y2="98" stroke="#E89B3C" stroke-width="2" stroke-dasharray="5 3"/>
+    <!-- 看到的魚（大）-->
+    <text x="218" y="115" font-size="42">🐟</text>
+    <text x="195" y="148" font-size="10" fill="#E89B3C" font-weight="bold">看到（大 33%、近 25%）</text>
+    <!-- 真實的魚（小、遠）-->
+    <text x="362" y="105" font-size="22">🐟</text>
+    <text x="354" y="125" font-size="9" fill="#C2452D" font-weight="bold">實際（遠）</text>
+    <!-- 瞄上箭頭 -->
+    <path d="M 270 80 L 366 90" stroke="#0B3D5C" stroke-width="3" marker-end="url(#arrC)"/>
+    <text x="275" y="58" font-size="14" fill="#0B3D5C" font-weight="bold">⬆️ 瞄上面</text>
+    <text x="275" y="73" font-size="9" fill="#0B3D5C">（補償下墜）</text>
+    <!-- 拋物線下墜 -->
+    <path d="M 122 124 Q 230 165 360 220" stroke="#C2452D" stroke-width="2.5" fill="none" stroke-dasharray="6 3"/>
+    <text x="160" y="245" font-size="11" fill="#C2452D" font-weight="bold">魚標飛行 → 受重力下墜</text>
+    <text x="195" y="260" font-size="9" fill="#C2452D">距離越遠下墜越多</text>
     <defs><marker id="arrC" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><polygon points="0 0, 10 4, 0 8" fill="#0B3D5C"/></marker></defs>
   </svg>`
 };
 
+// ============================================================
+// 🌍 潮汐系統圖（實驗 1）
+// ============================================================
+const TIDE_SYSTEM_SVG = `<svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;background:linear-gradient(180deg,#0d1929,#1a2540);border-radius:12px">
+  <!-- 標題 -->
+  <text x="220" y="22" font-size="14" fill="#FFD700" font-weight="bold">🌍 太陽 + 月亮 + 地球 = 潮汐</text>
+  <!-- 分隔線 -->
+  <line x1="320" y1="40" x2="320" y2="280" stroke="#444"/>
+
+  <!-- ====== 左：大潮（朔月） ====== -->
+  <text x="40" y="55" font-size="13" fill="#FFD700" font-weight="bold">⭐ 大潮（朔月／滿月）</text>
+  <text x="40" y="70" font-size="10" fill="#aaa">日 - 月 - 地三點一線，引力疊加</text>
+  <!-- 太陽（最右）-->
+  <circle cx="290" cy="160" r="22" fill="#FFA500" stroke="#FFD700" stroke-width="2"/>
+  <text x="285" y="195" font-size="10" fill="#FFD700">☀️ 太陽</text>
+  <!-- 月亮（中間，朔月）-->
+  <circle cx="170" cy="160" r="9" fill="#222" stroke="#f5f1d8" stroke-width="1.5"/>
+  <text x="155" y="142" font-size="9" fill="#f5f1d8">🌑 朔月</text>
+  <!-- 地球（最左）+ 海水鼓兩端 -->
+  <ellipse cx="80" cy="160" rx="35" ry="20" fill="rgba(79,163,199,0.5)" stroke="#5fb3d9"/>
+  <circle cx="80" cy="160" r="18" fill="#4A7C59" stroke="#0B3D5C" stroke-width="1.5"/>
+  <text x="80" y="166" font-size="14" text-anchor="middle">🌍</text>
+  <text x="55" y="195" font-size="10" fill="#fff">地球</text>
+  <!-- 三點一線連線 -->
+  <line x1="100" y1="160" x2="270" y2="160" stroke="#FFD700" stroke-width="0.8" stroke-dasharray="4 2"/>
+  <!-- 引力標註 -->
+  <text x="120" y="220" font-size="10" fill="#5fb3d9">↘ 太陽+月亮引力同方向</text>
+  <text x="135" y="235" font-size="10" fill="#5fb3d9">海水鼓最高 → 大潮</text>
+  <!-- 自轉箭頭（地球上）-->
+  <path d="M 95 145 A 16 16 0 0 1 95 175" stroke="#FFD700" stroke-width="1.5" fill="none" marker-end="url(#rotA)"/>
+
+  <!-- ====== 右：小潮（弦月） ====== -->
+  <text x="380" y="55" font-size="13" fill="#FFD700" font-weight="bold">○ 小潮（上下弦月）</text>
+  <text x="380" y="70" font-size="10" fill="#aaa">日、月成 90°，引力部分抵消</text>
+  <!-- 太陽 -->
+  <circle cx="600" cy="200" r="22" fill="#FFA500" stroke="#FFD700" stroke-width="2"/>
+  <text x="590" y="235" font-size="10" fill="#FFD700">☀️ 太陽</text>
+  <!-- 地球（中間）+ 海水鼓 -->
+  <ellipse cx="490" cy="200" rx="32" ry="22" fill="rgba(79,163,199,0.5)" stroke="#5fb3d9"/>
+  <circle cx="490" cy="200" r="18" fill="#4A7C59" stroke="#0B3D5C" stroke-width="1.5"/>
+  <text x="490" y="206" font-size="14" text-anchor="middle">🌍</text>
+  <!-- 月亮（在地球上方）-->
+  <circle cx="490" cy="105" r="9" fill="#aaa" stroke="#f5f1d8"/>
+  <text x="478" y="98" font-size="9" fill="#f5f1d8">🌓 弦月</text>
+  <!-- 90 度 -->
+  <line x1="490" y1="120" x2="490" y2="178" stroke="#FFD700" stroke-width="0.8" stroke-dasharray="4 2"/>
+  <line x1="510" y1="200" x2="578" y2="200" stroke="#FFD700" stroke-width="0.8" stroke-dasharray="4 2"/>
+  <path d="M 490 178 L 506 178 L 506 200" stroke="#FFD700" stroke-width="1" fill="none"/>
+  <text x="510" y="190" font-size="10" fill="#FFD700">90°</text>
+  <!-- 說明 -->
+  <text x="380" y="265" font-size="10" fill="#5fb3d9">月亮拉直、太陽拉橫 → 部分抵消 → 潮差小</text>
+
+  <defs><marker id="rotA" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#FFD700"/></marker></defs>
+</svg>`;
+
+// 一天兩次漲潮的離心力效應
+const TIDE_BULGE_SVG = `<svg viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;background:linear-gradient(180deg,#0d1929,#1a2540);border-radius:12px">
+  <text x="130" y="25" font-size="14" fill="#FFD700" font-weight="bold">🌊 為什麼一天有兩次漲潮？</text>
+  <text x="120" y="42" font-size="10" fill="#aaa">月亮的引力 + 地球自轉的離心力，兩端都鼓起</text>
+
+  <!-- 月亮（右）-->
+  <circle cx="475" cy="135" r="16" fill="#aaa" stroke="#f5f1d8"/>
+  <text x="465" y="142" font-size="20">🌑</text>
+  <text x="455" y="170" font-size="10" fill="#f5f1d8">月亮</text>
+
+  <!-- 引力箭頭（月亮拉地球水）-->
+  <line x1="455" y1="135" x2="395" y2="135" stroke="#FFD700" stroke-width="2" marker-end="url(#bA)"/>
+  <text x="400" y="125" font-size="9" fill="#FFD700">引力</text>
+
+  <!-- 地球與海水（橢圓）-->
+  <ellipse cx="200" cy="135" rx="135" ry="65" fill="rgba(79,163,199,0.4)" stroke="#5fb3d9" stroke-width="2"/>
+  <circle cx="200" cy="135" r="55" fill="#4A7C59" stroke="#0B3D5C" stroke-width="2"/>
+  <text x="200" y="145" font-size="28" text-anchor="middle">🌍</text>
+
+  <!-- 鼓起 1：右側（面對月亮）-->
+  <text x="290" y="90" font-size="11" fill="#fff" font-weight="bold">面對月亮的一側</text>
+  <text x="295" y="105" font-size="10" fill="#5fb3d9">月亮引力拉起海水</text>
+  <line x1="335" y1="135" x2="320" y2="135" stroke="#5fb3d9" stroke-width="2" marker-end="url(#bB)"/>
+
+  <!-- 鼓起 2：左側（背對月亮）-->
+  <text x="20" y="90" font-size="11" fill="#fff" font-weight="bold">背對月亮的一側</text>
+  <text x="20" y="105" font-size="10" fill="#5fb3d9">離心力把海水甩出</text>
+  <line x1="65" y1="135" x2="80" y2="135" stroke="#5fb3d9" stroke-width="2" marker-end="url(#bB)"/>
+
+  <!-- 自轉箭頭 -->
+  <path d="M 165 75 A 50 50 0 0 1 235 75" stroke="#FFD700" stroke-width="2" fill="none" marker-end="url(#bA)"/>
+  <text x="165" y="68" font-size="11" fill="#FFD700" font-weight="bold">⟳ 地球自轉一圈 = 24 小時</text>
+
+  <!-- 結論 -->
+  <text x="40" y="225" font-size="12" fill="#FFD700" font-weight="bold">⏰ 自轉時，每個地點會「經過」兩個鼓起 → 一天漲退潮各 2 次！</text>
+  <text x="50" y="245" font-size="10" fill="#aaa">（精確週期 12 小時 25 分，因為月亮也在公轉）</text>
+
+  <defs>
+    <marker id="bA" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#FFD700"/></marker>
+    <marker id="bB" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#5fb3d9"/></marker>
+  </defs>
+</svg>`;
+
+// 月相 vs 魚的行為（4 格小圖）
+const MOON_FISH_SVG = `<svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;background:white;border-radius:12px;border:1px solid #ddd">
+  <text x="220" y="22" font-size="14" fill="#0B3D5C" font-weight="bold">🌙 月相 × 魚的行為 × Mipacing 時機</text>
+
+  <!-- 格 1：朔月 -->
+  <rect x="20" y="40" width="140" height="170" fill="#1a2540" rx="8"/>
+  <circle cx="90" cy="75" r="18" fill="#222" stroke="#f5f1d8" stroke-width="1.5"/>
+  <text x="50" y="115" font-size="10" fill="#f5f1d8" font-weight="bold">🌑 朔月（新月）</text>
+  <text x="32" y="135" font-size="9" fill="#aaa">大潮</text>
+  <text x="32" y="155" font-size="9" fill="#5fb3d9">魚躲石縫不亂跑</text>
+  <text x="32" y="170" font-size="9" fill="#5fb3d9">獵人手電筒佔優勢</text>
+  <text x="32" y="195" font-size="11" fill="#5BA651" font-weight="bold">⭐ 最佳 Mipacing</text>
+
+  <!-- 格 2：上弦 -->
+  <rect x="180" y="40" width="140" height="170" fill="#1a2540" rx="8"/>
+  <circle cx="250" cy="75" r="18" fill="#222"/>
+  <path d="M 250 57 A 18 18 0 0 1 250 93" fill="#f5f1d8"/>
+  <text x="200" y="115" font-size="10" fill="#f5f1d8" font-weight="bold">🌓 上弦月</text>
+  <text x="192" y="135" font-size="9" fill="#aaa">小潮</text>
+  <text x="192" y="155" font-size="9" fill="#5fb3d9">魚活動中等</text>
+  <text x="192" y="170" font-size="9" fill="#5fb3d9">水流溫和</text>
+  <text x="192" y="195" font-size="11" fill="#E89B3C" font-weight="bold">✓ 可下水</text>
+
+  <!-- 格 3：滿月 -->
+  <rect x="340" y="40" width="140" height="170" fill="#1a2540" rx="8"/>
+  <circle cx="410" cy="75" r="18" fill="#f5f1d8"/>
+  <text x="365" y="115" font-size="10" fill="#f5f1d8" font-weight="bold">🌕 滿月</text>
+  <text x="352" y="135" font-size="9" fill="#aaa">大潮</text>
+  <text x="352" y="155" font-size="9" fill="#5fb3d9">月光太亮</text>
+  <text x="352" y="170" font-size="9" fill="#5fb3d9">魚警覺逃深處</text>
+  <text x="352" y="195" font-size="11" fill="#C2452D" font-weight="bold">✗ 不易抓</text>
+
+  <!-- 格 4：下弦 -->
+  <rect x="500" y="40" width="120" height="170" fill="#1a2540" rx="8"/>
+  <circle cx="560" cy="75" r="18" fill="#222"/>
+  <path d="M 560 57 A 18 18 0 0 0 560 93" fill="#f5f1d8"/>
+  <text x="514" y="115" font-size="10" fill="#f5f1d8" font-weight="bold">🌗 下弦月</text>
+  <text x="510" y="135" font-size="9" fill="#aaa">小潮</text>
+  <text x="510" y="155" font-size="9" fill="#5fb3d9">前半夜可下水</text>
+  <text x="510" y="170" font-size="9" fill="#5fb3d9">後半夜上岸</text>
+  <text x="510" y="195" font-size="11" fill="#E89B3C" font-weight="bold">✓ 部分時段</text>
+</svg>`;
+
+// ============================================================
+// ⚖️ 浮力三狀態圖（實驗 2）
+// ============================================================
+const BUOYANCY_3_SVG = `<svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;background:white;border-radius:12px;border:1px solid #ddd">
+  <text x="200" y="22" font-size="14" fill="#0B3D5C" font-weight="bold">⚖️ 浮 / 中性浮力 / 沉 三種狀態</text>
+
+  <!-- 缸 1：浮 -->
+  <rect x="40" y="50" width="140" height="160" fill="#cde7f5" stroke="#555" stroke-width="2"/>
+  <line x1="40" y1="80" x2="180" y2="80" stroke="#0a4f6e" stroke-width="1.5"/>
+  <text x="105" y="78" font-size="22" text-anchor="middle">🪵</text>
+  <!-- 浮力箭頭（向上）-->
+  <line x1="105" y1="160" x2="105" y2="120" stroke="#5BA651" stroke-width="3" marker-end="url(#upArr)"/>
+  <text x="115" y="145" font-size="9" fill="#5BA651">浮力大</text>
+  <!-- 重力箭頭（向下，較短）-->
+  <line x1="80" y1="105" x2="80" y2="135" stroke="#C2452D" stroke-width="2" marker-end="url(#dnArr)"/>
+  <text x="55" y="125" font-size="9" fill="#C2452D">重力</text>
+  <!-- 標籤 -->
+  <text x="60" y="195" font-size="11" fill="#0B3D5C" font-weight="bold">⏫ 浮起來</text>
+  <text x="60" y="208" font-size="9" fill="#666">密度 < 水（0.7 g/cm³）</text>
+
+  <!-- 缸 2：中性浮力 -->
+  <rect x="220" y="50" width="140" height="160" fill="#cde7f5" stroke="#555" stroke-width="2"/>
+  <line x1="220" y1="80" x2="360" y2="80" stroke="#0a4f6e" stroke-width="1.5"/>
+  <text x="285" y="140" font-size="22" text-anchor="middle">⏸️</text>
+  <!-- 浮力箭頭（向上）-->
+  <line x1="285" y1="170" x2="285" y2="150" stroke="#5BA651" stroke-width="3" marker-end="url(#upArr)"/>
+  <!-- 重力箭頭（向下，相同長度）-->
+  <line x1="305" y1="115" x2="305" y2="135" stroke="#C2452D" stroke-width="3" marker-end="url(#dnArr)"/>
+  <text x="240" y="195" font-size="11" fill="#0B3D5C" font-weight="bold">⏸️ 中性浮力</text>
+  <text x="240" y="208" font-size="9" fill="#666">浮力 = 重力 → 懸停</text>
+
+  <!-- 缸 3：沉 -->
+  <rect x="400" y="50" width="140" height="160" fill="#cde7f5" stroke="#555" stroke-width="2"/>
+  <line x1="400" y1="80" x2="540" y2="80" stroke="#0a4f6e" stroke-width="1.5"/>
+  <text x="465" y="200" font-size="22" text-anchor="middle">🪨</text>
+  <!-- 重力箭頭（向下，很長）-->
+  <line x1="465" y1="100" x2="465" y2="180" stroke="#C2452D" stroke-width="3" marker-end="url(#dnArr)"/>
+  <text x="475" y="135" font-size="9" fill="#C2452D">重力大</text>
+  <!-- 浮力箭頭（向上，短）-->
+  <line x1="445" y1="195" x2="445" y2="180" stroke="#5BA651" stroke-width="2" marker-end="url(#upArr)"/>
+  <text x="420" y="100" font-size="11" fill="#0B3D5C" font-weight="bold">⏬ 沉下去</text>
+  <text x="420" y="113" font-size="9" fill="#666">密度 > 水（2.5）</text>
+
+  <defs>
+    <marker id="upArr" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto"><polygon points="0 8, 4 0, 8 8" fill="#5BA651"/></marker>
+    <marker id="dnArr" markerWidth="8" markerHeight="8" refX="4" refY="8" orient="auto"><polygon points="0 0, 4 8, 8 0" fill="#C2452D"/></marker>
+  </defs>
+</svg>`;
+
+// 海水 vs 淡水浮力對比
+const BUOYANCY_SALT_SVG = `<svg viewBox="0 0 540 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:540px;background:white;border-radius:12px;border:1px solid #ddd">
+  <text x="170" y="22" font-size="14" fill="#0B3D5C" font-weight="bold">💧 vs 🌊 為什麼海水比淡水更浮？</text>
+
+  <!-- 缸 1：淡水 -->
+  <rect x="40" y="50" width="180" height="150" fill="#cde7f5" stroke="#555" stroke-width="2"/>
+  <line x1="40" y1="80" x2="220" y2="80" stroke="#0a4f6e" stroke-width="1.5"/>
+  <text x="60" y="44" font-size="11" fill="#0B3D5C" font-weight="bold">💧 淡水（密度 1.000）</text>
+  <text x="115" y="135" font-size="22" text-anchor="middle">⏸️</text>
+  <text x="55" y="170" font-size="10" fill="#666">瓶子總重 = 17.4 g</text>
+  <text x="55" y="185" font-size="10" fill="#666">才能達中性浮力</text>
+
+  <!-- vs 符號 -->
+  <text x="245" y="135" font-size="32" fill="#E89B3C" font-weight="bold">VS</text>
+
+  <!-- 缸 2：海水 -->
+  <rect x="320" y="50" width="180" height="150" fill="#a6dff5" stroke="#555" stroke-width="2"/>
+  <line x1="320" y1="80" x2="500" y2="80" stroke="#0a4f6e" stroke-width="1.5"/>
+  <text x="340" y="44" font-size="11" fill="#0B3D5C" font-weight="bold">🌊 海水（密度 1.025）</text>
+  <text x="395" y="135" font-size="22" text-anchor="middle">⏸️</text>
+  <text x="335" y="170" font-size="10" fill="#666">瓶子總重 = 17.5 g</text>
+  <text x="335" y="185" font-size="10" fill="#C2452D" font-weight="bold">需要多 0.1 g 配重！</text>
+
+  <!-- 鹽巴粒子 -->
+  <circle cx="350" cy="100" r="2" fill="#fff"/>
+  <circle cx="380" cy="120" r="2" fill="#fff"/>
+  <circle cx="410" cy="140" r="2" fill="#fff"/>
+  <circle cx="440" cy="160" r="2" fill="#fff"/>
+  <circle cx="465" cy="120" r="2" fill="#fff"/>
+  <circle cx="425" cy="100" r="2" fill="#fff"/>
+
+  <!-- 結論 -->
+  <text x="60" y="220" font-size="11" fill="#0B3D5C" font-weight="bold">📌 海水有「鹽」 → 密度大 2.5% → 浮力大 → 需要更多配重才能潛下去！</text>
+</svg>`;
+
 // 暴露給全域
 window.SCENE_SVGS = SCENE_SVGS;
+window.TIDE_SYSTEM_SVG = TIDE_SYSTEM_SVG;
+window.TIDE_BULGE_SVG = TIDE_BULGE_SVG;
+window.MOON_FISH_SVG = MOON_FISH_SVG;
+window.BUOYANCY_3_SVG = BUOYANCY_3_SVG;
+window.BUOYANCY_SALT_SVG = BUOYANCY_SALT_SVG;
 window.ACADEMIC_DEEPDIVE = ACADEMIC_DEEPDIVE;
 window.METHOD_DETAILS = METHOD_DETAILS;
 window.FISHING_METHODS = FISHING_METHODS;
