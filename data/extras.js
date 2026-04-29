@@ -602,7 +602,65 @@ const QA_CARDS = {
   ]
 };
 
+// ============================================================
+// 🎨 實驗 3 三種觀察情境的示意圖
+// ============================================================
+const SCENE_SVGS = {
+  A: `<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;background:white;border-radius:12px;border:2px solid #4FA3C7">
+    <rect width="400" height="100" fill="#fff8e1"/>
+    <rect y="100" width="400" height="120" fill="#cde7f5"/>
+    <line x1="0" y1="100" x2="400" y2="100" stroke="#0a4f6e" stroke-width="2"/>
+    <text x="10" y="20" font-size="12" fill="#888">☀️ 空氣</text>
+    <text x="10" y="120" font-size="12" fill="#0a4f6e">💧 水中</text>
+    <text x="38" y="62" font-size="40">🧍</text>
+    <text x="42" y="93" font-size="10" fill="#666">岸上獵人</text>
+    <line x1="68" y1="63" x2="248" y2="138" stroke="#E89B3C" stroke-width="2" stroke-dasharray="5 3"/>
+    <line x1="68" y1="63" x2="188" y2="100" stroke="#C2452D" stroke-width="2.5"/>
+    <line x1="188" y1="100" x2="298" y2="184" stroke="#C2452D" stroke-width="2.5"/>
+    <text x="222" y="142" font-size="24">🐟</text>
+    <text x="222" y="162" font-size="9" fill="#E89B3C" font-weight="bold">看到的（淺）</text>
+    <text x="278" y="194" font-size="24">🐟</text>
+    <text x="276" y="212" font-size="9" fill="#C2452D" font-weight="bold">實際的（深）</text>
+    <path d="M 248 152 L 282 188" stroke="#0B3D5C" stroke-width="3" marker-end="url(#arrA)"/>
+    <text x="310" y="170" font-size="13" fill="#0B3D5C" font-weight="bold">⬇️ 瞄下</text>
+    <defs><marker id="arrA" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><polygon points="0 0, 10 4, 0 8" fill="#0B3D5C"/></marker></defs>
+  </svg>`,
+
+  B: `<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;background:#cde7f5;border-radius:12px;border:2px solid #0B3D5C">
+    <text x="10" y="22" font-size="12" fill="#0a4f6e">💧 全部都在水中</text>
+    <text x="50" y="115" font-size="50">👀</text>
+    <text x="50" y="160" font-size="11" fill="#444" font-weight="bold">水中裸眼</text>
+    <defs><filter id="blur1"><feGaussianBlur stdDeviation="4"/></filter></defs>
+    <circle cx="280" cy="105" r="42" fill="#5fb3d9" fill-opacity="0.25"/>
+    <text x="255" y="120" font-size="36" filter="url(#blur1)">🐟</text>
+    <line x1="135" y1="105" x2="220" y2="105" stroke="#888" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="180" y="180" font-size="13" fill="#444" font-weight="bold">畫面糊糊看不清</text>
+    <text x="160" y="198" font-size="10" fill="#666">人眼角膜在水中無法對焦（折射率太接近）</text>
+  </svg>`,
+
+  C: `<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;background:#cde7f5;border-radius:12px;border:2px solid #E89B3C">
+    <text x="10" y="20" font-size="12" fill="#0a4f6e">💧 全部都在水中</text>
+    <text x="40" y="100" font-size="50">🤿</text>
+    <text x="42" y="138" font-size="11" fill="#444" font-weight="bold">戴蛙鏡獵人</text>
+    <rect x="48" y="62" width="42" height="22" fill="white" stroke="#0B3D5C" stroke-width="1.5" rx="3"/>
+    <text x="54" y="78" font-size="9" fill="#0B3D5C" font-weight="bold">空氣腔</text>
+    <line x1="95" y1="92" x2="225" y2="92" stroke="#E89B3C" stroke-width="2" stroke-dasharray="5 3"/>
+    <text x="195" y="108" font-size="42">🐟</text>
+    <text x="178" y="142" font-size="10" fill="#E89B3C" font-weight="bold">看到（大 33%、近 25%）</text>
+    <text x="312" y="100" font-size="22">🐟</text>
+    <text x="304" y="120" font-size="9" fill="#C2452D" font-weight="bold">實際（遠）</text>
+    <path d="M 240 75 L 314 88" stroke="#0B3D5C" stroke-width="3" marker-end="url(#arrC)"/>
+    <text x="248" y="58" font-size="14" fill="#0B3D5C" font-weight="bold">⬆️ 瞄上面</text>
+    <text x="248" y="73" font-size="9" fill="#0B3D5C">（補償下墜）</text>
+    <path d="M 105 112 Q 200 145 305 200" stroke="#C2452D" stroke-width="2.5" fill="none" stroke-dasharray="6 3"/>
+    <text x="130" y="225" font-size="11" fill="#C2452D" font-weight="bold">魚標飛行 → 受重力下墜</text>
+    <text x="252" y="240" font-size="9" fill="#C2452D">距離越遠下墜越多</text>
+    <defs><marker id="arrC" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><polygon points="0 0, 10 4, 0 8" fill="#0B3D5C"/></marker></defs>
+  </svg>`
+};
+
 // 暴露給全域
+window.SCENE_SVGS = SCENE_SVGS;
 window.ACADEMIC_DEEPDIVE = ACADEMIC_DEEPDIVE;
 window.METHOD_DETAILS = METHOD_DETAILS;
 window.FISHING_METHODS = FISHING_METHODS;

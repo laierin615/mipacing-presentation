@@ -1046,6 +1046,28 @@
         case 'exp1':
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              ${l.principleSteps.map(s => `
+                <div class="keypoint-card flex items-start gap-3">
+                  <div class="text-4xl flex-shrink-0">${s.icon}</div>
+                  <div>
+                    <h4 class="font-bold mb-1" style="color: var(--c-deep)"><span style="color: var(--c-sun)">${s.num}.</span> ${s.title}</h4>
+                    <p class="text-sm">${s.text}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
+            <div class="space-y-3 mb-6">
+              ${l.multiAngle.map(item => `
+                <div class="elder-quote" style="border-left-color: var(--c-wave)">
+                  <h4 class="font-bold mb-1" style="color: var(--c-deep)">❓ ${item.q}</h4>
+                  <p class="text-sm">${item.a}</p>
+                </div>`).join('')}
+            </div>
+
             ${renderMethodDetails('exp1')}
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📅 月相 × 潮汐 × Mipacing 對照表</h3>
             <table class="w-full text-base border-collapse mb-6 bg-white rounded-xl overflow-hidden shadow">
@@ -1070,6 +1092,28 @@
         case 'exp2':
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              ${l.principleSteps.map(s => `
+                <div class="keypoint-card flex items-start gap-3">
+                  <div class="text-4xl flex-shrink-0">${s.icon}</div>
+                  <div>
+                    <h4 class="font-bold mb-1" style="color: var(--c-deep)"><span style="color: var(--c-sun)">${s.num}.</span> ${s.title}</h4>
+                    <p class="text-sm">${s.text}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
+            <div class="space-y-3 mb-6">
+              ${l.multiAngle.map(item => `
+                <div class="elder-quote" style="border-left-color: var(--c-wave)">
+                  <h4 class="font-bold mb-1" style="color: var(--c-deep)">❓ ${item.q}</h4>
+                  <p class="text-sm">${item.a}</p>
+                </div>`).join('')}
+            </div>
+
             ${renderMethodDetails('exp2')}
             <div class="elder-quote my-6">
               <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">⚖️ ${l.diagram.title}</h3>
@@ -1116,6 +1160,7 @@
                     ${s.label}
                   </div>
                   <div class="p-4 bg-white">
+                    ${SCENE_SVGS[s.id] ? `<div class="my-3 flex justify-center">${SCENE_SVGS[s.id]}</div>` : ''}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 text-sm">
                       <div class="p-2 rounded" style="background: #e8f4fa;">
                         <span class="text-xs text-gray-500">👁️ 眼睛在</span>
