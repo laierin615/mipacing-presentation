@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>耆老好會 · Pacing 海味藏冰箱 — 解密阿美族 Mipacing 漁獵文化</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --c-deep: #0B3D5C;
+      --c-wave: #4FA3C7;
+      --c-sun: #E89B3C;
+      --c-red: #C2452D;
+      --c-leaf: #4A7C59;
+      --c-cream: #F5EDD8;
+      --c-text: #1F2A33;
+    }
+    html, body { font-family: 'Noto Sans TC', system-ui, sans-serif; color: var(--c-text); }
+    body.learn-mode { background: var(--c-cream); }
+    body.present-mode { background: #fff; }
+    h1, h2, h3, .serif { font-family: 'Noto Serif TC', 'Noto Sans TC', serif; }
+
+    /* 阿美織布幾何紋邊框 */
+    .ami-border {
+      background-image:
+        linear-gradient(45deg, var(--c-sun) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--c-sun) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--c-red) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--c-red) 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+    .wave-divider {
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'><path fill='%234FA3C7' fill-opacity='0.4' d='M0,40 C150,80 300,0 600,40 C900,80 1050,0 1200,40 L1200,80 L0,80 Z'/></svg>") no-repeat center/cover;
+      height: 40px;
+    }
+
+    /* 簡報模式 */
+    body.present-mode #side-nav { display: none; }
+    body.present-mode .chapter { min-height: 100vh; padding: 4rem; display: flex; flex-direction: column; justify-content: center; }
+    body.present-mode .chapter h1 { font-size: 4.5rem; line-height: 1.15; }
+    body.present-mode .chapter h2 { font-size: 3rem; }
+    body.present-mode .chapter p { font-size: 2rem; line-height: 1.5; }
+    body.present-mode .learn-only { display: none !important; }
+    body.present-mode .chapter:not(.active-slide) { display: none; }
+
+    /* 自學模式 */
+    body.learn-mode #side-nav { display: block; }
+    body.learn-mode .chapter { padding: 2rem 1.5rem; max-width: 880px; margin: 0 auto; }
+    body.learn-mode .chapter h1 { font-size: 2.25rem; }
+    body.learn-mode .chapter h2 { font-size: 1.5rem; }
+    body.learn-mode .chapter p { font-size: 1.125rem; line-height: 1.8; }
+    body.learn-mode .present-only { display: none !important; }
+
+    /* 通用元件 */
+    .elder-quote {
+      background: linear-gradient(135deg, #fff8e7, #fef4d7);
+      border-left: 6px solid var(--c-sun);
+      padding: 1.5rem 1.75rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .keypoint-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(11,61,92,0.08);
+      transition: transform 0.2s;
+    }
+    .keypoint-card:hover { transform: translateY(-4px); }
+
+    .amis-word {
+      color: var(--c-deep);
+      font-weight: 700;
+      border-bottom: 2px dashed var(--c-sun);
+      cursor: help;
+      padding: 0 2px;
+    }
+    .amis-word:hover { background: #fef4d7; }
+
+    .tooltip-word {
+      color: var(--c-red);
+      border-bottom: 2px dotted var(--c-red);
+      cursor: help;
+    }
+
+    /* 互動模擬器容器 */
+    .interactive-box {
+      background: linear-gradient(180deg, #e8f4fa, #fff);
+      border: 3px solid var(--c-wave);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    /* 章節導覽列 */
+    #side-nav {
+      width: 220px;
+      background: linear-gradient(180deg, var(--c-deep), #0a3149);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 56px;
+      overflow-y: auto;
+      padding: 1rem 0;
+      z-index: 30;
+    }
+    #side-nav button {
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1.25rem;
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-left: 4px solid transparent;
+    }
+    #side-nav button:hover { background: rgba(79,163,199,0.2); color: white; }
+    #side-nav button.active {
+      background: rgba(232,155,60,0.2);
+      border-left-color: var(--c-sun);
+      color: white;
+      font-weight: 700;
+    }
+    body.learn-mode main { margin-left: 220px; padding-top: 56px; }
+    body.present-mode main { padding-top: 56px; }
+
+    /* 頂部 bar */
+    #top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: white;
+      border-bottom: 2px solid var(--c-wave);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* 模式切換按鈕 */
+    .mode-toggle {
+      display: inline-flex;
+      background: #f0f0f0;
+      border-radius: 999px;
+      padding: 4px;
+    }
+    .mode-toggle button {
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-toggle button.active {
+      background: var(--c-deep);
+      color: white;
+    }
+
+    /* 翻頁箭頭（簡報模式） */
+    .nav-arrows {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      gap: 0.75rem;
+      z-index: 40;
+    }
+    .nav-arrows button {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--c-deep);
+      color: white;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+    }
+    .nav-arrows button:hover { background: var(--c-wave); }
+    .nav-arrows button:disabled { opacity: 0.3; cursor: not-allowed; }
+    body.learn-mode .nav-arrows { bottom: 1rem; right: 1rem; }
+
+    .speak-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(79,163,199,0.15);
+      border: 1px solid var(--c-wave);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .speak-btn:hover { background: var(--c-wave); color: white; }
+    .speak-btn.playing { background: var(--c-sun); color: white; border-color: var(--c-sun); }
+
+    /* Mini-game 範用樣式 */
+    .slider-input { width: 100%; height: 8px; -webkit-appearance: none; background: var(--c-wave); border-radius: 4px; outline: none; }
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--c-sun); cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    /* 阿美語小辭典卡片 */
+    .glossary-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-top: 4px solid var(--c-sun);
+    }
+    .glossary-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+
+    /* 測驗 */
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.25rem;
+      margin: 0.5rem 0;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quiz-option:hover:not(:disabled) { border-color: var(--c-wave); background: #f5fafd; }
+    .quiz-option.correct { border-color: var(--c-leaf); background: #e7f5ec; }
+    .quiz-option.wrong { border-color: var(--c-red); background: #fbe6e2; }
+    .quiz-option:disabled { cursor: not-allowed; }
+
+    /* 浮沉子模擬器 */
+    .water-tank {
+      width: 240px; height: 320px;
+      background: linear-gradient(180deg, #ddf2fb 0%, #5fb3d9 100%);
+      border: 4px solid #555; border-top: none;
+      border-radius: 0 0 16px 16px;
+      position: relative; overflow: hidden;
+      margin: 0 auto;
+    }
+    .bottle {
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      transition: bottom 0.4s ease-out;
+    }
+
+    /* 月相圖 */
+    .moon-svg circle.tide { transition: r 0.4s; }
+
+    /* 折射圖 */
+    .refraction-svg .fish-real { fill: var(--c-red); }
+    .refraction-svg .fish-apparent { fill: var(--c-sun); fill-opacity: 0.6; }
+
+    /* 海底地圖 */
+    .seabed-zone {
+      border: 3px dashed transparent;
+      transition: all 0.2s;
+      min-height: 120px;
+    }
+    .seabed-zone.dragover { border-color: var(--c-sun); background: rgba(232,155,60,0.1); }
+    .seabed-zone.matched { border-color: var(--c-leaf); background: rgba(74,124,89,0.1); }
+    .draggable-fish {
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.15s;
+    }
+    .draggable-fish:hover { transform: scale(1.1); }
+    .draggable-fish.dragging { opacity: 0.5; }
+
+    /* CO2 計時器條 */
+    .co2-bar {
+      width: 100%; height: 32px;
+      background: linear-gradient(90deg, #5BA651 0%, #5BA651 30%, #E89B3C 60%, #C2452D 90%);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .co2-fill {
+      height: 100%;
+      background: rgba(255,255,255,0.7);
+      width: 100%;
+      transition: width 0.1s linear;
+      border-left: 3px solid var(--c-deep);
+    }
+
+    /* 動畫 */
+    @keyframes pulse-warn {
+      0%, 100% { background: rgba(194,69,45,0.1); }
+      50% { background: rgba(194,69,45,0.3); }
+    }
+    .danger-zone { animation: pulse-warn 0.6s infinite; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+    .shake { animation: shake 0.3s 3; }
+
+    /* 假設/變因/步驟結構區塊 */
+    .method-block {
+      background: white;
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .method-block h4 {
+      font-weight: 700;
+      color: var(--c-deep);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .var-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+    .var-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #eee; vertical-align: top; }
+    .var-table td:first-child { font-weight: 600; color: var(--c-red); white-space: nowrap; width: 30%; }
+
+    /* 學術深度展開區 */
+    .academic-collapsible {
+      background: linear-gradient(135deg, #1a3a52, #2d5a7a);
+      color: white;
+      border-radius: 16px;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .academic-collapsible summary {
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .academic-collapsible summary::-webkit-details-marker { display: none; }
+    .academic-collapsible summary::after {
+      content: '▼';
+      transition: transform 0.2s;
+      font-size: 0.85rem;
+    }
+    .academic-collapsible[open] summary::after { transform: rotate(180deg); }
+    .academic-collapsible .academic-body {
+      padding: 0 1.5rem 1.5rem;
+      background: rgba(255,255,255,0.05);
+    }
+    .academic-collapsible .formula-box {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 12px;
+      margin: 0.75rem 0;
+      font-family: 'Inter', monospace;
+      font-size: 1.1rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(232,155,60,0.4);
+    }
+    .academic-collapsible h5 {
+      color: var(--c-sun);
+      font-weight: 700;
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem;
+      letter-spacing: 0.5px;
+    }
+    .academic-collapsible ul { padding-left: 1.5rem; }
+    .academic-collapsible ul li { margin: 0.5rem 0; line-height: 1.6; }
+    .citation-list { font-size: 0.88rem; line-height: 1.5; }
+    .citation-list li { padding: 0.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    /* 漁法比較表（實驗五） */
+    .compare-matrix {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.85rem;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .compare-matrix th, .compare-matrix td {
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+      text-align: center;
+    }
+    .compare-matrix thead th { background: var(--c-deep); color: white; }
+    .compare-matrix tbody tr:first-child td { background: #e7f5ec; font-weight: 600; }
+    .compare-matrix tbody tr:nth-child(2) td { background: #f5fafd; }
+    .compare-matrix tbody tr:nth-child(3) td { background: #fbe6e2; }
+    .compare-matrix tbody tr:nth-child(4) td { background: #f5e0dc; }
+    .compare-matrix tbody tr:nth-child(5) td { background: #f5ede0; }
+    .rating-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .rating-good { background: #5BA651; color: white; }
+    .rating-mid { background: #E89B3C; color: white; }
+    .rating-bad { background: #C2452D; color: white; }
+    .rating-zero { background: #3D1F1A; color: white; }
+
+    /* TEK 對話表 */
+    .tek-row {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      margin: 0.75rem 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      border-left: 5px solid var(--c-sun);
+    }
+    .tek-row .tek-elder { color: var(--c-red); font-weight: 600; }
+    .tek-row .tek-science { color: var(--c-deep); font-weight: 600; }
+    .tek-row .tek-data { font-family: 'Inter', monospace; font-size: 0.9rem; color: #666; }
+    .tek-row .tek-dialogue {
+      background: #fef4d7;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      margin-top: 0.75rem;
+      border-left: 3px solid var(--c-sun);
+      font-style: italic;
+    }
+
+    /* Q&A 卡片（翻牌） */
+    .qa-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .qa-tab {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 2px solid #ddd;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .qa-tab.active { color: white; border-color: transparent; }
+    .qa-card {
+      background: white;
+      border-radius: 16px;
+      margin: 0.75rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .qa-card .qa-question {
+      padding: 1rem 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(90deg, #f5fafd, white);
+    }
+    .qa-card .qa-question::before {
+      content: 'Q';
+      width: 32px; height: 32px;
+      background: var(--c-deep);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .qa-card .qa-body {
+      padding: 0 1.25rem 1.25rem;
+      display: none;
+      animation: fadeIn 0.2s;
+    }
+    .qa-card.expanded .qa-body { display: block; }
+    .qa-card .qa-analysis {
+      background: #fef4d7;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+      color: #555;
+    }
+    .qa-card .qa-keypoint-list {
+      list-style: none;
+      padding: 0;
+    }
+    .qa-card .qa-keypoint-list li {
+      padding: 0.5rem 0 0.5rem 2rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    .qa-card .qa-keypoint-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0.5rem;
+      color: var(--c-leaf);
+      font-weight: 900;
+    }
+    .qa-card .qa-bonus {
+      background: linear-gradient(135deg, #fef4d7, #fdebc0);
+      border-left: 4px solid var(--c-sun);
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* 精選 10 分鐘標記 */
+    #side-nav button.featured::after {
+      content: '⭐';
+      margin-left: 4px;
+      opacity: 0.8;
+    }
+    body.present-only-featured #side-nav button:not(.featured) {
+      display: none;
+    }
+
+    /* RWD */
+    @media (max-width: 768px) {
+      body.learn-mode #side-nav { transform: translateX(-100%); transition: transform 0.3s; }
+      body.learn-mode #side-nav.open { transform: translateX(0); }
+      body.learn-mode main { margin-left: 0; }
+      body.learn-mode .chapter { padding: 1.5rem 1rem; }
+      body.present-mode .chapter { padding: 2rem 1rem; }
+      body.present-mode .chapter h1 { font-size: 2.5rem; }
+      body.present-mode .chapter p { font-size: 1.25rem; }
+    }
+
+    /* 列印 */
+    @media print {
+      #top-bar, #side-nav, .nav-arrows { display: none; }
+      .chapter { page-break-after: always; padding: 1cm; }
+    }
+  </style>
+</head>
+<body class="learn-mode">
+
+  <!-- ============================================ -->
+  <!-- 頂部列：Logo / 章節指示 / 模式切換 / 全螢幕 -->
+  <!-- ============================================ -->
+  <div id="top-bar">
+    <div class="flex items-center gap-3">
+      <button id="menu-btn" class="md:hidden text-2xl" aria-label="開啟選單">☰</button>
+      <span class="text-2xl">🐟</span>
+      <div class="hidden md:block">
+        <div class="font-bold text-sm" style="color: var(--c-deep)">Pacing 海味藏冰箱</div>
+        <div class="text-xs text-gray-500">Mipacing 科學智慧</div>
+      </div>
+      <span id="ch-indicator" class="ml-4 text-sm text-gray-600"></span>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="mode-toggle">
+        <button id="btn-learn" class="active" onclick="setMode('learn')">🧒 自學</button>
+        <button id="btn-present" onclick="setMode('present')">🎤 簡報</button>
+      </div>
+      <button id="btn-fullscreen" onclick="toggleFullscreen()" class="text-xl" title="全螢幕 (F)" aria-label="全螢幕">⛶</button>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 章節導覽（自學模式顯示） -->
+  <!-- ============================================ -->
+  <nav id="side-nav" aria-label="章節導覽"></nav>
+
+  <!-- ============================================ -->
+  <!-- 主內容區 -->
+  <!-- ============================================ -->
+  <main id="content"></main>
+
+  <!-- ============================================ -->
+  <!-- 翻頁箭頭 -->
+  <!-- ============================================ -->
+  <div class="nav-arrows">
+    <button id="btn-prev" onclick="goPrev()" aria-label="上一章">◀</button>
+    <button id="btn-next" onclick="goNext()" aria-label="下一章">▶</button>
+  </div>
+
+  <!-- 詞彙提示彈窗 -->
+  <div id="tooltip-modal" class="hidden fixed inset-0 bg-black/40 z-[60] flex items-center justify-center p-4" onclick="closeTooltipModal(event)">
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl" onclick="event.stopPropagation()">
+      <div class="flex items-start justify-between mb-3">
+        <h3 id="tooltip-title" class="text-2xl font-bold" style="color: var(--c-deep)"></h3>
+        <button onclick="closeTooltipModal()" class="text-2xl text-gray-400 hover:text-gray-700">×</button>
+      </div>
+      <div id="tooltip-amis" class="text-sm text-gray-500 mb-2"></div>
+      <p id="tooltip-def" class="text-base leading-relaxed mb-4"></p>
+      <button id="tooltip-speak" class="speak-btn">🔊 念給我聽</button>
+    </div>
+  </div>
+
+  <!-- 載入章節資料 -->
+  <script src="data/chapters.js"></script>
+  <script src="data/extras.js"></script>
+
+  <!-- ============================================ -->
+  <!-- 主應用邏輯 -->
+  <!-- ============================================ -->
+  <script>
+    // ==========================
+    // 全域狀態
+    // ==========================
+    let currentChapterIdx = 0;
+    let currentMode = 'learn'; // 'learn' | 'present'
+    const chartInstances = {};
+
+    // ==========================
+    // 初始化
+    // ==========================
+    function init() {
+      buildSideNav();
+      window.addEventListener('hashchange', handleHashChange);
+      document.addEventListener('keydown', handleKeyboard);
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('side-nav').classList.toggle('open');
+      });
+      // 事件委派：任何 .amis-word 點擊都會跳出詞彙說明
+      document.addEventListener('click', e => {
+        const span = e.target.closest('.amis-word');
+        if (span && !span.hasAttribute('onclick')) {
+          const word = span.textContent.trim();
+          if (AMIS_GLOSSARY.find(g => g.word === word)) {
+            showAmis(word);
+          }
+        }
+      });
+      handleHashChange();
+    }
+
+    // ==========================
+    // 模式切換
+    // ==========================
+    function setMode(mode) {
+      currentMode = mode;
+      // 保留 only-featured 狀態
+      const featured = document.body.classList.contains('present-only-featured');
+      document.body.className = mode + '-mode' + (featured ? ' present-only-featured' : '');
+      document.getElementById('btn-learn').classList.toggle('active', mode === 'learn');
+      document.getElementById('btn-present').classList.toggle('active', mode === 'present');
+      // 重新渲染目前章節
+      renderChapter(currentChapterIdx);
+    }
+    // 切換「精選 10 分鐘」過濾（僅顯示 featured 章）
+    function toggleFeaturedOnly() {
+      document.body.classList.toggle('present-only-featured');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+        if (currentMode !== 'present') setMode('present');
+      } else {
+        document.exitFullscreen?.();
+      }
+    }
+
+    // ==========================
+    // 路由（hash-based）
+    // ==========================
+    function handleHashChange() {
+      const m = location.hash.match(/#\/ch\/(\d+)/);
+      const idx = m ? parseInt(m[1], 10) : 0;
+      currentChapterIdx = Math.max(0, Math.min(idx, CHAPTERS.length - 1));
+      renderChapter(currentChapterIdx);
+      updateSideNav();
+    }
+
+    function goTo(idx) {
+      location.hash = `#/ch/${idx}`;
+    }
+    function goNext() {
+      if (currentChapterIdx < CHAPTERS.length - 1) goTo(currentChapterIdx + 1);
+    }
+    function goPrev() {
+      if (currentChapterIdx > 0) goTo(currentChapterIdx - 1);
+    }
+
+    function handleKeyboard(e) {
+      if (e.target.matches('input, textarea')) return;
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); goNext(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goPrev(); }
+      else if (e.key === 'f' || e.key === 'F') { toggleFullscreen(); }
+      else if (e.key === 'Escape' && document.fullscreenElement) { /* 系統處理 */ }
+      else if (e.key === 'm' || e.key === 'M') { setMode(currentMode === 'learn' ? 'present' : 'learn'); }
+    }
+
+    // ==========================
+    // 側邊章節導覽
+    // ==========================
+    function buildSideNav() {
+      const nav = document.getElementById('side-nav');
+      nav.innerHTML = CHAPTERS.map((c, i) =>
+        `<button data-idx="${i}" class="${c.featured ? 'featured' : ''}" onclick="goTo(${i})" title="${c.featured ? '⭐ 視訊簡報 10 分鐘精選' : ''}">${c.num === 0 ? '🏠' : c.num}. ${c.title}</button>`
+      ).join('');
+    }
+    function updateSideNav() {
+      document.querySelectorAll('#side-nav button').forEach((b, i) => {
+        b.classList.toggle('active', i === currentChapterIdx);
+      });
+      // 更新章節指示器
+      const c = CHAPTERS[currentChapterIdx];
+      document.getElementById('ch-indicator').textContent = `第 ${c.num} / ${CHAPTERS.length - 1} 章`;
+      // 上下頁按鈕
+      document.getElementById('btn-prev').disabled = currentChapterIdx === 0;
+      document.getElementById('btn-next').disabled = currentChapterIdx === CHAPTERS.length - 1;
+    }
+
+    // ==========================
+    // 渲染章節（dispatcher）
+    // ==========================
+    function renderChapter(idx) {
+      const c = CHAPTERS[idx];
+      const main = document.getElementById('content');
+      // 清掉舊的 chart
+      Object.values(chartInstances).forEach(ch => ch?.destroy?.());
+
+      // 簡報模式略過某些章節
+      if (currentMode === 'present' && c.skipInPresent) {
+        main.innerHTML = `<section class="chapter active-slide flex items-center justify-center h-screen">
+          <div class="text-center text-gray-500">
+            <p class="text-3xl mb-4">📋 第 ${c.num} 章是自學模式專屬</p>
+            <p>請切換到 🧒 自學模式查看</p>
+          </div>
+        </section>`;
+        updateSideNav();
+        return;
+      }
+
+      const html = currentMode === 'present' ? renderPresentMode(c, idx) : renderLearnMode(c, idx);
+      main.innerHTML = `<section class="chapter active-slide" data-id="${c.id}">${html}</section>`;
+      updateSideNav();
+      // 互動模組初始化
+      if (currentMode === 'learn' && c.learnMode?.interactive) {
+        initInteractive(c.learnMode.interactive);
+      }
+      // 簡報模式特殊章節
+      if (currentMode === 'present' && c.id === 'exp2') initBuoyancyChart('chart-buoyancy');
+      if (currentMode === 'present' && c.id === 'exp4') initHeartChart('chart-heart');
+      if (c.id === 'quiz' && currentMode === 'learn') initQuiz(c.learnMode.questions);
+      if (c.id === 'glossary' && currentMode === 'learn') initGlossary();
+      if (c.id === 'exp5' && currentMode === 'learn') initRadarChart('chart-radar');
+      if (c.id === 'exp5' && currentMode === 'present') initRadarChart('chart-radar-present');
+      if (c.id === 'qa' && currentMode === 'learn') initQATabs();
+      // 滾到頂
+      window.scrollTo(0, 0);
+    }
+
+    // ==========================
+    // 簡報模式 渲染
+    // ==========================
+    function renderPresentMode(c, idx) {
+      const p = c.presentMode || {};
+      switch (c.id) {
+        case 'cover':
+          return `
+            <div class="text-center" style="background: linear-gradient(180deg, rgba(11,61,92,0.85), rgba(11,61,92,0.95)), url('${p.bgImage}') center/cover; color: white; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem; border-radius: 16px;">
+              <div class="text-6xl mb-4">🐟🌊🌙</div>
+              <h1 class="serif font-black mb-3" style="color: white;">${p.heading}</h1>
+              <p class="text-3xl mb-8" style="color: var(--c-sun); font-weight: 600;">${p.subheading}</p>
+              <div class="text-xl space-y-2">
+                <p>${p.meta}</p>
+                <p style="color: rgba(255,255,255,0.8)">${p.team}</p>
+                <p style="color: rgba(255,255,255,0.7)">${p.teachers}</p>
+              </div>
+            </div>`;
+
+        case 'why':
+          return `
+            <h1 class="serif font-bold mb-8" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="grid grid-cols-3 gap-6">
+              ${p.keypoints.map(k => `
+                <div class="keypoint-card">
+                  <div class="text-6xl mb-3">${k.icon}</div>
+                  <h3 class="font-bold mb-2" style="color: var(--c-deep)">${k.title}</h3>
+                  <p>${k.text}</p>
+                </div>`).join('')}
+            </div>`;
+
+        case 'qhypoth':
+          return `
+            <h1 class="serif font-bold mb-6" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="elder-quote mb-8"><p class="serif">${p.mainQ}</p></div>
+            <div class="grid grid-cols-1 gap-3">
+              ${p.subQs.map(q => `
+                <div class="flex items-center gap-4 p-4 rounded-xl" style="background: #f5fafd;">
+                  <span class="font-black text-3xl" style="color: var(--c-sun)">${q.num}</span>
+                  <span class="flex-1">${q.text}</span>
+                  <span class="px-3 py-1 rounded-full text-sm" style="background: var(--c-wave); color: white;">${q.exp}</span>
+                </div>`).join('')}
+            </div>`;
+
+        case 'methods':
+          return `
+            <h1 class="serif font-bold mb-8" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="grid grid-cols-4 gap-6">
+              ${p.flow.map((f, i) => `
+                <div class="text-center keypoint-card relative">
+                  <div class="absolute -top-3 -left-3 w-10 h-10 rounded-full flex items-center justify-center font-black text-lg" style="background: var(--c-sun); color: white;">${i+1}</div>
+                  <div class="text-7xl mb-3">${f.icon}</div>
+                  <div class="font-bold text-xl mb-2" style="color: var(--c-deep)">${f.label}</div>
+                  <p class="text-base">${f.text}</p>
+                </div>`).join('')}
+            </div>
+            <div class="flex justify-around mt-4 text-3xl" style="color: var(--c-sun)">
+              <span>↓</span><span>↓</span><span>↓</span><span>↓</span>
+            </div>
+            <p class="text-2xl text-center mt-4 font-bold" style="color: var(--c-deep)">⟹ 把耆老的智慧用科學語言記下來</p>`;
+
+        case 'exp1':
+          return `
+            <h1 class="serif font-bold mb-4" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="elder-quote mb-6">
+              <p class="serif italic">「${p.elderQuote.text}」</p>
+              <p class="text-right text-sm mt-2">— ${p.elderQuote.who}</p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              ${p.findings.map(f => `
+                <div class="keypoint-card">
+                  <div class="text-2xl mb-2">${f.tag}</div>
+                  <h3 class="font-bold" style="color: var(--c-deep)">${f.title}</h3>
+                  <p class="text-base mt-1">${f.detail}</p>
+                </div>`).join('')}
+            </div>
+            <p class="text-2xl font-bold text-center" style="color: var(--c-sun)">💡 ${p.conclusion}</p>`;
+
+        case 'exp2':
+          return `
+            <h1 class="serif font-bold mb-4" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="elder-quote mb-6">
+              <p class="serif italic">「${p.elderQuote.text}」</p>
+              <p class="text-right text-sm mt-2">— ${p.elderQuote.who}</p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              ${p.findings.map(f => `
+                <div class="keypoint-card text-center">
+                  <h3 class="font-bold mb-2" style="color: var(--c-deep)">${f.title}</h3>
+                  <p class="text-3xl font-black" style="color: var(--c-sun)">${f.detail}</p>
+                  <p class="text-sm mt-1" style="color: var(--c-red)">${f.tag}</p>
+                </div>`).join('')}
+            </div>
+            <div class="bg-white p-4 rounded-xl mb-4" style="height: 280px;">
+              <canvas id="chart-buoyancy"></canvas>
+            </div>
+            <p class="text-2xl font-bold text-center" style="color: var(--c-sun)">💡 ${p.conclusion}</p>`;
+
+        case 'exp3':
+          return `
+            <h1 class="serif font-bold mb-4" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="elder-quote mb-6">
+              <p class="serif italic">「${p.elderQuote.text}」</p>
+              <p class="text-right text-sm mt-2">— ${p.elderQuote.who}</p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              ${p.findings.map(f => `
+                <div class="keypoint-card">
+                  <h3 class="font-bold mb-2" style="color: var(--c-deep)">${f.title}</h3>
+                  <p class="text-2xl font-bold" style="color: var(--c-sun)">${f.detail}</p>
+                  <p class="text-sm mt-2 text-gray-600">${f.tag}</p>
+                </div>`).join('')}
+            </div>
+            <p class="text-2xl font-bold text-center" style="color: var(--c-sun)">💡 ${p.conclusion}</p>`;
+
+        case 'exp4':
+          return `
+            <h1 class="serif font-bold mb-4" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="elder-quote mb-6">
+              <p class="serif italic">「${p.elderQuote.text}」</p>
+              <p class="text-right text-sm mt-2">— ${p.elderQuote.who}</p>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mb-4">
+              ${p.findings.map(f => `
+                <div class="keypoint-card">
+                  <h3 class="font-bold text-base mb-1">${f.title}</h3>
+                  <p class="text-xl font-bold" style="color: var(--c-deep)">${f.detail}</p>
+                  <p class="text-sm" style="color: var(--c-red)">${f.tag}</p>
+                </div>`).join('')}
+            </div>
+            <div class="bg-white p-4 rounded-xl mb-4" style="height: 240px;">
+              <canvas id="chart-heart"></canvas>
+            </div>
+            <p class="text-2xl font-bold text-center" style="color: var(--c-red)">⚠️ ${p.conclusion}</p>`;
+
+        case 'exp5':
+          return `
+            <h1 class="serif font-bold mb-4" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="elder-quote mb-4">
+              <p class="serif italic">「${p.elderQuote.text}」</p>
+              <p class="text-right text-sm mt-2">— ${p.elderQuote.who}</p>
+            </div>
+            <p class="text-2xl text-center mb-4" style="color: var(--c-deep)">${p.summary}</p>
+            <div class="bg-white p-4 rounded-xl mb-4" style="height: 320px;">
+              <canvas id="chart-radar-present"></canvas>
+            </div>
+            <p class="text-3xl font-bold text-center" style="color: var(--c-leaf)">💡 ${p.conclusion}</p>`;
+
+        case 'synth':
+          return `
+            <h1 class="serif font-bold mb-8" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="grid grid-cols-6 gap-2">
+              ${p.flow.map(f => `
+                <div class="text-center p-4 rounded-xl text-white" style="background: ${f.color}">
+                  <div class="text-5xl mb-2">${f.icon}</div>
+                  <div class="font-bold text-base mb-1">${f.step}. ${f.label}</div>
+                  <div class="text-xs opacity-80">${f.exp}</div>
+                </div>`).join('')}
+            </div>`;
+
+        case 'tek':
+          return `
+            <h1 class="serif font-bold mb-6" style="color: var(--c-deep)">${p.heading}</h1>
+            <table class="w-full text-lg border-collapse">
+              <thead style="background: var(--c-deep); color: white;">
+                <tr><th class="p-3">耆老的話</th><th class="p-3">科學原理</th><th class="p-3">我們的數據</th></tr>
+              </thead>
+              <tbody>
+                ${p.table.map((r, i) => `
+                  <tr style="background: ${i % 2 ? '#f5fafd' : 'white'}">
+                    <td class="p-3" style="color: var(--c-red); font-weight: 600;">${r.elder}</td>
+                    <td class="p-3" style="color: var(--c-deep); font-weight: 600;">${r.science}</td>
+                    <td class="p-3" style="font-family: monospace;">${r.data}</td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>`;
+
+        case 'glossary':
+          return `
+            <h1 class="serif font-bold mb-8 text-center" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="grid grid-cols-5 gap-4">
+              ${p.featured.map(w => {
+                const word = AMIS_GLOSSARY.find(g => g.word === w);
+                return `
+                  <div class="keypoint-card text-center">
+                    <h3 class="serif font-bold text-3xl mb-2" style="color: var(--c-deep)">${word.word}</h3>
+                    <p class="text-base">${word.zh}</p>
+                  </div>`;
+              }).join('')}
+            </div>`;
+
+        case 'credits':
+          return `
+            <h1 class="serif font-bold mb-8 text-center" style="color: var(--c-deep)">${p.heading}</h1>
+            <div class="grid grid-cols-5 gap-4 mb-8">
+              ${p.elders.map(e => `
+                <div class="text-center">
+                  <img src="${e.img}" class="w-32 h-32 rounded-full object-cover mx-auto mb-3" style="border: 4px solid var(--c-sun)" alt="${e.name}">
+                  <div class="font-bold" style="color: var(--c-deep)">${e.name}</div>
+                  <div class="text-sm text-gray-600">${e.role}</div>
+                </div>`).join('')}
+            </div>
+            <div class="text-center text-xl space-y-2">
+              ${p.thanks.map(t => `<p>${t}</p>`).join('')}
+            </div>`;
+
+        default:
+          return `<h1>${c.title}</h1>`;
+      }
+    }
+
+    // ==========================
+    // 自學模式 渲染
+    // ==========================
+    function renderLearnMode(c, idx) {
+      const l = c.learnMode || {};
+      let html = `<h1 class="serif font-bold mb-2" style="color: var(--c-deep)">第 ${c.num} 章 · ${c.title}</h1>`;
+      html += `<div class="wave-divider mb-6"></div>`;
+
+      switch (c.id) {
+        case 'cover':
+          html = `
+            <div class="text-center py-12 px-6 rounded-3xl" style="background: linear-gradient(135deg, var(--c-deep), var(--c-wave)); color: white;">
+              <div class="text-7xl mb-4">🐟🌊🌙</div>
+              <h1 class="serif font-black text-4xl mb-3">耆老好會 · Pacing 海味藏冰箱</h1>
+              <p class="text-xl mb-6" style="color: var(--c-sun)">解密阿美族 Mipacing 漁獵文化的科學智慧</p>
+              <div class="bg-white/20 backdrop-blur rounded-2xl p-6 max-w-2xl mx-auto mb-6">
+                <p class="text-2xl serif mb-3">${l.welcome}</p>
+                <p class="text-base leading-relaxed">${l.intro}</p>
+              </div>
+              <p class="text-base">${l.hint}</p>
+              <button onclick="goTo(1)" class="mt-6 px-8 py-3 rounded-full font-bold text-lg" style="background: var(--c-sun); color: white;">▶ 開始學習</button>
+            </div>`;
+          return html;
+
+        case 'why':
+          html += l.story.map((s, i) => `
+            <div class="my-6 p-5 rounded-2xl" style="background: white;">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl" style="background: var(--c-sun)">${i+1}</div>
+                <div class="flex-1">
+                  <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">${s.title}</h3>
+                  <p>${highlightAmis(s.text)} ${speakBtn(s.text)}</p>
+                </div>
+              </div>
+            </div>
+          `).join('');
+          html += `<img src="${l.image}" class="w-full rounded-2xl my-4" alt="研究現場">`;
+          return html;
+
+        case 'qhypoth':
+          html += `
+            <div class="elder-quote my-4">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">📖 ${l.explain.title}</h3>
+              <p>${l.explain.text} ${speakBtn(l.explain.text)}</p>
+              <ul class="mt-3 space-y-1 list-disc list-inside text-base">
+                ${l.explain.examples.map(e => `<li>${e}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="elder-quote my-4">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">🧪 ${l.explainVar.title}</h3>
+              <p>${l.explainVar.text}</p>
+              <p class="mt-2 italic text-gray-600">${l.explainVar.example}</p>
+            </div>`;
+          return html;
+
+        case 'methods':
+          html += l.timeline.map(t => `
+            <div class="flex gap-4 my-4 p-4 rounded-xl" style="background: white;">
+              <div class="px-4 py-2 rounded-full text-white font-bold" style="background: var(--c-deep); align-self: start;">${t.date}</div>
+              <p class="flex-1 self-center">${t.task}</p>
+            </div>`).join('');
+          return html;
+
+        case 'exp1':
+          html += `
+            <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+            ${renderMethodDetails('exp1')}
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📅 月相 × 潮汐 × Mipacing 對照表</h3>
+            <table class="w-full text-base border-collapse mb-6 bg-white rounded-xl overflow-hidden shadow">
+              <thead style="background: var(--c-deep); color: white;">
+                <tr><th class="p-3">月相</th><th class="p-3">阿美語</th><th class="p-3">潮汐</th><th class="p-3">魚的行為</th><th class="p-3">適合 Mipacing？</th></tr>
+              </thead>
+              <tbody>
+                ${l.moonTable.map((r, i) => `
+                  <tr style="background: ${i % 2 ? '#f5fafd' : 'white'}">
+                    <td class="p-3 text-2xl">${r.phase}</td>
+                    <td class="p-3"><span class="amis-word">${r.amis}</span></td>
+                    <td class="p-3">${r.tide}</td>
+                    <td class="p-3 text-sm">${r.fish}</td>
+                    <td class="p-3 font-bold">${r.mipacing}</td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>
+            ${interactivePlaceholder('moonTide')}
+            ${renderAcademic('exp1')}`;
+          return html;
+
+        case 'exp2':
+          html += `
+            <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+            ${renderMethodDetails('exp2')}
+            <div class="elder-quote my-6">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">⚖️ ${l.diagram.title}</h3>
+              <p>${l.diagram.text} ${speakBtn(l.diagram.text)}</p>
+            </div>
+            ${interactivePlaceholder('buoyancy')}
+            ${renderAcademic('exp2')}`;
+          return html;
+
+        case 'exp3':
+          html += `
+            <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+            ${renderMethodDetails('exp3')}
+            <div class="elder-quote my-6">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">🤔 ${l.whyTitle}</h3>
+              <p>${l.whyText} ${speakBtn(l.whyText)}</p>
+            </div>
+            ${interactivePlaceholder('refraction')}
+            ${renderAcademic('exp3')}`;
+          return html;
+
+        case 'exp4':
+          html += `
+            <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+            ${renderMethodDetails('exp4')}
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📊 ${l.tableTitle}</h3>
+            <table class="w-full text-base border-collapse mb-6 bg-white rounded-xl overflow-hidden shadow">
+              <thead style="background: var(--c-deep); color: white;">
+                <tr><th class="p-3 text-left">情況</th><th class="p-3">閉氣時間</th><th class="p-3">心率</th></tr>
+              </thead>
+              <tbody>
+                ${l.tableData.map((r, i) => `
+                  <tr style="background: ${i % 2 ? '#f5fafd' : 'white'}">
+                    <td class="p-3">${r.label}</td>
+                    <td class="p-3 font-mono font-bold" style="color: var(--c-deep)">${r.fbp}</td>
+                    <td class="p-3 font-mono">${r.heart}</td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>
+            <div class="elder-quote my-6">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">💡 ${l.whyTitle}</h3>
+              <p>${l.whyText} ${speakBtn(l.whyText)}</p>
+            </div>
+            ${interactivePlaceholder('co2timer')}
+            ${renderAcademic('exp4')}`;
+          return html;
+
+        case 'exp5':
+          html += `
+            <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">🎣 5 種主要漁法</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              ${FISHING_METHODS.map(m => `
+                <div class="keypoint-card" style="border-top: 4px solid ${m.color}">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-3xl">${m.icon}</span>
+                    <h4 class="font-bold" style="color: ${m.color}">${m.name}</h4>
+                  </div>
+                  <p class="text-sm">${m.intro}</p>
+                  <p class="text-xs mt-2 text-gray-500">📍 ${m.examples}</p>
+                </div>`).join('')}
+            </div>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📊 雷達圖：誰最永續？</h3>
+            <p class="text-sm mb-3 text-gray-600">越靠外圈代表越永續、越友善生態。Mipacing 在每個面向都領先。</p>
+            <div class="bg-white p-4 rounded-2xl mb-6" style="height: 420px;">
+              <canvas id="chart-radar"></canvas>
+            </div>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📋 大比較表：5 漁法 × 8 面向</h3>
+            <div style="overflow-x: auto;">
+              <table class="compare-matrix">
+                <thead>
+                  <tr>
+                    <th class="text-left">漁法</th>
+                    ${COMPARE_DIMENSIONS.map(d => `<th>${d.icon}<br>${d.name}</th>`).join('')}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${COMPARE_MATRIX.map(row => `
+                    <tr>
+                      <td class="text-left font-bold">${row.method}</td>
+                      ${COMPARE_DIMENSIONS.map(d => {
+                        const cell = row[d.id];
+                        if (!cell) return '<td>—</td>';
+                        const cls = ratingClassFor(d.id, cell[0]);
+                        return `<td><span class="rating-badge ${cls}">${cell[0]}</span><br><span class="text-xs text-gray-600">${cell[1]}</span></td>`;
+                      }).join('')}
+                    </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="elder-quote my-6">
+              <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">🔬 ${ECO_NARRATIVE.title}</h3>
+              ${ECO_NARRATIVE.paragraphs.map(p => `<p class="my-2">${p.replace(/\*\*(.*?)\*\*/g, '<b style="color:var(--c-red)">$1</b>')}</p>`).join('')}
+            </div>
+
+            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">⚖️ Mipacing 的限制與挑戰（科學態度）</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              ${FISHING_LIMITATIONS.map(lim => `
+                <div class="keypoint-card flex items-start gap-3">
+                  <div class="text-3xl">${lim.icon}</div>
+                  <div>
+                    <h4 class="font-bold" style="color: var(--c-deep)">${lim.title}</h4>
+                    <p class="text-sm">${lim.text}</p>
+                  </div>
+                </div>`).join('')}
+            </div>
+
+            ${interactivePlaceholder('ecosystem')}
+
+            <details class="academic-collapsible">
+              <summary>📚 學術文獻引用</summary>
+              <div class="academic-body">
+                <ul class="citation-list">
+                  ${FISHING_REFERENCES.map(r => `<li><b>${r.citation}</b><br><span style="opacity:0.85">${r.note}</span></li>`).join('')}
+                </ul>
+              </div>
+            </details>`;
+          return html;
+
+        case 'synth':
+          html += `
+            <p class="text-lg mb-4">${l.story} ${speakBtn(l.story)}</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 my-6">
+              ${c.presentMode.flow.map(f => `
+                <div class="text-center p-4 rounded-xl text-white cursor-pointer" style="background: ${f.color}" onclick="goTo(${{exp1: 4, exp2: 5, exp3: 6, exp4: 7, exp5: 8}[f.exp.replace('實驗 ', 'exp')] || 0})">
+                  <div class="text-4xl mb-2">${f.icon}</div>
+                  <div class="font-bold mb-1">${f.label}</div>
+                  <div class="text-xs opacity-80">${f.exp}</div>
+                </div>`).join('')}
+            </div>
+            <div class="elder-quote my-6 text-center">
+              <p class="serif text-2xl" style="color: var(--c-red)">${l.summary}</p>
+            </div>`;
+          return html;
+
+        case 'tek':
+          html += `
+            <p class="text-lg mb-4">${l.story} ${speakBtn(l.story)}</p>
+            <p class="text-sm text-gray-600 mb-4">下面每一條都有「耆老的話」「科學原理」「我們的數據」三欄，最下面一行是「我們的對話心得」——用我們自己的話說出兩種知識怎麼連起來。</p>
+            ${TEK_DIALOGUE.map(r => `
+              <div class="tek-row">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                  <div><span class="text-xs text-gray-500">🎤 耆老的話</span><br><span class="tek-elder">${r.elder}</span></div>
+                  <div><span class="text-xs text-gray-500">🔬 科學原理</span><br><span class="tek-science">${r.science}</span></div>
+                  <div><span class="text-xs text-gray-500">📊 我們的數據</span><br><span class="tek-data">${r.data}</span></div>
+                </div>
+                <div class="tek-dialogue">
+                  💬 <b>我們的對話心得：</b>${r.dialogue}
+                </div>
+              </div>`).join('')}`;
+          return html;
+
+        case 'qa':
+          return renderQAChapter(l);
+
+        case 'glossary':
+          html += `<p class="text-lg mb-4">${l.hint}</p><div id="glossary-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 my-4"></div>`;
+          return html;
+
+        case 'quiz':
+          html += `<p class="text-lg mb-4">${l.hint}</p><div id="quiz-container"></div>`;
+          return html;
+
+        case 'credits':
+          html += `
+            <div class="text-center my-8">
+              <div class="text-6xl mb-4">🎉</div>
+              <h2 class="serif font-bold text-3xl mb-3" style="color: var(--c-deep)">${l.thankYou}</h2>
+              <p class="text-lg">你已經學會了阿美族 Mipacing 文化裡的科學智慧！</p>
+            </div>
+            <h3 class="font-bold text-xl mb-3 mt-8" style="color: var(--c-deep)">📷 田野紀錄相簿</h3>
+            <div class="grid grid-cols-3 gap-2 my-6">
+              ${l.gallery.map(p => `<img src="${p}" class="w-full aspect-square object-cover rounded-lg" alt="田野紀錄">`).join('')}
+            </div>
+            <h3 class="font-bold text-xl mb-3 mt-8" style="color: var(--c-deep)">📚 參考資料</h3>
+            <ul class="space-y-2 text-base list-disc list-inside">
+              ${l.refs.map(r => `<li>${r}</li>`).join('')}
+            </ul>`;
+          return html;
+
+        default:
+          return html + '<p>內容準備中⋯⋯</p>';
+      }
+    }
+
+    // ==========================
+    // 助手函式
+    // ==========================
+    function highlightAmis(text) {
+      // 把句子裡的阿美族語詞變成可點擊
+      let result = text;
+      AMIS_GLOSSARY.forEach(g => {
+        const re = new RegExp(`(${escapeRe(g.word)})(?![a-zA-Z'])`, 'g');
+        result = result.replace(re, `<span class="amis-word" onclick="showAmis('${g.word}')">$1</span>`);
+      });
+      return result;
+    }
+    function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    function speakBtn(text) {
+      const escaped = text.replace(/'/g, '&apos;').replace(/"/g, '&quot;');
+      return `<button class="speak-btn ml-1" onclick="speakZh(this, &quot;${escaped.replace(/"/g, '\\&quot;')}&quot;)">🔊</button>`;
+    }
+
+    function interactivePlaceholder(id) {
+      return `<div class="interactive-box" id="ix-${id}">
+        <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">🎮 動手玩玩看</h3>
+        <div id="ix-content-${id}"></div>
+      </div>`;
+    }
+
+    // ==========================
+    // 假設 / 變因 / 步驟區塊（呼應審查「研究方法與步驟 30%」）
+    // ==========================
+    function renderMethodDetails(expId) {
+      const m = METHOD_DETAILS?.[expId];
+      if (!m) return '';
+      const ctrlList = m.variables.controlled.map(c => `<li>${c}</li>`).join('');
+      return `
+        <div class="method-block">
+          <h4>🎯 研究假設</h4>
+          <p style="white-space: pre-line">${m.hypothesis.text}</p>
+          <p class="mt-2 font-bold" style="color: var(--c-leaf)">${m.hypothesis.result}</p>
+        </div>
+        <div class="method-block">
+          <h4>🔬 實驗變因</h4>
+          <table class="var-table">
+            <tr><td>操縱變因</td><td>${m.variables.manipulated}</td></tr>
+            <tr><td>應變變因</td><td>${m.variables.responding}</td></tr>
+            <tr><td>控制變因</td><td><ul class="list-disc list-inside">${ctrlList}</ul></td></tr>
+          </table>
+        </div>
+        <div class="method-block">
+          <h4>📋 實驗步驟</h4>
+          <ol class="space-y-2 list-decimal list-inside">
+            ${m.steps.map(s => `<li>${s}</li>`).join('')}
+          </ol>
+        </div>`;
+    }
+
+    // ==========================
+    // 📚 深入學術展開區（呼應審查「科學知識內涵 20%」）
+    // ==========================
+    function renderAcademic(expId) {
+      const a = ACADEMIC_DEEPDIVE?.[expId];
+      if (!a) return '';
+      return `
+        <details class="academic-collapsible">
+          <summary>📚 深入學術原理（給想學真正理論的同學與老師）</summary>
+          <div class="academic-body">
+            <h5>📐 核心公式</h5>
+            <div class="formula-box">${a.formula.math}</div>
+            <p style="opacity: 0.9">${a.formula.explanation}</p>
+
+            <h5>🔍 推導與應用</h5>
+            <ul>${a.derivation.map(d => `<li>${d}</li>`).join('')}</ul>
+
+            <h5>⚠️ 誤差來源</h5>
+            <ul>${a.errorSources.map(d => `<li>${d}</li>`).join('')}</ul>
+
+            <h5>🚀 進階討論</h5>
+            <ul>${a.advancedDiscussion.map(d => `<li>${d}</li>`).join('')}</ul>
+
+            <h5>📖 學術引用</h5>
+            <ul class="citation-list">
+              ${a.citations.map(c => `<li><b>${c.author}</b>（${c.year}）。${c.title}。<i>${c.source}</i>。</li>`).join('')}
+            </ul>
+          </div>
+        </details>`;
+    }
+
+    function ratingClass(rating) {
+      if (rating.includes('極高') || rating.includes('近零') || rating.includes('無破壞') || rating === '高' || rating.includes('極低')) return 'rating-good';
+      if (rating.includes('中') || rating === '中高' || rating === '中低') return 'rating-mid';
+      if (rating === '極低' || rating === '災難級' || rating.includes('極嚴重') || rating.includes('極高')) return 'rating-bad';
+      if (rating === '零' || rating.includes('無／負')) return 'rating-zero';
+      // 翻轉判斷：副漁獲、棲地、勞動 — 「低」反而是好
+      return 'rating-mid';
+    }
+    function ratingClassFor(dimension, rating) {
+      // 對「副漁獲」「棲地破壞」「碳足跡」「勞動強度」，「低」是好的
+      const inverseDimensions = ['bycatch', 'habitat', 'carbon', 'labor'];
+      const inverse = inverseDimensions.includes(dimension);
+      const r = rating.replace(/（.*?）/g, '').trim();
+      if (inverse) {
+        if (r.includes('近零') || r.includes('無破壞') || r === '極低' || r === '低' || r === '零' || r === '無／負') return 'rating-good';
+        if (r === '中' || r.includes('中高') || r.includes('中低') || r.includes('間接')) return 'rating-mid';
+        if (r === '極高' || r === '極嚴重' || r === '災難級' || r === '高') return 'rating-bad';
+      } else {
+        if (r === '極高' || r === '高') return 'rating-good';
+        if (r === '中' || r.includes('中高') || r.includes('中低')) return 'rating-mid';
+        if (r === '低' || r === '極低' || r === '零' || r === '無／負') return 'rating-bad';
+      }
+      return 'rating-mid';
+    }
+
+    // ==========================
+    // 朗讀功能
+    // ==========================
+    function speakZh(btn, text) {
+      if (!('speechSynthesis' in window)) return alert('您的瀏覽器不支援朗讀功能');
+      // 停掉現有的朗讀
+      window.speechSynthesis.cancel();
+      const cleanText = text.replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '');
+      const utt = new SpeechSynthesisUtterance(cleanText);
+      utt.lang = 'zh-TW';
+      utt.rate = 0.95;
+      utt.pitch = 1;
+      btn?.classList.add('playing');
+      utt.onend = () => btn?.classList.remove('playing');
+      utt.onerror = () => btn?.classList.remove('playing');
+      window.speechSynthesis.speak(utt);
+    }
+
+    function speakAmis(audioId) {
+      // 嘗試播放預錄 mp3，失敗則回退用 Web Speech 念阿美語拼音
+      const word = AMIS_GLOSSARY.find(g => g.audio === audioId);
+      if (!word) return;
+      const audio = new Audio(`assets/audio/narration/amis_${audioId}.m4a`);
+      audio.play().catch(() => {
+        // mp3 不存在 → 用 Web Speech 念拼音當 fallback
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utt = new SpeechSynthesisUtterance(word.word);
+          utt.lang = 'en-US';
+          utt.rate = 0.7;
+          window.speechSynthesis.speak(utt);
+        }
+      });
+    }
+
+    function showAmis(word) {
+      const w = AMIS_GLOSSARY.find(g => g.word === word);
+      if (!w) return;
+      document.getElementById('tooltip-title').textContent = w.word;
+      document.getElementById('tooltip-amis').textContent = `阿美語 · ${w.zh}`;
+      document.getElementById('tooltip-def').textContent = w.def;
+      document.getElementById('tooltip-speak').onclick = () => speakAmis(w.audio);
+      document.getElementById('tooltip-modal').classList.remove('hidden');
+    }
+
+    function closeTooltipModal(e) {
+      if (e && e.target.id !== 'tooltip-modal') return;
+      document.getElementById('tooltip-modal').classList.add('hidden');
+    }
+
+    // ==========================
+    // 互動模組分派
+    // ==========================
+    function initInteractive(name) {
+      const fns = {
+        moonTide: initMoonTide,
+        buoyancy: initBuoyancy,
+        refraction: initRefraction,
+        co2timer: initCO2Timer,
+        ecosystem: initEcosystem
+      };
+      fns[name]?.();
+    }
+
+    // ============== 互動 1：月相潮汐轉盤 ==============
+    function initMoonTide() {
+      const c = document.getElementById('ix-content-moonTide');
+      if (!c) return;
+      c.innerHTML = `
+        <p class="mb-3 text-base">拖動月亮看潮汐高度怎麼變化！</p>
+        <div class="flex flex-col md:flex-row items-center gap-4">
+          <svg viewBox="0 0 320 320" class="w-72 h-72 mx-auto">
+            <!-- 海面 -->
+            <rect x="0" y="220" width="320" height="100" fill="#5fb3d9"/>
+            <!-- 潮水高度 -->
+            <path id="tide-path" d="M0,220 Q80,200 160,220 T320,220 L320,320 L0,320 Z" fill="#4FA3C7"/>
+            <!-- 地球 -->
+            <circle cx="160" cy="160" r="40" fill="#4A7C59" stroke="#2d5538" stroke-width="2"/>
+            <text x="160" y="166" text-anchor="middle" fill="white" font-size="20">🌍</text>
+            <!-- 月亮軌道 -->
+            <circle cx="160" cy="160" r="120" fill="none" stroke="#ddd" stroke-dasharray="4 4"/>
+            <!-- 月亮 -->
+            <g id="moon" style="cursor: grab" transform="translate(280,160)">
+              <circle r="22" fill="#f5f1d8" stroke="#888"/>
+              <text y="6" text-anchor="middle" font-size="20">🌑</text>
+            </g>
+          </svg>
+          <div class="flex-1">
+            <p class="text-base mb-2">目前月相：<span id="moon-phase" class="font-bold" style="color: var(--c-deep)">新月</span></p>
+            <p class="text-base mb-2">潮汐：<span id="tide-status" class="font-bold" style="color: var(--c-sun)">大潮</span></p>
+            <p class="text-base mb-2">阿美語：<span id="moon-amis" class="amis-word">Pa'araw no folad</span></p>
+            <p id="moon-tip" class="text-sm mt-3 p-3 rounded-lg" style="background: #fef4d7;">💡 新月時月光最暗，魚躲在石縫不亂跑——Mipacing 最佳時機！</p>
+          </div>
+        </div>`;
+
+      const moon = document.getElementById('moon');
+      const tidePath = document.getElementById('tide-path');
+      const phaseEl = document.getElementById('moon-phase');
+      const tideEl = document.getElementById('tide-status');
+      const amisEl = document.getElementById('moon-amis');
+      const tipEl = document.getElementById('moon-tip');
+
+      let angle = 0;
+      let dragging = false;
+
+      function update() {
+        const rad = angle * Math.PI / 180;
+        const x = 160 + 120 * Math.cos(rad);
+        const y = 160 + 120 * Math.sin(rad);
+        moon.setAttribute('transform', `translate(${x},${y})`);
+
+        // 月相判斷（簡化）
+        const norm = ((angle % 360) + 360) % 360;
+        let phase, emoji, tide, amis, tip;
+        if (norm < 45 || norm >= 315) { phase = '新月'; emoji = '🌑'; tide = '大潮（潮差大）'; amis = "Pa'araw no folad"; tip = '💡 月亮看不到，魚躲在石縫裡——最佳 Mipacing 時機！'; }
+        else if (norm < 135) { phase = '上弦月'; emoji = '🌓'; tide = '小潮'; amis = 'Taway'; tip = '✓ 可以下水，魚活動中等'; }
+        else if (norm < 225) { phase = '滿月'; emoji = '🌕'; tide = '大潮'; amis = 'Canglalan'; tip = '⚠️ 月光太亮，魚會逃到深處躲'; }
+        else { phase = '下弦月'; emoji = '🌗'; tide = '小潮'; amis = 'Masakalaw'; tip = '✓ 前半夜可下水（月亮還沒出來）'; }
+        moon.querySelector('text').textContent = emoji;
+        phaseEl.textContent = phase;
+        tideEl.textContent = tide;
+        amisEl.textContent = amis;
+        tipEl.textContent = tip;
+
+        // 潮水起伏
+        const amp = (phase === '新月' || phase === '滿月') ? 30 : 10;
+        tidePath.setAttribute('d', `M0,${220-amp} Q80,${220+amp/2} 160,${220-amp} T320,${220-amp} L320,320 L0,320 Z`);
+      }
+
+      moon.addEventListener('mousedown', () => dragging = true);
+      moon.addEventListener('touchstart', e => { dragging = true; e.preventDefault(); }, {passive: false});
+      window.addEventListener('mouseup', () => dragging = false);
+      window.addEventListener('touchend', () => dragging = false);
+      window.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const svg = moon.closest('svg');
+        const rect = svg.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        angle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+        update();
+      });
+      window.addEventListener('touchmove', e => {
+        if (!dragging || !e.touches[0]) return;
+        const svg = moon.closest('svg');
+        const rect = svg.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        angle = Math.atan2(e.touches[0].clientY - cy, e.touches[0].clientX - cx) * 180 / Math.PI;
+        update();
+        e.preventDefault();
+      }, {passive: false});
+
+      update();
+    }
+
+    // ============== 互動 2：浮沉子配重模擬器 ==============
+    function initBuoyancy() {
+      const c = document.getElementById('ix-content-buoyancy');
+      if (!c) return;
+      c.innerHTML = `
+        <p class="mb-3 text-base">調整水的種類和配重，看看能不能讓瓶子停在水中間（中性浮力）！</p>
+        <div class="flex flex-col md:flex-row gap-4 items-start">
+          <div class="water-tank">
+            <div id="bottle" class="bottle" style="bottom: 50%; width: 60px;">
+              <svg viewBox="0 0 60 90" width="60" height="90">
+                <ellipse cx="30" cy="80" rx="22" ry="8" fill="#666" opacity="0.3"/>
+                <rect x="22" y="5" width="16" height="10" fill="#888"/>
+                <path d="M16,15 L44,15 L46,75 Q46,82 30,82 Q14,82 14,75 Z" fill="rgba(255,255,255,0.8)" stroke="#3a8" stroke-width="2"/>
+                <rect id="weight-vis" x="22" y="65" width="16" height="0" fill="#666"/>
+              </svg>
+            </div>
+            <div class="absolute top-2 left-2 text-xs font-bold" id="water-label" style="color: white; text-shadow: 1px 1px 2px #000;">海水</div>
+          </div>
+          <div class="flex-1">
+            <p class="font-bold mb-2">選擇水的種類：</p>
+            <div class="flex gap-2 mb-4 flex-wrap">
+              <button class="px-3 py-2 rounded-lg font-bold border-2" data-density="1.000" style="border-color: var(--c-wave)">💧 淡水</button>
+              <button class="px-3 py-2 rounded-lg font-bold border-2 bg-blue-500 text-white" data-density="1.025" style="border-color: var(--c-deep)">🌊 海水</button>
+              <button class="px-3 py-2 rounded-lg font-bold border-2" data-density="1.050" style="border-color: var(--c-sun)">🧂 鹽水</button>
+            </div>
+            <p class="font-bold mb-2">調整配重：<span id="weight-display" class="font-mono">10.0</span> g</p>
+            <input id="weight-slider" type="range" class="slider-input" min="5" max="25" step="0.1" value="10">
+            <div class="flex justify-between text-xs text-gray-500 mb-3"><span>5g（太輕→浮）</span><span>25g（太重→沉）</span></div>
+            <div id="buoyancy-status" class="p-3 rounded-lg font-bold text-center" style="background: #fef4d7;">⏳ 還在動⋯⋯</div>
+            <div id="buoyancy-data" class="text-sm mt-3"></div>
+          </div>
+        </div>`;
+
+      const bottle = document.getElementById('bottle');
+      const slider = document.getElementById('weight-slider');
+      const display = document.getElementById('weight-display');
+      const status = document.getElementById('buoyancy-status');
+      const dataEl = document.getElementById('buoyancy-data');
+      const weightVis = document.getElementById('weight-vis');
+      const waterLabel = document.getElementById('water-label');
+
+      let density = 1.025;
+      let weight = 10;
+      let bottlePos = 50; // % from bottom
+      let velocity = 0;
+      const bottleVolume = 16; // ml (固定排水量)
+      const bottleEmpty = 5;   // 瓶子本身重量
+      let history = []; // 紀錄 10 秒位移
+
+      function step() {
+        const totalMass = bottleEmpty + weight; // g
+        const buoyancy = density * bottleVolume; // g（浮力 = 排水質量）
+        const netForce = buoyancy - totalMass;
+        velocity += netForce * 0.05; // 簡化的加速度
+        velocity *= 0.9; // 阻尼
+        bottlePos += velocity * 0.5;
+        bottlePos = Math.max(5, Math.min(95, bottlePos));
+        bottle.style.bottom = bottlePos + '%';
+
+        // 視覺化配重
+        weightVis.setAttribute('height', Math.min(15, weight * 0.6));
+
+        // 紀錄歷史 10 秒
+        history.push(bottlePos);
+        if (history.length > 200) history.shift();
+
+        if (history.length >= 200) {
+          const drift = Math.max(...history) - Math.min(...history);
+          if (drift < 6) {
+            status.textContent = `🎉 達成中性浮力！（10秒漂移 ${drift.toFixed(1)}%）`;
+            status.style.background = '#e7f5ec';
+            status.style.color = 'var(--c-leaf)';
+          } else if (Math.abs(netForce) < 0.5) {
+            status.textContent = `⏳ 接近中性浮力（漂移 ${drift.toFixed(1)}%）`;
+            status.style.background = '#fef4d7';
+            status.style.color = 'var(--c-text)';
+          } else if (netForce > 0) {
+            status.textContent = '⬆️ 太浮了！加重一點';
+            status.style.background = '#fbe6e2';
+            status.style.color = 'var(--c-red)';
+          } else {
+            status.textContent = '⬇️ 太重了！減一點';
+            status.style.background = '#fbe6e2';
+            status.style.color = 'var(--c-red)';
+          }
+        }
+        dataEl.innerHTML = `<div class="grid grid-cols-3 gap-2 text-center">
+          <div class="p-2 bg-white rounded">水密度<br><b>${density}</b> g/cm³</div>
+          <div class="p-2 bg-white rounded">浮力<br><b>${buoyancy.toFixed(1)}</b> g</div>
+          <div class="p-2 bg-white rounded">總重<br><b>${totalMass.toFixed(1)}</b> g</div>
+        </div>`;
+      }
+      const interval = setInterval(step, 50);
+
+      slider.addEventListener('input', e => {
+        weight = parseFloat(e.target.value);
+        display.textContent = weight.toFixed(1);
+        history = []; // 改變後重新計算
+      });
+
+      c.querySelectorAll('button[data-density]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          c.querySelectorAll('button[data-density]').forEach(b => {
+            b.classList.remove('bg-blue-500', 'text-white');
+          });
+          btn.classList.add('bg-blue-500', 'text-white');
+          density = parseFloat(btn.dataset.density);
+          waterLabel.textContent = btn.textContent.trim();
+          history = [];
+        });
+      });
+
+      // 章節切換時清掉 interval
+      const observer = new MutationObserver(() => {
+        if (!document.body.contains(c)) {
+          clearInterval(interval);
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.getElementById('content'), { childList: true });
+    }
+
+    // ============== 互動 3：折射滑桿 ==============
+    function initRefraction() {
+      const c = document.getElementById('ix-content-refraction');
+      if (!c) return;
+      c.innerHTML = `
+        <p class="mb-3 text-base">拉動下方滑桿改變水深，看看魚的「真實位置」（紅）和「眼睛看到的位置」（橙）差多少！</p>
+        <div class="flex flex-col gap-4">
+          <svg class="refraction-svg w-full max-w-2xl mx-auto" viewBox="0 0 500 320" style="background: linear-gradient(180deg, #fff 50%, #c5e8f5 50%); border-radius: 12px;">
+            <!-- 觀察者眼睛 -->
+            <text x="60" y="80" font-size="40">👁️</text>
+            <text x="50" y="115" font-size="11" fill="#666">觀察者</text>
+            <!-- 水面 -->
+            <line id="water-line" x1="0" y1="160" x2="500" y2="160" stroke="#0a4f6e" stroke-width="2"/>
+            <text x="20" y="155" font-size="12" fill="#0a4f6e">水面</text>
+            <!-- 真實光線（折射） -->
+            <line id="real-ray" x1="100" y1="100" x2="100" y2="100" stroke="#C2452D" stroke-width="2"/>
+            <line id="real-ray2" x1="100" y1="100" x2="100" y2="100" stroke="#C2452D" stroke-width="2"/>
+            <!-- 表觀光線（直線） -->
+            <line id="apparent-ray" x1="100" y1="100" x2="100" y2="100" stroke="#E89B3C" stroke-width="2" stroke-dasharray="6 4"/>
+            <!-- 真實的魚 -->
+            <g id="real-fish"><text font-size="30">🐟</text></g>
+            <!-- 表觀的魚（虛影） -->
+            <g id="apparent-fish" opacity="0.5"><text font-size="30">🐟</text></g>
+            <!-- 量尺 -->
+            <line x1="450" y1="160" x2="450" y2="300" stroke="#888"/>
+            <text x="455" y="170" font-size="10" fill="#666">0</text>
+            <text x="455" y="225" font-size="10" fill="#666">15cm</text>
+            <text x="455" y="295" font-size="10" fill="#666">30cm</text>
+          </svg>
+          <div class="px-4">
+            <p class="font-bold mb-2">水深：<span id="depth-display" class="font-mono">15</span> cm</p>
+            <input id="depth-slider" type="range" class="slider-input" min="5" max="30" step="1" value="15">
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-lg" style="background: #fbe6e2; border-left: 4px solid var(--c-red);">
+                <div class="text-xs">🐟 真實位置（紅）</div>
+                <div class="font-bold"><span id="real-depth">15</span> cm 深</div>
+              </div>
+              <div class="p-3 rounded-lg" style="background: #fef4d7; border-left: 4px solid var(--c-sun);">
+                <div class="text-xs">👁️ 看到的位置（橙）</div>
+                <div class="font-bold"><span id="apparent-depth">11.3</span> cm 深</div>
+              </div>
+            </div>
+            <p class="text-center font-bold mt-3 text-lg">偏差量：<span id="diff-mm" style="color: var(--c-deep)">37</span> mm</p>
+            <p class="text-center text-sm" style="color: var(--c-red)">📏 阿公要瞄準「魚頭上方一點」才能命中！</p>
+          </div>
+        </div>`;
+
+      const slider = document.getElementById('depth-slider');
+      const depthDisplay = document.getElementById('depth-display');
+      const realDepthEl = document.getElementById('real-depth');
+      const apparentDepthEl = document.getElementById('apparent-depth');
+      const diffEl = document.getElementById('diff-mm');
+      const realRay = document.getElementById('real-ray');
+      const realRay2 = document.getElementById('real-ray2');
+      const apparentRay = document.getElementById('apparent-ray');
+      const realFish = document.getElementById('real-fish');
+      const apparentFish = document.getElementById('apparent-fish');
+
+      // 觀察者位置：(80, 80)，水面 y=160
+      const eyeX = 80, eyeY = 80, surfaceY = 160;
+      const fishX = 380; // 視覺上的位置（pixel）
+
+      function update(depth) {
+        // 1 cm = ~4.66 pixel
+        const px = depth * 4.66;
+        const realY = surfaceY + px;
+        // 折射：n_water=1.33, n_air=1.00
+        // 水面入射點：先算 apparent angle 再反推
+        // 簡化：表觀深度 = 真實深度 / n_water
+        const apparentDepth = depth / 1.33;
+        const apparentY = surfaceY + apparentDepth * 4.66;
+        // 折射點（水面與視線的交點）：用 apparent ray 推
+        // apparent ray 是從 (eyeX, eyeY) 直線到 (fishX, apparentY)
+        const t = (surfaceY - eyeY) / (apparentY - eyeY);
+        const surfaceX = eyeX + t * (fishX - eyeX);
+
+        depthDisplay.textContent = depth;
+        realDepthEl.textContent = depth;
+        apparentDepthEl.textContent = apparentDepth.toFixed(1);
+        diffEl.textContent = ((depth - apparentDepth) * 10).toFixed(0); // mm
+
+        // 表觀光線（直線到表觀魚）
+        apparentRay.setAttribute('x1', eyeX); apparentRay.setAttribute('y1', eyeY);
+        apparentRay.setAttribute('x2', fishX); apparentRay.setAttribute('y2', apparentY);
+
+        // 真實光線：從眼睛到水面折射點，再到真實魚
+        realRay.setAttribute('x1', eyeX); realRay.setAttribute('y1', eyeY);
+        realRay.setAttribute('x2', surfaceX); realRay.setAttribute('y2', surfaceY);
+        realRay2.setAttribute('x1', surfaceX); realRay2.setAttribute('y1', surfaceY);
+        realRay2.setAttribute('x2', fishX); realRay2.setAttribute('y2', realY);
+
+        realFish.setAttribute('transform', `translate(${fishX-15}, ${realY+10})`);
+        apparentFish.setAttribute('transform', `translate(${fishX-15}, ${apparentY+10})`);
+      }
+
+      slider.addEventListener('input', e => update(parseInt(e.target.value)));
+      update(15);
+    }
+
+    // ============== 互動 4：CO₂ 累積計時器 ==============
+    function initCO2Timer() {
+      const c = document.getElementById('ix-content-co2timer');
+      if (!c) return;
+      c.innerHTML = `
+        <p class="mb-3 text-base">⚠️ <b>這是模擬，不是挑戰</b>。按住按鈕模擬閉氣，看看 CO₂ 怎麼累積！</p>
+        <div class="bg-white p-5 rounded-xl">
+          <div class="flex items-center gap-4 mb-4 flex-wrap">
+            <button id="co2-btn" class="px-8 py-6 rounded-2xl font-bold text-white text-xl select-none" style="background: var(--c-deep);">
+              🤿 按住模擬閉氣
+            </button>
+            <div class="flex-1 min-w-[200px]">
+              <p class="text-sm mb-1">時間：<span id="co2-time" class="font-mono font-bold text-2xl">0.0</span> 秒</p>
+              <p class="text-sm mb-1">CO₂ 累積：</p>
+              <div class="co2-bar"><div id="co2-fill" class="co2-fill"></div></div>
+              <div class="flex justify-between text-xs mt-1 text-gray-500">
+                <span>安全</span><span>FBP（45秒）</span><span>淺水昏迷高風險</span>
+              </div>
+            </div>
+          </div>
+          <div id="co2-status" class="p-3 rounded-lg font-bold text-center" style="background: #e7f5ec; color: var(--c-leaf);">😊 安靜呼吸，準備好就按住</div>
+          <div id="co2-history" class="mt-3 text-sm"></div>
+          <button id="co2-reset" class="mt-3 px-4 py-2 rounded-lg" style="background: #f0f0f0;">🔄 重新開始</button>
+        </div>`;
+
+      const btn = document.getElementById('co2-btn');
+      const timeEl = document.getElementById('co2-time');
+      const fillEl = document.getElementById('co2-fill');
+      const statusEl = document.getElementById('co2-status');
+      const historyEl = document.getElementById('co2-history');
+      const resetBtn = document.getElementById('co2-reset');
+
+      let holding = false;
+      let startTime = 0;
+      let elapsed = 0;
+      let interval;
+      let trial = 1;
+      let lastFBP = null;
+
+      function update() {
+        if (!holding) return;
+        elapsed = (Date.now() - startTime) / 1000;
+        timeEl.textContent = elapsed.toFixed(1);
+        const pct = Math.min(100, elapsed / 60 * 100);
+        fillEl.style.width = (100 - pct) + '%';
+
+        if (elapsed < 30) {
+          statusEl.textContent = '😌 還很舒服';
+          statusEl.style.background = '#e7f5ec';
+          statusEl.style.color = 'var(--c-leaf)';
+        } else if (elapsed < 45) {
+          statusEl.textContent = '😬 開始想呼吸了 — 第一破點 FBP 接近';
+          statusEl.style.background = '#fef4d7';
+          statusEl.style.color = 'var(--c-text)';
+        } else if (elapsed < 60) {
+          statusEl.textContent = '😨 強烈想呼吸！危險區！';
+          statusEl.style.background = '#fbe6e2';
+          statusEl.style.color = 'var(--c-red)';
+          statusEl.classList.add('danger-zone');
+        } else {
+          statusEl.innerHTML = '🚨 強制上岸！淺水昏迷高風險！';
+          release();
+        }
+      }
+
+      function press() {
+        if (holding) return;
+        holding = true;
+        startTime = Date.now();
+        statusEl.classList.remove('danger-zone');
+        interval = setInterval(update, 100);
+      }
+
+      function release() {
+        if (!holding) return;
+        holding = false;
+        clearInterval(interval);
+        statusEl.classList.remove('danger-zone');
+        const fbp = elapsed;
+        if (lastFBP !== null) {
+          const drop = ((lastFBP - fbp) / lastFBP * 100);
+          historyEl.innerHTML += `<div class="p-2 my-1 rounded ${drop > 10 ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}">
+            第 ${trial} 次：${fbp.toFixed(1)} 秒（${drop > 0 ? '縮短' : '延長'} ${Math.abs(drop).toFixed(1)}%）
+            ${drop > 15 ? '⚠️ 縮短超過 15% — 該上岸了！' : ''}
+          </div>`;
+        } else {
+          historyEl.innerHTML += `<div class="p-2 my-1 rounded bg-blue-50 text-blue-700">第 ${trial} 次（基準）：${fbp.toFixed(1)} 秒</div>`;
+        }
+        lastFBP = fbp;
+        trial++;
+      }
+
+      btn.addEventListener('mousedown', press);
+      btn.addEventListener('touchstart', e => { press(); e.preventDefault(); }, {passive: false});
+      btn.addEventListener('mouseup', release);
+      btn.addEventListener('mouseleave', release);
+      btn.addEventListener('touchend', release);
+
+      resetBtn.addEventListener('click', () => {
+        elapsed = 0; trial = 1; lastFBP = null;
+        timeEl.textContent = '0.0';
+        fillEl.style.width = '100%';
+        historyEl.innerHTML = '';
+        statusEl.textContent = '😊 重新開始';
+        statusEl.style.background = '#e7f5ec';
+        statusEl.style.color = 'var(--c-leaf)';
+      });
+    }
+
+    // ============== 互動 5：海底地圖配對 ==============
+    function initEcosystem() {
+      const c = document.getElementById('ix-content-ecosystem');
+      if (!c) return;
+      const fishes = [
+        { id: 'fatialos', emoji: '🐟', name: '石斑（Fati\'alos）', zone: 'rocks', hint: '躲在石縫裡' },
+        { id: 'tatafik', emoji: '🦈', name: '鯊魚／大薩隆', zone: 'open', hint: '在開闊水域游動' },
+        { id: 'goby', emoji: '🐠', name: '小蝦虎', zone: 'sand', hint: '在沙地挖洞' },
+        { id: 'kaperecay', emoji: '🐡', name: '鸚哥魚（Kaperecay）', zone: 'rocks', hint: '保育類，躲珊瑚' }
+      ];
+
+      c.innerHTML = `
+        <p class="mb-3 text-base">把魚拖到正確的棲地！</p>
+        <div class="grid grid-cols-3 gap-2 mb-4">
+          <div class="seabed-zone p-3 rounded-xl text-center" data-zone="open" style="background: #cae8f5; min-height: 140px;">
+            <div class="text-3xl mb-1">🌊</div>
+            <div class="font-bold text-sm">開闊水域</div>
+            <div class="zone-fish flex flex-wrap gap-1 mt-2 justify-center"></div>
+          </div>
+          <div class="seabed-zone p-3 rounded-xl text-center" data-zone="rocks" style="background: #d8d4c5; min-height: 140px;">
+            <div class="text-3xl mb-1">🪨</div>
+            <div class="font-bold text-sm">石縫珊瑚區</div>
+            <div class="zone-fish flex flex-wrap gap-1 mt-2 justify-center"></div>
+          </div>
+          <div class="seabed-zone p-3 rounded-xl text-center" data-zone="sand" style="background: #f4ebd0; min-height: 140px;">
+            <div class="text-3xl mb-1">🏖️</div>
+            <div class="font-bold text-sm">沙底平坦區</div>
+            <div class="zone-fish flex flex-wrap gap-1 mt-2 justify-center"></div>
+          </div>
+        </div>
+        <div class="bg-white p-3 rounded-xl">
+          <p class="text-sm mb-2">把這些魚拖到正確的家：</p>
+          <div id="fish-pool" class="flex flex-wrap gap-2 min-h-[80px]">
+            ${fishes.map(f => `
+              <div class="draggable-fish p-2 rounded-lg" draggable="true" data-fish-id="${f.id}" data-zone="${f.zone}" style="background: #f5fafd; border: 2px solid var(--c-wave);">
+                <span class="text-2xl">${f.emoji}</span>
+                <span class="font-bold text-sm">${f.name}</span>
+                <span class="text-xs text-gray-500 block">提示：${f.hint}</span>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div id="ecosystem-status" class="mt-3 text-center font-bold"></div>`;
+
+      let dragging = null;
+      const status = document.getElementById('ecosystem-status');
+      const total = fishes.length;
+      let matched = 0;
+
+      c.querySelectorAll('.draggable-fish').forEach(el => {
+        el.addEventListener('dragstart', e => {
+          dragging = el;
+          el.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        el.addEventListener('dragend', () => {
+          el.classList.remove('dragging');
+          dragging = null;
+        });
+        // 觸控支援
+        el.addEventListener('touchstart', e => {
+          dragging = el;
+          el.classList.add('dragging');
+        });
+      });
+
+      c.querySelectorAll('.seabed-zone').forEach(zone => {
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+        zone.addEventListener('drop', e => {
+          e.preventDefault();
+          zone.classList.remove('dragover');
+          if (!dragging) return;
+          const correct = dragging.dataset.zone === zone.dataset.zone;
+          if (correct) {
+            zone.querySelector('.zone-fish').appendChild(dragging.cloneNode(true));
+            dragging.style.display = 'none';
+            zone.classList.add('matched');
+            matched++;
+            if (matched === total) {
+              status.innerHTML = `🎉 全部正確！你已經掌握了「生態棲位」的概念！<br><span class="text-base font-normal">這正是 Akong Faol 教我們的：每種魚都有自己最喜歡的家。</span>`;
+              status.style.color = 'var(--c-leaf)';
+            } else {
+              status.textContent = `✅ 正確！還差 ${total - matched} 隻`;
+              status.style.color = 'var(--c-leaf)';
+            }
+          } else {
+            zone.classList.add('shake');
+            setTimeout(() => zone.classList.remove('shake'), 1000);
+            status.textContent = '❌ 不對喔，再想想牠喜歡住哪裡';
+            status.style.color = 'var(--c-red)';
+          }
+        });
+      });
+    }
+
+    // ==========================
+    // 阿美語小辭典渲染
+    // ==========================
+    function initGlossary() {
+      const grid = document.getElementById('glossary-grid');
+      if (!grid) return;
+      grid.innerHTML = AMIS_GLOSSARY.map(g => `
+        <div class="glossary-card" onclick="showAmis('${g.word}')">
+          <h3 class="serif font-bold text-2xl mb-1" style="color: var(--c-deep)">${g.word}</h3>
+          <p class="text-sm text-gray-600 mb-2">${g.zh}</p>
+          <p class="text-xs">${g.def}</p>
+          <button class="speak-btn mt-2" onclick="event.stopPropagation(); speakAmis('${g.audio}')">🔊 念一下</button>
+        </div>`).join('');
+    }
+
+    // ==========================
+    // 測驗
+    // ==========================
+    function initQuiz(questions) {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+      let current = 0;
+      let score = 0;
+      const answers = [];
+
+      function render() {
+        if (current >= questions.length) {
+          // 結算
+          const pct = Math.round(score / questions.length * 100);
+          const badge = score >= 8 ? '🏆 小耆老獎章' : score >= 6 ? '🌟 海洋小學徒' : score >= 4 ? '🐟 海邊探險家' : '🌱 繼續努力';
+          container.innerHTML = `
+            <div class="text-center p-8 rounded-2xl" style="background: white;">
+              <div class="text-7xl mb-4">${score >= 8 ? '🏆' : score >= 6 ? '🌟' : '🌱'}</div>
+              <h2 class="serif font-bold text-3xl mb-2" style="color: var(--c-deep)">你答對了 ${score} / ${questions.length} 題</h2>
+              <p class="text-2xl mb-4" style="color: var(--c-sun)">${badge}</p>
+              <button class="px-6 py-3 rounded-full font-bold text-white" style="background: var(--c-deep)" onclick="initQuiz(CHAPTERS.find(c=>c.id==='quiz').learnMode.questions)">🔄 再玩一次</button>
+              <button class="px-6 py-3 rounded-full font-bold ml-2" style="background: var(--c-sun); color: white;" onclick="goTo(11)">📖 複習詞彙</button>
+            </div>`;
+          return;
+        }
+        const q = questions[current];
+        container.innerHTML = `
+          <div class="bg-white p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-sm font-bold" style="color: var(--c-deep)">第 ${current + 1} / ${questions.length} 題</span>
+              <span class="text-sm">目前：${score} 題答對</span>
+            </div>
+            <div class="w-full h-2 bg-gray-200 rounded-full mb-4">
+              <div class="h-full rounded-full" style="background: var(--c-sun); width: ${(current/questions.length*100)}%"></div>
+            </div>
+            <h3 class="font-bold text-xl mb-4">${q.q}</h3>
+            <div id="quiz-options">
+              ${q.options.map((o, i) => `
+                <button class="quiz-option" data-i="${i}">
+                  <span class="font-bold mr-2">${'ABCD'[i]}.</span>${o}
+                </button>`).join('')}
+            </div>
+            <div id="quiz-feedback" class="mt-4"></div>
+          </div>`;
+        container.querySelectorAll('.quiz-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const choice = parseInt(btn.dataset.i);
+            const correct = choice === q.answer;
+            container.querySelectorAll('.quiz-option').forEach((b, i) => {
+              b.disabled = true;
+              if (i === q.answer) b.classList.add('correct');
+              else if (i === choice) b.classList.add('wrong');
+            });
+            if (correct) score++;
+            answers.push({ q: current, choice, correct });
+            const fb = document.getElementById('quiz-feedback');
+            fb.innerHTML = `<div class="p-3 rounded-lg ${correct ? 'bg-green-50' : 'bg-red-50'}">
+              <p class="font-bold ${correct ? 'text-green-700' : 'text-red-700'}">${correct ? '✅ 答對了！' : '❌ 答案是：' + q.options[q.answer]}</p>
+              <p class="mt-1 text-sm">${q.explain}</p>
+              <button class="mt-3 px-4 py-2 rounded-lg text-white font-bold" style="background: var(--c-deep)" onclick="window._next()">${current + 1 === questions.length ? '看結果' : '下一題 ▶'}</button>
+            </div>`;
+          });
+        });
+        window._next = () => { current++; render(); };
+      }
+      render();
+    }
+
+    // ==========================
+    // Chart.js 圖表
+    // ==========================
+    function initBuoyancyChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      chartInstances[canvasId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['淡水（1.000 g/cm³）', '海水（1.025 g/cm³）'],
+          datasets: [
+            { label: '達成中性浮力所需總重 (g)', data: [17.4, 17.5], backgroundColor: ['#4FA3C7', '#0B3D5C'] }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, title: { display: true, text: '海水浮力大 → 需要更多配重' } },
+          scales: { y: { beginAtZero: false, min: 17, max: 18 } }
+        }
+      });
+    }
+
+    function initRadarChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      chartInstances[canvasId] = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: RADAR_DATA.axes,
+          datasets: RADAR_DATA.series.map(s => ({
+            label: s.method,
+            data: s.values,
+            backgroundColor: s.color + '33',
+            borderColor: s.color,
+            borderWidth: s.method === 'Mipacing' ? 3 : 2,
+            pointRadius: 4,
+            pointBackgroundColor: s.color
+          }))
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' },
+            title: { display: true, text: '5 種漁法的永續性雷達圖（越外圈越永續）', font: { size: 14 } }
+          },
+          scales: {
+            r: { min: 0, max: 10, ticks: { stepSize: 2 }, pointLabels: { font: { size: 13, weight: '600' } } }
+          }
+        }
+      });
+    }
+
+    // ==========================
+    // Q&A 章節渲染與互動
+    // ==========================
+    function renderQAChapter(l) {
+      const qa = QA_CARDS;
+      let html = `<h1 class="serif font-bold mb-2" style="color: var(--c-deep)">${qa.intro.title}</h1>
+        <div class="wave-divider mb-4"></div>
+        <p class="text-base mb-4">${qa.intro.subtitle}</p>
+        <div class="elder-quote mb-4">
+          <h3 class="font-bold mb-2" style="color: var(--c-deep)">📋 視訊問答規則</h3>
+          <ul class="space-y-1 list-disc list-inside text-sm">
+            ${qa.intro.rules.map(r => `<li>${r}</li>`).join('')}
+          </ul>
+          <p class="mt-3 p-3 rounded-lg font-bold" style="background: white; color: var(--c-red)">💡 ${qa.intro.tip}</p>
+        </div>
+
+        <h3 class="font-bold text-xl mt-6 mb-3" style="color: var(--c-deep)">🎯 一般作答技巧</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          ${qa.generalTips.map(t => `
+            <div class="keypoint-card">
+              <h4 class="font-bold mb-1" style="color: var(--c-sun)">${t.title}</h4>
+              <p class="text-sm">${t.content}</p>
+            </div>`).join('')}
+        </div>
+
+        <div class="qa-tabs">
+          ${qa.categories.map((cat, i) => `
+            <button class="qa-tab ${i === 0 ? 'active' : ''}" data-cat="${cat.id}" style="${i === 0 ? `background:${cat.color}` : ''}">${cat.icon} ${cat.name}</button>
+          `).join('')}
+        </div>
+        <div id="qa-content"></div>`;
+      return html;
+    }
+
+    function initQATabs() {
+      const buttons = document.querySelectorAll('.qa-tab');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => { b.classList.remove('active'); b.style.background = ''; });
+          btn.classList.add('active');
+          const cat = QA_CARDS.categories.find(c => c.id === btn.dataset.cat);
+          btn.style.background = cat.color;
+          renderQACategory(cat);
+        });
+      });
+      // 預設顯示第一類
+      renderQACategory(QA_CARDS.categories[0]);
+    }
+
+    function renderQACategory(cat) {
+      const container = document.getElementById('qa-content');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="elder-quote my-4" style="border-left-color: ${cat.color}">
+          <h3 class="font-bold text-xl mb-1" style="color: ${cat.color}">${cat.icon} ${cat.name}</h3>
+          <p class="text-sm font-bold" style="color: var(--c-red)">${cat.weight}</p>
+          <p class="text-sm mt-2">${cat.intro}</p>
+        </div>
+        ${cat.cards.map(card => `
+          <div class="qa-card" data-card-id="${card.id}">
+            <div class="qa-question" onclick="this.parentElement.classList.toggle('expanded')">
+              <span class="flex-1">${card.q}</span>
+              <span class="text-xl" style="color: var(--c-sun)">▼</span>
+            </div>
+            <div class="qa-body">
+              <div class="qa-analysis">
+                <b>📍 評審想測什麼：</b>${card.analysis}
+              </div>
+              <h4 class="font-bold my-2" style="color: var(--c-deep)">💬 建議回答方向：</h4>
+              <ul class="qa-keypoint-list">
+                ${card.keypoints.map(k => `<li>${k}</li>`).join('')}
+              </ul>
+              <div class="qa-bonus">
+                <b>✨ 加分小技巧：</b>${card.bonus}
+              </div>
+            </div>
+          </div>`).join('')}`;
+    }
+
+    function initHeartChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+      chartInstances[canvasId] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['靜息基準', '第一次下潛後', '30秒後第二次下潛'],
+          datasets: [
+            { label: '心率 (bpm)', data: [88.2, 96.6, 101.0], borderColor: '#C2452D', backgroundColor: 'rgba(194,69,45,0.1)', tension: 0.3, fill: true, yAxisID: 'y1' },
+            { label: 'FBP 閉氣時間 (秒)', data: [50.6, 50.8, 41.6], borderColor: '#0B3D5C', backgroundColor: 'rgba(11,61,92,0.1)', tension: 0.3, fill: true, yAxisID: 'y2' }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { title: { display: true, text: '連續下潛 → 心率上升、閉氣時間縮短' } },
+          scales: {
+            y1: { type: 'linear', position: 'left', title: { display: true, text: '心率 (bpm)' } },
+            y2: { type: 'linear', position: 'right', title: { display: true, text: 'FBP (秒)' }, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+    }
+
+    // 啟動
+    init();
+  </script>
+</body>
+</html>
