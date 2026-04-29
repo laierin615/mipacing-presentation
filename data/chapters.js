@@ -60,7 +60,8 @@ const CHAPTERS = [
       welcome: '哈囉！歡迎來到 Mipacing 的世界！',
       intro: '你知道嗎？阿美族的阿公們，光是用一支木頭做的魚槍，就能在海裡打到魚，而且打中的位置剛剛好！這背後其實藏著很多科學的祕密。讓我們一起來揭開這些祕密吧！',
       hint: '👇 點下面的章節導覽，從第 1 章開始學',
-      bgImage: 'assets/img/field/field_01.jpg'
+      bgImage: 'assets/img/field/field_01.jpg',
+      videoUrl: 'https://www.youtube.com/embed/E8U5AL7h9PY'
     },
     amisHighlight: 'Mipacing'
   },

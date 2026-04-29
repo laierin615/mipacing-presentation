@@ -540,6 +540,153 @@
       display: none;
     }
 
+    /* ========== Hero Banner & 影片嵌入 ========== */
+    .video-embed {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      margin: 1.5rem auto;
+      aspect-ratio: 16/9;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(11, 61, 92, 0.25);
+      border: 4px solid white;
+    }
+    .video-embed iframe {
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .video-embed::before {
+      content: '🎬 研究團隊影片';
+      position: absolute;
+      top: -14px; left: 20px;
+      background: linear-gradient(135deg, var(--c-sun), var(--c-red));
+      color: white;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    /* 章節 Hero Banner */
+    .chapter-hero {
+      position: relative;
+      padding: 2rem 1.5rem;
+      margin: -2rem -1.5rem 1.5rem -1.5rem;
+      border-radius: 0 0 32px 32px;
+      color: white;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .chapter-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0; height: 24px;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24'><path fill='%23F5EDD8' d='M0,16 C200,2 400,22 600,12 C800,2 1000,22 1200,12 L1200,24 L0,24 Z'/></svg>") no-repeat center/cover;
+    }
+    .chapter-hero .hero-num {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      letter-spacing: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .chapter-hero .hero-icon {
+      font-size: 4.5rem;
+      line-height: 1;
+      margin: 0.5rem 0;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      animation: heroIconFloat 3s ease-in-out infinite;
+    }
+    @keyframes heroIconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .chapter-hero h1 {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: white !important;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .chapter-hero .hero-subtitle {
+      font-size: 1rem;
+      opacity: 0.95;
+      max-width: 600px;
+    }
+    /* Hero 主題色 - 每章不同色彩 */
+    .hero-theme-cover { background: linear-gradient(135deg, #0B3D5C 0%, #4FA3C7 100%); }
+    .hero-theme-why { background: linear-gradient(135deg, #4A7C59 0%, #5BA651 100%); }
+    .hero-theme-q { background: linear-gradient(135deg, #5b3580 0%, #7a4a9c 100%); }
+    .hero-theme-method { background: linear-gradient(135deg, #C2452D 0%, #E89B3C 100%); }
+    .hero-theme-exp1 { background: linear-gradient(135deg, #1a2540 0%, #4FA3C7 100%); }
+    .hero-theme-exp2 { background: linear-gradient(135deg, #0B3D5C 0%, #5BA651 100%); }
+    .hero-theme-exp3 { background: linear-gradient(135deg, #4FA3C7 0%, #E89B3C 100%); }
+    .hero-theme-exp4 { background: linear-gradient(135deg, #C2452D 0%, #4FA3C7 100%); }
+    .hero-theme-exp5 { background: linear-gradient(135deg, #4A7C59 0%, #0B3D5C 100%); }
+    .hero-theme-synth { background: linear-gradient(135deg, #E89B3C 0%, #C2452D 100%); }
+    .hero-theme-tek { background: linear-gradient(135deg, #5b3580 0%, #C2452D 100%); }
+    .hero-theme-glossary { background: linear-gradient(135deg, #E89B3C 0%, #C9A66B 100%); }
+    .hero-theme-quiz { background: linear-gradient(135deg, #5BA651 0%, #4A7C59 100%); }
+    .hero-theme-qa { background: linear-gradient(135deg, #C2452D 0%, #5b3580 100%); }
+    .hero-theme-credits { background: linear-gradient(135deg, #0B3D5C 0%, #1a2540 100%); }
+
+    /* 數據卡片：big numbers */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .stat-card {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(11,61,92,0.08);
+      transition: all 0.3s cubic-bezier(.2,.7,.3,1.3);
+      border-bottom: 4px solid var(--c-sun);
+    }
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(11,61,92,0.15);
+      border-bottom-color: var(--c-deep);
+    }
+    .stat-card .stat-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .stat-card .stat-value {
+      font-size: 2.3rem;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--c-deep), var(--c-wave));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.25rem;
+    }
+    .stat-card .stat-label {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* 章節進度標記（已讀 ✓） */
+    #side-nav button.visited::after {
+      content: '✓';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #5BA651;
+      font-weight: 900;
+      font-size: 0.9rem;
+    }
+    #side-nav button.visited.featured::after {
+      content: '⭐ ✓';
+    }
+
     /* ========== 資料來源標籤系統 ========== */
     .source-tag {
       display: inline-block;
@@ -1024,22 +1171,24 @@
     // ==========================
     function buildSideNav() {
       const nav = document.getElementById('side-nav');
-      nav.innerHTML = CHAPTERS.map((c, i) =>
-        `<button data-idx="${i}" class="${c.featured ? 'featured' : ''}" onclick="goTo(${i})" title="${c.featured ? '⭐ 視訊簡報 10 分鐘精選' : ''}">${c.num === 0 ? '🏠' : c.num}. ${c.title}</button>`
-      ).join('');
+      const visited = (() => { try { return JSON.parse(localStorage.getItem('mipacing_visited') || '[]'); } catch(e) { return []; } })();
+      nav.innerHTML = CHAPTERS.map((c, i) => {
+        const classes = [c.featured ? 'featured' : '', visited.includes(c.id) ? 'visited' : ''].filter(Boolean).join(' ');
+        return `<button data-idx="${i}" class="${classes}" onclick="goTo(${i})" title="${c.featured ? '⭐ 視訊簡報 10 分鐘精選' : ''}">${c.num === 0 ? '🏠' : c.num}. ${c.title}</button>`;
+      }).join('');
     }
     function updateSideNav() {
+      const visited = (() => { try { return JSON.parse(localStorage.getItem('mipacing_visited') || '[]'); } catch(e) { return []; } })();
       document.querySelectorAll('#side-nav button').forEach((b, i) => {
+        const c = CHAPTERS[i];
         b.classList.toggle('active', i === currentChapterIdx);
+        b.classList.toggle('visited', visited.includes(c.id));
       });
-      // 更新章節指示器
       const c = CHAPTERS[currentChapterIdx];
       document.getElementById('ch-indicator').textContent = `第 ${c.num} / ${CHAPTERS.length - 1} 章`;
-      // 上下頁按鈕
       document.getElementById('btn-prev').disabled = currentChapterIdx === 0;
       document.getElementById('btn-next').disabled = currentChapterIdx === CHAPTERS.length - 1;
     }
-
     // ==========================
     // 渲染章節（dispatcher）
     // ==========================
@@ -1309,10 +1458,58 @@
     // ==========================
     // 自學模式 渲染
     // ==========================
+    // ==========================
+    // 章節 Hero Banner 主題
+    // ==========================
+    const CH_HERO = {
+      cover:    { icon: '🌊', subtitle: '解密阿美族 Mipacing 漁獵文化的科學智慧' },
+      why:      { icon: '🤔', subtitle: '為什麼這個研究值得做？' },
+      qhypoth:  { icon: '🎯', subtitle: '研究問題與假設' },
+      methods:  { icon: '🧭', subtitle: '我們是怎麼做研究的' },
+      exp1:     { icon: '🌙', subtitle: '月亮、潮汐、魚的行為對照' },
+      exp2:     { icon: '⚖️', subtitle: '浮力、密度與中性浮力' },
+      exp3:     { icon: '👁️', subtitle: '光的折射與射擊補償' },
+      exp4:     { icon: '💨', subtitle: '潛水生理學與安全規範' },
+      exp5:     { icon: '🎣', subtitle: '5 種漁法的永續比較' },
+      synth:    { icon: '🔗', subtitle: 'Mipacing 完整作業流程' },
+      tek:      { icon: '💭', subtitle: '耆老的話 = 科學的話 = 我們的對話' },
+      glossary: { icon: '📖', subtitle: '阿美語關鍵詞 30 個' },
+      quiz:     { icon: '🏆', subtitle: '測試你學到了多少' },
+      qa:       { icon: '🎤', subtitle: '視訊問答練習區' },
+      credits:  { icon: '🙏', subtitle: '謝謝陪我們的人' }
+    };
+
+    function renderChapterHero(c) {
+      const theme = CH_HERO[c.id] || { icon: '📌', subtitle: '' };
+      return `
+        <div class="chapter-hero hero-theme-${c.id}">
+          <div class="hero-num">CHAPTER ${String(c.num).padStart(2, '0')}</div>
+          <div class="hero-icon">${theme.icon}</div>
+          <h1>${c.title}</h1>
+          <p class="hero-subtitle">${theme.subtitle}</p>
+        </div>`;
+    }
+
     function renderLearnMode(c, idx) {
       const l = c.learnMode || {};
-      let html = `<h1 class="serif font-bold mb-2" style="color: var(--c-deep)">第 ${c.num} 章 · ${c.title}</h1>`;
-      html += `<div class="wave-divider mb-6"></div>`;
+      // 標記為已造訪（progress mark）
+      try {
+        const visited = JSON.parse(localStorage.getItem('mipacing_visited') || '[]');
+        if (!visited.includes(c.id)) {
+          visited.push(c.id);
+          localStorage.setItem('mipacing_visited', JSON.stringify(visited));
+          updateSideNav();
+        }
+      } catch(e) {}
+
+      // 封面用大型 hero（特殊樣式），其他章節用 chapter-hero banner
+      let html = '';
+      if (c.id !== 'cover') {
+        html += renderChapterHero(c);
+      } else {
+        html += `<h1 class="serif font-bold mb-2" style="color: var(--c-deep)">第 ${c.num} 章 · ${c.title}</h1>`;
+        html += `<div class="wave-divider mb-6"></div>`;
+      }
 
       switch (c.id) {
         case 'cover':
@@ -1325,6 +1522,12 @@
                 <p class="text-2xl serif mb-3">${l.welcome}</p>
                 <p class="text-base leading-relaxed">${l.intro}</p>
               </div>
+              ${l.videoUrl ? `
+                <div class="video-embed">
+                  <iframe src="${l.videoUrl}" title="研究團隊影片" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <p class="text-sm opacity-80 mb-4">⬆️ 研究團隊介紹影片</p>
+              ` : ''}
               <p class="text-base">${l.hint}</p>
               <button onclick="goTo(1)" class="mt-6 px-8 py-3 rounded-full font-bold text-lg" style="background: var(--c-sun); color: white;">▶ 開始學習</button>
             </div>`;
