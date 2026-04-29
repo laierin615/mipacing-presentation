@@ -726,7 +726,9 @@ const TIDE_SYSTEM_SVG = `<svg viewBox="0 0 640 280" xmlns="http://www.w3.org/200
 </svg>`;
 
 // 一天兩次漲潮的離心力效應 — 動畫版
-const TIDE_BULGE_SVG = `<svg id="tide-anim-svg" viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;background:linear-gradient(180deg,#0d1929,#1a2540);border-radius:12px">
+const TIDE_BULGE_SVG = `<div style="position:relative">
+<button onclick="initTideAnimation()" style="position:absolute;top:8px;right:8px;z-index:10;padding:6px 14px;border-radius:999px;background:#FFD700;color:#0d1929;font-weight:bold;border:none;cursor:pointer;font-size:0.85rem;box-shadow:0 2px 6px rgba(0,0,0,0.3)">▶ 重新播放</button>
+<svg id="tide-anim-svg" viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;background:linear-gradient(180deg,#0d1929,#1a2540);border-radius:12px">
   <!-- 標題（最上方）-->
   <text x="240" y="28" font-size="15" fill="#FFD700" font-weight="bold">🌊 為什麼一天有兩次漲潮？（動畫示範）</text>
 
@@ -749,9 +751,20 @@ const TIDE_BULGE_SVG = `<svg id="tide-anim-svg" viewBox="0 0 820 380" xmlns="htt
   <line x1="412" y1="200" x2="345" y2="200" stroke="#FFD700" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#tideArrG)"/>
   <text x="350" y="190" font-size="10" fill="#FFD700">引力</text>
 
-  <!-- 觀察點（紅圓 + 標籤，動態位置）-->
-  <circle id="tide-observer" cx="268" cy="200" r="7" fill="#C2452D" stroke="white" stroke-width="2"/>
-  <text id="tide-observer-label" x="280" y="200" font-size="10" fill="#C2452D" font-weight="bold">觀察點</text>
+  <!-- 觀察點（紅圓 + 標籤，JS 動態位置 + SVG 內建備用動畫）-->
+  <g id="tide-observer-group">
+    <circle id="tide-observer" cx="268" cy="200" r="7" fill="#C2452D" stroke="white" stroke-width="2">
+      <animate attributeName="r" values="7;10;7" dur="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <text id="tide-observer-label" x="280" y="200" font-size="10" fill="#C2452D" font-weight="bold">觀察點</text>
+  </g>
+  <!-- SVG 內建備用：觀察點繞地球旋轉（CSS animation fallback）-->
+  <style>
+    @keyframes tideOrbitFallback {
+      from { transform: rotate(0deg); transform-origin: 220px 200px; }
+      to { transform: rotate(360deg); transform-origin: 220px 200px; }
+    }
+  </style>
 
   <!-- 鼓起標註：上方文字（不擋圖）-->
   <text x="100" y="120" font-size="11" fill="#fff" font-weight="bold">背對月亮側</text>
@@ -800,7 +813,8 @@ const TIDE_BULGE_SVG = `<svg id="tide-anim-svg" viewBox="0 0 820 380" xmlns="htt
   <defs>
     <marker id="tideArrG" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#FFD700"/></marker>
   </defs>
-</svg>`;
+</svg>
+</div>`;
 
 // 月相 vs 魚的行為（4 格小圖）
 const MOON_FISH_SVG = `<svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;background:white;border-radius:12px;border:1px solid #ddd">

@@ -1076,8 +1076,17 @@
       if (c.id === 'exp5' && currentMode === 'learn') initRadarChart('chart-radar');
       if (c.id === 'exp5' && currentMode === 'present') initRadarChart('chart-radar-present');
       if (c.id === 'qa' && currentMode === 'learn') initQATabs();
-      if (c.id === 'exp1' && currentMode === 'learn') setTimeout(initTideAnimation, 200);
-      else if (tideAnimInterval) { clearInterval(tideAnimInterval); tideAnimInterval = null; }
+      if (c.id === 'exp1' && currentMode === 'learn') {
+        // 重試直到 SVG 載入完成
+        const tryInit = (attempts = 0) => {
+          if (document.getElementById('tide-observer')) {
+            initTideAnimation();
+          } else if (attempts < 20) {
+            setTimeout(() => tryInit(attempts + 1), 100);
+          }
+        };
+        tryInit();
+      } else if (tideAnimInterval) { clearInterval(tideAnimInterval); tideAnimInterval = null; }
       // 滾到頂
       window.scrollTo(0, 0);
       // 設定滾動 fade-in 觀察
