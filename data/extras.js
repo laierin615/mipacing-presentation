@@ -725,94 +725,141 @@ const TIDE_SYSTEM_SVG = `<svg viewBox="0 0 640 280" xmlns="http://www.w3.org/200
   <defs><marker id="rotA" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#FFD700"/></marker></defs>
 </svg>`;
 
-// 一天兩次漲潮的離心力效應 — 動畫版
+// 一天兩次漲潮的離心力效應 — 動畫版（v2：大尺寸 + 太陽 + 公轉）
 const TIDE_BULGE_SVG = `<div style="position:relative">
-<button onclick="initTideAnimation()" style="position:absolute;top:8px;right:8px;z-index:10;padding:6px 14px;border-radius:999px;background:#FFD700;color:#0d1929;font-weight:bold;border:none;cursor:pointer;font-size:0.85rem;box-shadow:0 2px 6px rgba(0,0,0,0.3)">▶ 重新播放</button>
-<svg id="tide-anim-svg" viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:820px;background:linear-gradient(180deg,#0d1929,#1a2540);border-radius:12px">
-  <!-- 標題（最上方）-->
-  <text x="240" y="28" font-size="15" fill="#FFD700" font-weight="bold">🌊 為什麼一天有兩次漲潮？（動畫示範）</text>
+<button onclick="initTideAnimation()" style="position:absolute;top:12px;right:12px;z-index:10;padding:8px 18px;border-radius:999px;background:#FFD700;color:#0d1929;font-weight:bold;border:none;cursor:pointer;font-size:0.95rem;box-shadow:0 2px 8px rgba(0,0,0,0.3)">▶ 重新播放</button>
+<svg id="tide-anim-svg" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:1000px;background:linear-gradient(180deg,#0d1929 0%,#1a2540 60%,#0d1929 100%);border-radius:16px">
+  <!-- ===== 區塊 1：標題（0-50） ===== -->
+  <text x="500" y="35" font-size="22" fill="#FFD700" font-weight="bold" text-anchor="middle">🌊 為什麼一天有兩次漲潮？太陽—月亮—地球系統動畫</text>
 
-  <!-- ====== 左半：地球公轉俯視 ====== -->
-  <text x="20" y="58" font-size="11" fill="#5fb3d9">🌍 地球—月亮系統（俯視）</text>
+  <!-- ===== 區塊 2：太陽—月亮—地球系統（60-380） ===== -->
+
+  <!-- 太陽（最遠在右側，大顆橙色發光）-->
+  <defs>
+    <radialGradient id="sunGradient">
+      <stop offset="0%" stop-color="#FFEB3B"/>
+      <stop offset="60%" stop-color="#FFA500"/>
+      <stop offset="100%" stop-color="#FF6B00"/>
+    </radialGradient>
+    <marker id="tideArrG" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#FFD700"/></marker>
+    <marker id="tideArrR" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0 0, 8 4, 0 8" fill="#FF8800"/></marker>
+  </defs>
+
+  <circle cx="880" cy="220" r="55" fill="url(#sunGradient)"/>
+  <circle cx="880" cy="220" r="65" fill="none" stroke="#FFA500" stroke-opacity="0.5" stroke-width="2"/>
+  <circle cx="880" cy="220" r="75" fill="none" stroke="#FFA500" stroke-opacity="0.25" stroke-width="2"/>
+  <text x="880" y="232" font-size="48" text-anchor="middle">☀️</text>
+  <text x="880" y="305" font-size="16" fill="#FFD700" text-anchor="middle" font-weight="bold">太陽</text>
+  <text x="880" y="325" font-size="11" fill="#aaa" text-anchor="middle">（很遠很遠，圖中縮放）</text>
+
+  <!-- 太陽引力箭頭（指向地球）-->
+  <line x1="822" y1="220" x2="430" y2="220" stroke="#FF8800" stroke-width="2" stroke-dasharray="6 4" stroke-opacity="0.55" marker-end="url(#tideArrR)"/>
+  <text x="600" y="208" font-size="12" fill="#FF8800" text-anchor="middle">☀️ 太陽引力（弱、距離平方衰減）</text>
+
+  <!-- 月亮公轉軌道 -->
+  <ellipse cx="280" cy="220" rx="140" ry="90" fill="none" stroke="#5fb3d9" stroke-opacity="0.4" stroke-width="1.5" stroke-dasharray="3 3"/>
 
   <!-- 海水橢圓（鼓兩端）-->
-  <ellipse cx="220" cy="200" rx="115" ry="55" fill="rgba(79,163,199,0.35)" stroke="#5fb3d9" stroke-width="1.5"/>
+  <ellipse cx="280" cy="220" rx="105" ry="50" fill="rgba(79,163,199,0.4)" stroke="#5fb3d9" stroke-width="2"/>
 
   <!-- 地球本體 -->
-  <circle cx="220" cy="200" r="48" fill="#4A7C59" stroke="#0B3D5C" stroke-width="2"/>
-  <text x="220" y="210" font-size="32" text-anchor="middle">🌍</text>
+  <circle cx="280" cy="220" r="42" fill="#4A7C59" stroke="#0B3D5C" stroke-width="2.5"/>
+  <text x="280" y="232" font-size="38" text-anchor="middle">🌍</text>
 
-  <!-- 月亮 -->
-  <circle cx="430" cy="200" r="15" fill="#aaa" stroke="#f5f1d8"/>
-  <text x="421" y="207" font-size="20">🌑</text>
-  <text x="416" y="240" font-size="11" fill="#f5f1d8" text-anchor="start">月亮</text>
-
-  <!-- 月亮引力線 -->
-  <line x1="412" y1="200" x2="345" y2="200" stroke="#FFD700" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#tideArrG)"/>
-  <text x="350" y="190" font-size="10" fill="#FFD700">引力</text>
-
-  <!-- 觀察點（紅圓 + 標籤，JS 動態位置 + SVG 內建備用動畫）-->
-  <g id="tide-observer-group">
-    <circle id="tide-observer" cx="268" cy="200" r="7" fill="#C2452D" stroke="white" stroke-width="2">
-      <animate attributeName="r" values="7;10;7" dur="1.2s" repeatCount="indefinite"/>
-    </circle>
-    <text id="tide-observer-label" x="280" y="200" font-size="10" fill="#C2452D" font-weight="bold">觀察點</text>
+  <!-- 月亮（公轉動畫，使用 SVG animateTransform）-->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" from="0 280 220" to="360 280 220" dur="20s" repeatCount="indefinite"/>
+    <g transform="translate(420 220)">
+      <circle r="14" fill="#aaa" stroke="#f5f1d8" stroke-width="1.5"/>
+      <text x="0" y="6" font-size="22" text-anchor="middle">🌑</text>
+    </g>
   </g>
-  <!-- SVG 內建備用：觀察點繞地球旋轉（CSS animation fallback）-->
-  <style>
-    @keyframes tideOrbitFallback {
-      from { transform: rotate(0deg); transform-origin: 220px 200px; }
-      to { transform: rotate(360deg); transform-origin: 220px 200px; }
-    }
-  </style>
+  <text x="425" y="120" font-size="14" fill="#f5f1d8" font-weight="bold" text-anchor="middle">🌑 月亮（公轉中）</text>
 
-  <!-- 鼓起標註：上方文字（不擋圖）-->
-  <text x="100" y="120" font-size="11" fill="#fff" font-weight="bold">背對月亮側</text>
-  <text x="105" y="135" font-size="9" fill="#5fb3d9">離心力鼓起</text>
-  <text x="290" y="120" font-size="11" fill="#fff" font-weight="bold">面對月亮側</text>
-  <text x="293" y="135" font-size="9" fill="#5fb3d9">引力拉起</text>
+  <!-- 月亮引力箭頭 -->
+  <text x="350" y="190" font-size="13" fill="#FFD700" text-anchor="middle">🌑 月亮引力（強、近）</text>
+
+  <!-- 觀察點（自轉，JS 控制；SVG 內建脈衝 fallback）-->
+  <g id="tide-observer-group">
+    <circle id="tide-observer" cx="322" cy="220" r="9" fill="#C2452D" stroke="white" stroke-width="2.5">
+      <animate attributeName="r" values="9;13;9" dur="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <text id="tide-observer-label" x="338" y="225" font-size="13" fill="#C2452D" font-weight="bold">觀察點</text>
+  </g>
+
+  <!-- 自轉箭頭（地球周圍弧線 + 標籤）-->
+  <path d="M 240 168 A 50 50 0 0 1 320 168" stroke="#FFD700" stroke-width="2" fill="none" marker-end="url(#tideArrG)"/>
+  <text x="280" y="155" font-size="13" fill="#FFD700" font-weight="bold" text-anchor="middle">⟳ 地球自轉</text>
+
+  <!-- 鼓起標註（上方，遠離主體）-->
+  <text x="170" y="115" font-size="13" fill="#fff" font-weight="bold" text-anchor="middle">←背對月亮側</text>
+  <text x="170" y="135" font-size="11" fill="#5fb3d9" text-anchor="middle">（離心力把海水甩起）</text>
+  <text x="395" y="115" font-size="13" fill="#fff" font-weight="bold" text-anchor="middle">面對月亮側→</text>
+  <text x="395" y="135" font-size="11" fill="#5fb3d9" text-anchor="middle">（引力把海水拉起）</text>
 
   <!-- 時間顯示（地球下方）-->
-  <text id="tide-time" x="220" y="290" font-size="16" fill="#FFD700" font-weight="bold" text-anchor="middle">時間：0 時</text>
+  <rect x="220" y="338" width="120" height="38" fill="#1a2540" stroke="#FFD700" stroke-width="2" rx="8"/>
+  <text id="tide-time" x="280" y="362" font-size="20" fill="#FFD700" font-weight="bold" text-anchor="middle">時間：00:00</text>
 
-  <!-- ====== 右半：水位變化 chart ====== -->
-  <text x="510" y="58" font-size="11" fill="#5fb3d9">📊 觀察點的水位變化（24 小時）</text>
+  <!-- ===== 區塊 3：天文小常識三欄（420-540） ===== -->
+  <line x1="40" y1="410" x2="960" y2="410" stroke="#444" stroke-width="1"/>
 
-  <!-- chart 邊框 -->
-  <line x1="510" y1="100" x2="510" y2="290" stroke="#888" stroke-width="1.5"/>
-  <line x1="510" y1="290" x2="800" y2="290" stroke="#888" stroke-width="1.5"/>
+  <text x="500" y="438" font-size="16" fill="#5fb3d9" font-weight="bold" text-anchor="middle">📖 天文小常識</text>
+
+  <!-- 三欄說明 -->
+  <g>
+    <rect x="40" y="455" width="290" height="90" fill="#1a2540" stroke="#5fb3d9" stroke-opacity="0.5" rx="8"/>
+    <text x="55" y="480" font-size="14" fill="#FFD700" font-weight="bold">⟳ 自轉</text>
+    <text x="55" y="500" font-size="11" fill="#fff">地球自己轉一圈 = 24 小時</text>
+    <text x="55" y="518" font-size="11" fill="#aaa">每個地方輪流經過</text>
+    <text x="55" y="535" font-size="11" fill="#aaa">「面對 + 背對」月亮兩次</text>
+  </g>
+  <g>
+    <rect x="355" y="455" width="290" height="90" fill="#1a2540" stroke="#5fb3d9" stroke-opacity="0.5" rx="8"/>
+    <text x="370" y="480" font-size="14" fill="#FFD700" font-weight="bold">🌑 月亮公轉</text>
+    <text x="370" y="500" font-size="11" fill="#fff">月亮繞地球 = 約 27.3 天</text>
+    <text x="370" y="518" font-size="11" fill="#aaa">圖中加速展示（20 秒一圈）</text>
+    <text x="370" y="535" font-size="11" fill="#aaa">公轉造成月相變化</text>
+  </g>
+  <g>
+    <rect x="670" y="455" width="290" height="90" fill="#1a2540" stroke="#5fb3d9" stroke-opacity="0.5" rx="8"/>
+    <text x="685" y="480" font-size="14" fill="#FFD700" font-weight="bold">☀️ 太陽影響</text>
+    <text x="685" y="500" font-size="11" fill="#fff">太陽質量 = 月亮 2700 萬倍</text>
+    <text x="685" y="518" font-size="11" fill="#aaa">但距離 390 倍遠（平方影響）</text>
+    <text x="685" y="535" font-size="11" fill="#aaa">所以月亮潮汐力是太陽 2.2 倍</text>
+  </g>
+
+  <!-- ===== 區塊 4：水位變化 chart（570-680） ===== -->
+  <text x="500" y="595" font-size="16" fill="#5fb3d9" font-weight="bold" text-anchor="middle">📊 觀察點的水位變化（24 小時內）</text>
+
+  <!-- chart 軸 -->
+  <line x1="80" y1="610" x2="80" y2="685" stroke="#888" stroke-width="2"/>
+  <line x1="80" y1="685" x2="920" y2="685" stroke="#888" stroke-width="2"/>
 
   <!-- Y 軸標籤 -->
-  <text x="500" y="105" font-size="9" fill="#aaa" text-anchor="end">高</text>
-  <text x="500" y="200" font-size="9" fill="#aaa" text-anchor="end">中</text>
-  <text x="500" y="295" font-size="9" fill="#aaa" text-anchor="end">低</text>
-  <text x="492" y="200" font-size="10" fill="#fff" text-anchor="end" transform="rotate(-90 492 200)">水位</text>
+  <text x="72" y="615" font-size="11" fill="#aaa" text-anchor="end">高</text>
+  <text x="72" y="650" font-size="11" fill="#aaa" text-anchor="end">中</text>
+  <text x="72" y="688" font-size="11" fill="#aaa" text-anchor="end">低</text>
 
-  <!-- X 軸標籤（時間）-->
-  <text x="510" y="305" font-size="9" fill="#aaa" text-anchor="middle">0</text>
-  <text x="582" y="305" font-size="9" fill="#aaa" text-anchor="middle">6</text>
-  <text x="655" y="305" font-size="9" fill="#aaa" text-anchor="middle">12</text>
-  <text x="727" y="305" font-size="9" fill="#aaa" text-anchor="middle">18</text>
-  <text x="800" y="305" font-size="9" fill="#aaa" text-anchor="middle">24</text>
-  <text x="655" y="320" font-size="10" fill="#aaa" text-anchor="middle">時 →</text>
+  <!-- X 軸標籤 -->
+  <text x="80" y="703" font-size="11" fill="#aaa" text-anchor="middle">0</text>
+  <text x="290" y="703" font-size="11" fill="#aaa" text-anchor="middle">6</text>
+  <text x="500" y="703" font-size="11" fill="#aaa" text-anchor="middle">12</text>
+  <text x="710" y="703" font-size="11" fill="#aaa" text-anchor="middle">18</text>
+  <text x="920" y="703" font-size="11" fill="#aaa" text-anchor="middle">24（時）</text>
 
   <!-- 水位曲線（JS 動態繪製） -->
-  <path id="tide-curve" d="" stroke="#5fb3d9" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path id="tide-curve" d="" stroke="#5fb3d9" stroke-width="3" fill="none" stroke-linecap="round"/>
 
   <!-- 當前水位 marker -->
-  <circle id="tide-marker" cx="510" cy="100" r="6" fill="#C2452D" stroke="white" stroke-width="2"/>
+  <circle id="tide-marker" cx="80" cy="610" r="8" fill="#C2452D" stroke="white" stroke-width="2.5"/>
 
   <!-- 兩個高峰標註 -->
-  <text id="tide-peak1" x="546" y="95" font-size="9" fill="#FFD700" opacity="0">⭐ 漲潮 1</text>
-  <text id="tide-peak2" x="691" y="95" font-size="9" fill="#FFD700" opacity="0">⭐ 漲潮 2</text>
+  <text id="tide-peak1" x="220" y="605" font-size="13" fill="#FFD700" opacity="0" font-weight="bold" text-anchor="middle">⭐ 漲潮 1</text>
+  <text id="tide-peak2" x="640" y="605" font-size="13" fill="#FFD700" opacity="0" font-weight="bold" text-anchor="middle">⭐ 漲潮 2</text>
 
-  <!-- 結論（最下方）-->
-  <text x="410" y="350" font-size="13" fill="#FFD700" font-weight="bold" text-anchor="middle">⏰ 觀察點繞地球轉一圈 → 經過 2 個鼓起 → 一天漲退潮各 2 次</text>
-  <text x="410" y="368" font-size="9" fill="#aaa" text-anchor="middle">（實際週期 12 小時 25 分，因月亮也在公轉）</text>
-
-  <defs>
-    <marker id="tideArrG" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#FFD700"/></marker>
-  </defs>
+  <!-- 結論 -->
+  <text x="500" y="715" font-size="11" fill="#aaa" text-anchor="middle">⏰ 自轉一圈 = 24 小時 → 經過 2 個鼓起 → 漲退潮各 2 次（精確週期 12h 25min，因月亮也在公轉）</text>
 </svg>
 </div>`;
 
@@ -949,7 +996,160 @@ const BUOYANCY_SALT_SVG = `<svg viewBox="0 0 540 230" xmlns="http://www.w3.org/2
   <text x="60" y="220" font-size="11" fill="#0B3D5C" font-weight="bold">📌 海水有「鹽」 → 密度大 2.5% → 浮力大 → 需要更多配重才能潛下去！</text>
 </svg>`;
 
+// ============================================================
+// 📖 科學名詞小辭典（國小友善版）
+// 把報告裡出現的所有專有名詞「翻譯」成國小學生能懂的話
+// ============================================================
+const SCIENCE_TERMS = [
+  // === 潛水生理（實驗 4）===
+  {
+    term: 'FBP（第一破點）', en: 'First Breaking Point', icon: '💨', cat: '潛水生理',
+    kid: '身體第一次大喊「我要呼吸！」的時間點',
+    detail: '閉氣時身體會累積二氧化碳，到達一定程度，腦幹會「按警報」逼你呼吸。那個瞬間就是 FBP。我們實驗測得：靜息基準平均 50.6 秒。',
+    why: '為什麼要量這個？因為 FBP 縮短代表 CO₂ 累積太快，是「淺水昏迷」的警訊。'
+  },
+  {
+    term: 'HR（心率）', en: 'Heart Rate', icon: '❤️', cat: '潛水生理',
+    kid: '一分鐘心臟跳幾下',
+    detail: '心臟跳動速度，單位是 bpm（次/分鐘）。安靜時 60-100，運動或緊張會升高。我們實驗：靜息 88 → 連續潛水後 101 bpm。',
+    why: '心率上升 = 身體壓力大。連續下潛時心率持續升高 = 該上岸了。'
+  },
+  {
+    term: 'SpO₂（血氧）', en: 'Oxygen Saturation, Peripheral', icon: '🫁', cat: '潛水生理',
+    kid: '血液裡有多少氧氣',
+    detail: '血液中氧氣的飽和度，單位是 %。正常 95-100%。低於 90% 是危險訊號。我們測得 97 → 96.4% 微幅下降。',
+    why: '血氧太低，腦子缺氧會昏倒。這是潛水員最怕的事。'
+  },
+  {
+    term: 'CO₂（二氧化碳）', en: 'Carbon Dioxide', icon: '💨', cat: '潛水生理',
+    kid: '我們呼出來的氣',
+    detail: '人呼吸時吐出 CO₂。閉氣時 CO₂ 累積在血液裡，到一定程度會觸發 FBP。代謝 CO₂ 的速度決定潛水安全。',
+    why: 'CO₂ 才是身體「想呼吸」的訊號，不是缺氧。'
+  },
+  {
+    term: '淺水昏迷（SWB）', en: 'Shallow Water Blackout', icon: '🚨', cat: '潛水生理',
+    kid: '上岸時突然昏倒',
+    detail: '潛水員上升的時候，血液裡的氧氣突然急速下降，腦子缺氧瞬間昏迷。如果沒人救援會溺水。是潛水最致命的意外。',
+    why: '阿美族長輩教的「失手兩次就上岸」就是預防這個。'
+  },
+  {
+    term: 'ABA 序列設計', en: 'ABA Sequence Design', icon: '🔬', cat: '研究方法',
+    kid: '先測自己 → 做操作 → 再測自己',
+    detail: 'A = 基準（靜息）、B = 操作（疲勞或下潛）、A = 恢復（休息後）。每個人「自己跟自己比」，可以排除個人差異。',
+    why: '我們的閉氣實驗用這個設計，5 個人每人 ABA 一次，5 條曲線一致就有說服力。'
+  },
+
+  // === 物理（實驗 2、3）===
+  {
+    term: '阿基米德原理', en: 'Archimedes\' Principle', icon: '⚖️', cat: '物理',
+    kid: '東西在水裡會被水推一個力（浮力）',
+    detail: '物體在液體中受到的浮力，等於它擠開液體的重量。公式 F = ρVg。希臘人阿基米德 2200 多年前發現的。',
+    why: '解釋為什麼有的東西浮、有的沉，也是潛水員配重的科學基礎。'
+  },
+  {
+    term: '中性浮力', en: 'Neutral Buoyancy', icon: '⏸️', cat: '物理',
+    kid: '在水裡剛剛好不浮也不沉，停在水中間',
+    detail: '當浮力 = 重力時，物體會「停在任何深度」。潛水員調整配重達到中性浮力，能省力。我們實驗測得海水需 17.5g 配重。',
+    why: '達到中性浮力的潛水員不用一直踢水，氧氣消耗最少。'
+  },
+  {
+    term: '密度', en: 'Density', icon: '⚖️', cat: '物理',
+    kid: '同樣大小，誰比較重',
+    detail: '單位體積的質量（g/cm³）。木頭 0.7、水 1.0、海水 1.025、鐵 7.8。密度小於水會浮、大於水會沉。',
+    why: '阿公選芭樂木做魚槍是因為 0.7 < 1.025（海水），脫手會浮。'
+  },
+  {
+    term: '光的折射', en: 'Refraction', icon: '👁️', cat: '物理',
+    kid: '光從水進到空氣會「轉彎」',
+    detail: '光在不同介質（水、空氣）速度不一樣，從一個進到另一個方向會彎折。所以水裡的魚看起來「比較淺、比較近」。',
+    why: '阿公說「水裡的眼睛會騙你」就是這個道理。'
+  },
+  {
+    term: '斯涅爾定律', en: 'Snell\'s Law', icon: '📐', cat: '物理',
+    kid: '計算光彎多少的數學公式',
+    detail: 'n₁ sin θ₁ = n₂ sin θ₂。n 是「折射率」（光在這個介質慢多少）。水 n=1.33，空氣 n=1.00。',
+    why: '我們實驗測得 20cm→偏 46mm、30cm→偏 70mm，跟公式算出來只差 1.1%。'
+  },
+  {
+    term: '蛙鏡角放大', en: 'Mask Magnification', icon: '🥽', cat: '物理',
+    kid: '戴蛙鏡看起來大 33%、近 25%',
+    detail: '蛙鏡裡是空氣，光從水→玻璃→空氣有「角放大」效應。所以戴蛙鏡看物體變大、變近。',
+    why: '這跟岸上看水下完全不同 — Mipacing 戴蛙鏡水下射魚要瞄上方補償下墜。'
+  },
+  {
+    term: '拋體運動', en: 'Projectile Motion', icon: '🎯', cat: '物理',
+    kid: '東西被丟出去之後會慢慢往下掉',
+    detail: '魚槍射出魚標後，魚標飛行時受地心引力 + 水阻力，會「下墜」。距離越遠下墜越多。',
+    why: '所以阿美族長輩教「瞄魚頭上方一點」 = 預留下墜空間。'
+  },
+
+  // === 天文（實驗 1）===
+  {
+    term: '潮汐力', en: 'Tidal Force', icon: '🌊', cat: '天文',
+    kid: '月亮拉地球海水的力',
+    detail: '月亮（和太陽）的萬有引力會把地球的海水「拉起來」。月亮影響比太陽大 2.2 倍。',
+    why: '潮汐決定海水深度與流速，影響魚的行為，是 Mipacing 下水時機的關鍵。'
+  },
+  {
+    term: '大潮', en: 'Spring Tide', icon: '⭐', cat: '天文',
+    kid: '潮差最大的時候',
+    detail: '朔月（新月）和滿月時，太陽—月亮—地球三點一直線，引力疊加。潮差 1.8-2.2m。臺東海域實測。',
+    why: '大潮時水流變化大，魚的行為也跟著變，是 Mipacing 最佳時機。'
+  },
+  {
+    term: '小潮', en: 'Neap Tide', icon: '○', cat: '天文',
+    kid: '潮差最小的時候',
+    detail: '上、下弦月時，太陽和月亮成 90°，引力部分抵消。潮差 0.8-1.2m。',
+    why: '小潮時水流溫和，比較適合初學者。'
+  },
+  {
+    term: '萬有引力', en: 'Universal Gravitation', icon: '🧲', cat: '天文',
+    kid: '所有有質量的東西互相拉的力',
+    detail: '公式 F = G × M × m / r²。質量越大力越大；距離越遠（平方）力越小。月亮雖小但近，所以對地球潮汐影響大。',
+    why: '解釋為什麼月亮比太陽更影響潮汐。'
+  },
+  {
+    term: '自轉', en: 'Rotation', icon: '⟳', cat: '天文',
+    kid: '地球自己轉一圈',
+    detail: '地球繞自己的軸旋轉，一圈 24 小時 = 一天。每個地方會輪流經過「面對月亮」和「背對月亮」兩個鼓起。',
+    why: '所以一天會經過 2 個鼓起 = 漲退潮各 2 次。'
+  },
+  {
+    term: '公轉', en: 'Revolution', icon: '🌀', cat: '天文',
+    kid: '一個天體繞另一個天體轉',
+    detail: '月亮繞地球公轉一圈約 27.3 天；地球繞太陽公轉一圈約 365 天。',
+    why: '月亮公轉造成月相變化（朔月→上弦→滿月→下弦）。'
+  },
+
+  // === 生態（實驗 5）===
+  {
+    term: '副漁獲', en: 'Bycatch', icon: '🐢', cat: '生態',
+    kid: '不是要的，卻一起被抓的生物',
+    detail: '漁網不分種類，也會誤抓海龜、海豚、幼魚、螃蟹⋯這些都會死。底拖網副漁獲率高達 40-60%、蝦拖網 80-90%。',
+    why: 'Mipacing 是「目視射擊」，副漁獲率近乎 0%。'
+  },
+  {
+    term: '最大永續產量', en: 'Maximum Sustainable Yield (MSY)', icon: '♻️', cat: '生態',
+    kid: '不會把魚抓光的最多量',
+    detail: '魚每年自己會生新的小魚。如果只抓「不超過新生量」的數，魚永遠不會少。阿美族「只拿夠用的」就是這原理。',
+    why: '阿美族文化規範比現代漁業法規還早千年實踐 MSY。'
+  },
+  {
+    term: '生態棲位', en: 'Ecological Niche', icon: '🪸', cat: '生態',
+    kid: '每種魚最喜歡住的地方',
+    detail: '不同魚有不同棲息地：石斑躲石縫、鯊魚在開闊水域、小蝦虎在沙地。耆老知道每種魚住哪。',
+    why: '獵人懂生態棲位，才知道去哪找想抓的魚。'
+  },
+  {
+    term: 'TEK（傳統生態知識）', en: 'Traditional Ecological Knowledge', icon: '🪶', cat: '文化',
+    kid: '原住民幾百年累積的生態智慧',
+    detail: '原住民族對大自然的觀察與規範，雖然不靠實驗證明，但實際往往跟科學完全相符。',
+    why: '我們的研究就是把阿美族 TEK 用科學語言「翻譯」出來，讓更多人聽懂。'
+  }
+];
+
 // 暴露給全域
+window.SCIENCE_TERMS = SCIENCE_TERMS;
 window.SCENE_SVGS = SCENE_SVGS;
 window.TIDE_SYSTEM_SVG = TIDE_SYSTEM_SVG;
 window.TIDE_BULGE_SVG = TIDE_BULGE_SVG;

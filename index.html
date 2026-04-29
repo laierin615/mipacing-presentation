@@ -1950,7 +1950,16 @@
           return renderQAChapter(l);
 
         case 'glossary':
-          html += `<p class="text-lg mb-4">${l.hint}</p><div id="glossary-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 my-4"></div>`;
+          html += `
+            ${srcTag('research')}
+            <h3 class="font-bold text-2xl mt-4 mb-3" style="color: var(--c-deep)">🌺 阿美語詞彙（30 個）</h3>
+            <p class="text-base mb-4">${l.hint}</p>
+            <div id="glossary-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 my-4"></div>
+
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-2xl mt-8 mb-3" style="color: var(--c-deep)">📖 科學名詞小辭典（國小友善版）</h3>
+            <p class="text-sm text-gray-600 mb-4">FBP、HR、SpO₂ 這些英文縮寫看不懂？沒關係，我們把每個名詞都「翻譯」成國小同學能懂的話，加上「為什麼重要」幫助理解。</p>
+            <div id="science-terms"></div>`;
           return html;
 
         case 'quiz':
@@ -2762,6 +2771,36 @@
           <p class="text-sm text-gray-600 mb-2">${g.zh}</p>
           <p class="text-xs">${g.def}</p>
         </div>`).join('');
+
+      // 加入科學名詞小辭典（國小友善版）
+      const sciContainer = document.getElementById('science-terms');
+      if (sciContainer && typeof SCIENCE_TERMS !== 'undefined') {
+        // 按類別分組
+        const cats = {};
+        SCIENCE_TERMS.forEach(t => { (cats[t.cat] = cats[t.cat] || []).push(t); });
+        const catColors = { '潛水生理': '#C2452D', '物理': '#0B3D5C', '天文': '#5b3580', '生態': '#4A7C59', '研究方法': '#E89B3C', '文化': '#8a5a16' };
+        sciContainer.innerHTML = Object.entries(cats).map(([cat, terms]) => `
+          <div class="my-6">
+            <h3 class="font-bold text-xl mb-3 pb-2 border-b-2" style="color: ${catColors[cat] || '#0B3D5C'}; border-color: ${catColors[cat] || '#0B3D5C'}40">
+              ${cat} （${terms.length} 個名詞）
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${terms.map(t => `
+                <div class="keypoint-card" style="border-top: 4px solid ${catColors[cat] || '#0B3D5C'}">
+                  <div class="flex items-start gap-2 mb-2">
+                    <div class="text-2xl flex-shrink-0">${t.icon}</div>
+                    <div>
+                      <h4 class="font-bold text-base" style="color: ${catColors[cat] || '#0B3D5C'}">${t.term}</h4>
+                      <p class="text-xs text-gray-500 italic">${t.en}</p>
+                    </div>
+                  </div>
+                  <p class="text-sm font-bold mb-2" style="color: var(--c-red)">👉 國小說法：${t.kid}</p>
+                  <p class="text-sm mb-2 leading-relaxed">${t.detail}</p>
+                  <p class="text-xs p-2 rounded" style="background:#fef4d7"><b>💡 為什麼重要：</b>${t.why}</p>
+                </div>`).join('')}
+            </div>
+          </div>`).join('');
+      }
     }
 
     // ==========================
@@ -2872,8 +2911,8 @@
       const peak2 = document.getElementById('tide-peak2');
       if (!observer || !curve) return;
 
-      const earthCx = 220, earthCy = 200, earthR = 48;
-      const chartLeft = 510, chartRight = 800, chartBottom = 290, chartTop = 100;
+      const earthCx = 280, earthCy = 220, earthR = 42;
+      const chartLeft = 80, chartRight = 920, chartBottom = 685, chartTop = 610;
       const curveWidth = chartRight - chartLeft;
       const curveHeight = chartBottom - chartTop;
 
@@ -2899,11 +2938,11 @@
         observer.setAttribute('cx', ox);
         observer.setAttribute('cy', oy);
         // 觀察點標籤位置（避免擋住地球）
-        const labelOffset = 16;
+        const labelOffset = 22;
         const lx = earthCx + (earthR + labelOffset) * Math.cos(rad);
         const ly = earthCy + (earthR + labelOffset) * Math.sin(rad);
         observerLabel.setAttribute('x', lx);
-        observerLabel.setAttribute('y', ly + 3);
+        observerLabel.setAttribute('y', ly + 4);
         observerLabel.setAttribute('text-anchor', lx < earthCx ? 'end' : 'start');
 
         // 時間顯示
@@ -2919,9 +2958,9 @@
         marker.setAttribute('cx', mx);
         marker.setAttribute('cy', my);
 
-        // 高峰標註（在 0:00 跟 12:00 是高峰）
-        peak1.setAttribute('opacity', (hours > 0 && hours < 1.5) || (hours > 23) ? '1' : '0.3');
-        peak2.setAttribute('opacity', hours > 11.5 && hours < 13 ? '1' : '0.3');
+        // 高峰標註（cos(2θ)=1 在 0,12,24 時，這裡標 6 與 18 沒峰；改為標 0(/24) 和 12 為高峰）
+        peak1.setAttribute('opacity', hours < 1.5 || hours > 22.5 ? '1' : '0.4');
+        peak2.setAttribute('opacity', hours > 10.5 && hours < 13.5 ? '1' : '0.4');
 
         // 月亮引力強度顏色（觀察點面向月亮時較亮）
         // 簡化：跳過此細節
