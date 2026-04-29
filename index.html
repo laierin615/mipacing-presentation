@@ -540,6 +540,226 @@
       display: none;
     }
 
+    /* ========== 資料來源標籤系統 ========== */
+    .source-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.3px;
+      border: 1.5px solid currentColor;
+      cursor: help;
+    }
+    .source-tag.research { background: #dbf3e0; color: #2d5538; }
+    .source-tag.knowledge { background: #d6e8f5; color: #0B3D5C; }
+    .source-tag.verified { background: #fef4d7; color: #8a5a16; }
+    .source-tag.interpret { background: #e8d8f5; color: #5b3580; }
+    .source-tag.practice { background: #fbe6e2; color: #C2452D; }
+    /* 標籤說明按鈕 */
+    #src-info-btn {
+      position: fixed; bottom: 24px; left: 24px;
+      background: white;
+      border: 2px solid var(--c-deep);
+      color: var(--c-deep);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 40;
+      transition: all 0.2s;
+    }
+    #src-info-btn:hover {
+      background: var(--c-deep);
+      color: white;
+      transform: translateY(-2px);
+    }
+    body.present-mode #src-info-btn { display: none; }
+
+    /* ========== 設計感強化 ========== */
+    /* 章節切換動畫 */
+    @keyframes chapterFadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    body.learn-mode .chapter.active-slide { animation: chapterFadeIn 0.5s ease-out; }
+
+    /* 滾動 fade-in */
+    .fade-in-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 卡片 hover 升起效果（強化）*/
+    .keypoint-card {
+      transition: transform 0.25s cubic-bezier(.2,.7,.3,1.3), box-shadow 0.25s ease;
+    }
+    .keypoint-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 14px 30px rgba(11, 61, 92, 0.18);
+    }
+    .glossary-card {
+      transition: transform 0.25s cubic-bezier(.2,.7,.3,1.3), box-shadow 0.25s ease;
+    }
+    .glossary-card:hover {
+      transform: translateY(-5px) rotate(-1deg);
+      box-shadow: 0 12px 25px rgba(232, 155, 60, 0.25);
+    }
+
+    /* 頂部閱讀進度條 */
+    #read-progress {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--c-sun) 0%, var(--c-red) 100%);
+      width: 0%;
+      transition: width 0.1s linear;
+      z-index: 49;
+      box-shadow: 0 1px 4px rgba(232, 155, 60, 0.4);
+    }
+
+    /* 浮動回頂按鈕 */
+    #back-to-top {
+      position: fixed;
+      bottom: 96px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--c-deep), var(--c-wave));
+      color: white;
+      font-size: 1.4rem;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px) scale(0.8);
+      transition: all 0.3s cubic-bezier(.2,.7,.3,1.3);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #back-to-top.visible {
+      opacity: 0.9;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+    #back-to-top:hover {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+    body.present-mode #back-to-top { display: none; }
+
+    /* 圖片 lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      cursor: zoom-out;
+      animation: fadeIn 0.25s;
+    }
+    #lightbox.visible { display: flex; }
+    #lightbox img {
+      max-width: 95%;
+      max-height: 95%;
+      box-shadow: 0 8px 50px rgba(0,0,0,0.5);
+      border-radius: 8px;
+      animation: zoomIn 0.3s cubic-bezier(.2,.7,.3,1.3);
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    #lightbox .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 3rem;
+      cursor: pointer;
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* 田野照片網格加 hover 放大微動 */
+    .gallery-img {
+      cursor: zoom-in;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 1;
+      position: relative;
+    }
+
+    /* SVG 容器加微動 */
+    .svg-container {
+      transition: transform 0.3s;
+    }
+    .svg-container:hover {
+      transform: scale(1.01);
+    }
+
+    /* 章節導覽強化 */
+    #side-nav button {
+      position: relative;
+    }
+    #side-nav button::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0;
+      height: 60%;
+      background: var(--c-sun);
+      transform: translateY(-50%);
+      transition: width 0.2s ease;
+    }
+    #side-nav button:hover::before { width: 4px; }
+    #side-nav button.active::before { width: 4px; }
+
+    /* 模式切換按鈕的 active glow */
+    .mode-toggle button.active {
+      box-shadow: 0 2px 8px rgba(11, 61, 92, 0.4);
+    }
+
+    /* Confetti（成就動畫）*/
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 200;
+      animation: confettiFall 2s ease-out forwards;
+    }
+    @keyframes confettiFall {
+      0% { opacity: 1; transform: translateY(0) rotate(0); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+    }
+
+    /* 折射模擬器箭頭脈衝 */
+    @keyframes pulseAim {
+      0%, 100% { stroke-width: 3; }
+      50% { stroke-width: 4.5; }
+    }
+    #aim-line { animation: pulseAim 2s ease-in-out infinite; }
+
     /* RWD */
     @media (max-width: 768px) {
       body.learn-mode #side-nav { transform: translateX(-100%); transition: transform 0.3s; }
@@ -582,6 +802,9 @@
     </div>
   </div>
 
+  <!-- 頂部閱讀進度條 -->
+  <div id="read-progress"></div>
+
   <!-- ============================================ -->
   <!-- 章節導覽（自學模式顯示） -->
   <!-- ============================================ -->
@@ -599,6 +822,18 @@
     <button id="btn-prev" onclick="goPrev()" aria-label="上一章">◀</button>
     <button id="btn-next" onclick="goNext()" aria-label="下一章">▶</button>
   </div>
+
+  <!-- 浮動回頂按鈕 -->
+  <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="回到頂部" title="回到頂部">↑</button>
+
+  <!-- 圖片 Lightbox -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <span class="close-btn">×</span>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <!-- 資料來源標籤說明按鈕 -->
+  <button id="src-info-btn" onclick="showSourceInfo()" title="網站內容的 5 種來源類別說明">📋 資料來源說明</button>
 
   <!-- 詞彙提示彈窗 -->
   <div id="tooltip-modal" class="hidden fixed inset-0 bg-black/40 z-[60] flex items-center justify-center p-4" onclick="closeTooltipModal(event)">
@@ -638,7 +873,7 @@
       document.getElementById('menu-btn').addEventListener('click', () => {
         document.getElementById('side-nav').classList.toggle('open');
       });
-      // 事件委派：任何 .amis-word 點擊都會跳出詞彙說明
+      // 事件委派：任何 .amis-word 點擊都會跳出詞彙說明 + 圖片點擊放大
       document.addEventListener('click', e => {
         const span = e.target.closest('.amis-word');
         if (span && !span.hasAttribute('onclick')) {
@@ -646,9 +881,86 @@
           if (AMIS_GLOSSARY.find(g => g.word === word)) {
             showAmis(word);
           }
+          return;
+        }
+        // 田野照片點擊放大
+        const galleryImg = e.target.closest('.gallery-img');
+        if (galleryImg) {
+          openLightbox(galleryImg.src);
         }
       });
+      // 滾動進度條 + 回頂按鈕
+      window.addEventListener('scroll', updateScrollUI, { passive: true });
       handleHashChange();
+    }
+
+    // 滾動 UI 更新
+    function updateScrollUI() {
+      const max = document.body.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      document.getElementById('read-progress').style.width = pct + '%';
+      document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
+    }
+
+    // 圖片 Lightbox
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    // 滾動 fade-in 觀察器
+    let fadeObserver = null;
+    function setupFadeIn() {
+      if (fadeObserver) fadeObserver.disconnect();
+      fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('.keypoint-card, .elder-quote, .method-block, .tek-row, .qa-card').forEach(el => {
+        if (!el.classList.contains('visible')) {
+          el.classList.add('fade-in-on-scroll');
+          fadeObserver.observe(el);
+        }
+      });
+
+      // Fallback：立即標記已在視窗內的元素（給 IntersectionObserver 沒立即觸發的情境）
+      setTimeout(() => {
+        document.querySelectorAll('.fade-in-on-scroll').forEach(el => {
+          if (el.classList.contains('visible')) return;
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight + 100 && rect.bottom > -100) {
+            el.classList.add('visible');
+            try { fadeObserver.unobserve(el); } catch(e) {}
+          }
+        });
+      }, 50);
+    }
+
+    // 紙花 confetti（成就慶祝）
+    function fireConfetti() {
+      const colors = ['#0B3D5C', '#4FA3C7', '#E89B3C', '#C2452D', '#5BA651'];
+      for (let i = 0; i < 30; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + '%';
+        c.style.top = '-20px';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = (Math.random() * 0.4) + 's';
+        c.style.animationDuration = (1.5 + Math.random()) + 's';
+        c.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 2500);
+      }
     }
 
     // ==========================
@@ -767,6 +1079,10 @@
       if (c.id === 'qa' && currentMode === 'learn') initQATabs();
       // 滾到頂
       window.scrollTo(0, 0);
+      // 設定滾動 fade-in 觀察
+      setTimeout(setupFadeIn, 100);
+      // 重置進度條
+      updateScrollUI();
     }
 
     // ==========================
@@ -1047,7 +1363,9 @@
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 物理常識說明，幫助理解月相—潮汐關係（不是原研究實驗的內容）</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               ${l.principleSteps.map(s => `
                 <div class="keypoint-card flex items-start gap-3">
@@ -1059,13 +1377,17 @@
                 </div>`).join('')}
             </div>
 
-            <div class="my-6 flex justify-center">${TIDE_SYSTEM_SVG}</div>
+            ${srcTag('knowledge', '📚 教學插圖')}
+            <div class="my-3 flex justify-center">${TIDE_SYSTEM_SVG}</div>
             <p class="text-sm text-center text-gray-600 mb-6">⬆️ 月亮和太陽的位置決定潮汐強度</p>
 
-            <div class="my-6 flex justify-center">${TIDE_BULGE_SVG}</div>
+            ${srcTag('knowledge', '📚 教學插圖')}
+            <div class="my-3 flex justify-center">${TIDE_BULGE_SVG}</div>
             <p class="text-sm text-center text-gray-600 mb-6">⬆️ 解密「一天兩次漲潮」的物理原因</p>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 延伸思考，幫助學生理解但超出原研究範圍</p>
             <div class="space-y-3 mb-6">
               ${l.multiAngle.map(item => `
                 <div class="elder-quote" style="border-left-color: var(--c-wave)">
@@ -1074,9 +1396,11 @@
                 </div>`).join('')}
             </div>
 
-            <div class="my-6 flex justify-center">${MOON_FISH_SVG}</div>
-            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 月相、潮汐、魚的行為一目瞭然</p>
+            ${srcTag('research', '🔬 我們的研究：耆老訪談 × 中央氣象署資料')}
+            <div class="my-3 flex justify-center">${MOON_FISH_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 月相、潮汐、魚的行為對照表（依五位耆老訪談整合）</p>
 
+            ${srcTag('research', '🔬 我們的研究方法')}
             ${renderMethodDetails('exp1')}
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📅 月相 × 潮汐 × Mipacing 對照表</h3>
             <table class="w-full text-base border-collapse mb-6 bg-white rounded-xl overflow-hidden shadow">
@@ -1102,7 +1426,9 @@
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 物理常識（阿基米德原理 2200 年前的發現），幫助理解</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               ${l.principleSteps.map(s => `
                 <div class="keypoint-card flex items-start gap-3">
@@ -1114,13 +1440,17 @@
                 </div>`).join('')}
             </div>
 
-            <div class="my-6 flex justify-center">${BUOYANCY_3_SVG}</div>
+            ${srcTag('knowledge', '📚 教學插圖')}
+            <div class="my-3 flex justify-center">${BUOYANCY_3_SVG}</div>
             <p class="text-sm text-center text-gray-600 mb-6">⬆️ 浮力 vs 重力的三種狀態</p>
 
-            <div class="my-6 flex justify-center">${BUOYANCY_SALT_SVG}</div>
-            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 海水 vs 淡水：為什麼海水浮力更大</p>
+            ${srcTag('research', '🔬 我們的實驗結果視覺化')}
+            <div class="my-3 flex justify-center">${BUOYANCY_SALT_SVG}</div>
+            <p class="text-sm text-center text-gray-600 mb-6">⬆️ 我們實驗測得：淡水 17.4g vs 海水 17.5g</p>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">${l.multiAngleTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 延伸思考，超出原研究範圍</p>
             <div class="space-y-3 mb-6">
               ${l.multiAngle.map(item => `
                 <div class="elder-quote" style="border-left-color: var(--c-wave)">
@@ -1129,6 +1459,7 @@
                 </div>`).join('')}
             </div>
 
+            ${srcTag('research', '🔬 我們的研究方法')}
             ${renderMethodDetails('exp2')}
             <div class="elder-quote my-6">
               <h3 class="font-bold text-xl mb-2" style="color: var(--c-deep)">⚖️ ${l.diagram.title}</h3>
@@ -1142,7 +1473,9 @@
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">${l.principleTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 物理常識（光學折射），用比喻幫助理解</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
               ${l.principleSteps.map(s => `
                 <div class="keypoint-card flex items-start gap-3">
@@ -1154,7 +1487,9 @@
                 </div>`).join('')}
             </div>
 
-            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.maskTitle}</h3>
+            ${srcTag('verified', '🔍 文獻交叉驗證：Wikipedia Underwater Vision、ScubaGeek 等')}
+            <h3 class="font-bold text-xl mb-2 mt-4" style="color: var(--c-deep)">${l.maskTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 來自國際潛水光學文獻（不在原報告範圍）</p>
             <p class="text-base mb-3">${l.maskIntro}</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
               ${l.maskEffects.map(e => `
@@ -1166,7 +1501,9 @@
             </div>
             <p class="text-sm p-3 rounded-lg mb-6" style="background: #fef4d7"><b>💡 原因：</b>${l.maskWhy}</p>
 
-            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.scenariosTitle}</h3>
+            ${srcTag('interpret', '💭 研究團隊整合：原報告 + 部落長輩補充 + 文獻驗證')}
+            <h3 class="font-bold text-xl mb-2 mt-4" style="color: var(--c-deep)">${l.scenariosTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 原報告 Faki 的「往下壓」適用情境 1；部落長輩教年輕人「瞄上方」適用情境 3。我們做了情境分析整合。</p>
             <p class="text-base mb-4">${l.scenariosIntro}</p>
             <div class="space-y-4 mb-6">
               ${l.scenarios.map(s => `
@@ -1194,7 +1531,9 @@
                 </div>`).join('')}
             </div>
 
-            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.dropTitle}</h3>
+            ${srcTag('verified', '🔍 文獻交叉驗證：FreediveUK、Noob Spearo 等自由潛水社群')}
+            <h3 class="font-bold text-xl mb-2 mt-4" style="color: var(--c-deep)">${l.dropTitle}</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 拋體運動 + 流體阻力的物理推估（非實驗實測）</p>
             <p class="text-base mb-3">${l.dropIntro}</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
               ${l.dropFactors.map(d => `
@@ -1208,8 +1547,10 @@
             </div>
             <p class="p-4 rounded-lg mb-6 font-bold" style="background: #fbe6e2; color: var(--c-red)">📌 ${l.dropConclusion}</p>
 
-            <div class="elder-quote my-6">
+            ${srcTag('interpret')}
+            <div class="elder-quote my-3">
               <h3 class="font-bold text-xl mb-3" style="color: var(--c-red)">${l.aimSummary.title}</h3>
+              <p class="text-xs text-gray-500 mb-2">📌 整合自原報告引言 + 部落長輩訪談 + 國際物理／自由潛水文獻</p>
               <p class="mb-3">${l.aimSummary.text}</p>
               <table class="w-full text-base border-collapse mb-3 bg-white rounded-xl overflow-hidden">
                 <thead style="background: var(--c-deep); color: white;">
@@ -1278,7 +1619,9 @@
           html += `
             <p class="text-lg mb-4">${highlightAmis(l.story)} ${speakBtn(l.story)}</p>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">🎣 5 種主要漁法</h3>
+            ${srcTag('knowledge')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">🎣 5 種主要漁法</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 漁業知識整理（非原研究實測，是文獻整合）</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
               ${FISHING_METHODS.map(m => `
                 <div class="keypoint-card" style="border-top: 4px solid ${m.color}">
@@ -1291,13 +1634,17 @@
                 </div>`).join('')}
             </div>
 
+            ${srcTag('interpret')}
             <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📊 雷達圖：誰最永續？</h3>
+            <p class="text-xs text-gray-500 mb-2">⚠️ <b>重要：雷達圖的 0-10 分是我們研究團隊基於文獻的「相對評估」，不是實驗實測數據。</b>評分依據：Pauly 1998（食物網）、Watling & Norse 1998（拖網棲地破壞）、Cinner 2012（社區共管漁業）等文獻。</p>
             <p class="text-sm mb-3 text-gray-600">越靠外圈代表越永續、越友善生態。Mipacing 在每個面向都領先。</p>
             <div class="bg-white p-4 rounded-2xl mb-6" style="height: 420px;">
               <canvas id="chart-radar"></canvas>
             </div>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">📋 大比較表：5 漁法 × 8 面向</h3>
+            ${srcTag('interpret', '💭 研究團隊整合（基於文獻評估）')}
+            <h3 class="font-bold text-xl mb-3 mt-4" style="color: var(--c-deep)">📋 大比較表：5 漁法 × 8 面向</h3>
+            <p class="text-xs text-gray-500 mb-2">📌 評等基於 FAO 漁業報告、副漁獲研究文獻整合，不是我們親自比較</p>
             <div style="overflow-x: auto;">
               <table class="compare-matrix">
                 <thead>
@@ -1326,7 +1673,9 @@
               ${ECO_NARRATIVE.paragraphs.map(p => `<p class="my-2">${p.replace(/\*\*(.*?)\*\*/g, '<b style="color:var(--c-red)">$1</b>')}</p>`).join('')}
             </div>
 
-            <h3 class="font-bold text-xl mb-3 mt-6" style="color: var(--c-deep)">⚖️ Mipacing 的限制與挑戰（科學態度）</h3>
+            ${srcTag('interpret')}
+            <h3 class="font-bold text-xl mb-3 mt-4" style="color: var(--c-deep)">⚖️ Mipacing 的限制與挑戰（科學態度）</h3>
+            <p class="text-xs text-gray-500 mb-3">📌 我們研究團隊的批判反思，不是為了一面倒推崇 Mipacing</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
               ${FISHING_LIMITATIONS.map(lim => `
                 <div class="keypoint-card flex items-start gap-3">
@@ -1369,7 +1718,8 @@
         case 'tek':
           html += `
             <p class="text-lg mb-4">${l.story} ${speakBtn(l.story)}</p>
-            <p class="text-sm text-gray-600 mb-4">下面每一條都有「耆老的話」「科學原理」「我們的數據」三欄，最下面一行是「我們的對話心得」——用我們自己的話說出兩種知識怎麼連起來。</p>
+            ${srcTag('research', '🔬 三欄資料來自原研究')} ${srcTag('interpret', '💭 對話心得是團隊整合解讀')}
+            <p class="text-sm text-gray-600 mb-4">下面每一條都有「耆老的話」「科學原理」「我們的數據」三欄（來自原研究），最下面一行是「研究團隊的整合解讀」——這是<b>我們研究團隊</b>對兩種知識的詮釋，不是耆老原話。</p>
             ${TEK_DIALOGUE.map(r => `
               <div class="tek-row">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
@@ -1378,7 +1728,7 @@
                   <div><span class="text-xs text-gray-500">📊 我們的數據</span><br><span class="tek-data">${r.data}</span></div>
                 </div>
                 <div class="tek-dialogue">
-                  💬 <b>我們的對話心得：</b>${r.dialogue}
+                  💭 <b>研究團隊整合解讀：</b>${r.dialogue}
                 </div>
               </div>`).join('')}`;
           return html;
@@ -1403,7 +1753,7 @@
             </div>
             <h3 class="font-bold text-xl mb-3 mt-8" style="color: var(--c-deep)">📷 田野紀錄相簿</h3>
             <div class="grid grid-cols-3 gap-2 my-6">
-              ${l.gallery.map(p => `<img src="${p}" class="w-full aspect-square object-cover rounded-lg" alt="田野紀錄">`).join('')}
+              ${l.gallery.map(p => `<img src="${p}" class="gallery-img w-full aspect-square object-cover rounded-lg" alt="田野紀錄">`).join('')}
             </div>
             <h3 class="font-bold text-xl mb-3 mt-8" style="color: var(--c-deep)">📚 參考資料</h3>
             <ul class="space-y-2 text-base list-disc list-inside">
@@ -1433,6 +1783,45 @@
     function speakBtn(text) {
       const escaped = text.replace(/'/g, '&apos;').replace(/"/g, '&quot;');
       return `<button class="speak-btn ml-1" onclick="speakZh(this, &quot;${escaped.replace(/"/g, '\\&quot;')}&quot;)">🔊</button>`;
+    }
+
+    // ==========================
+    // 資料來源標籤系統
+    // ==========================
+    const SOURCE_TYPES = {
+      research: { icon: '🔬', label: '來自我們的研究', desc: '原始報告、訪談逐字稿、實驗實測數據' },
+      knowledge: { icon: '📚', label: '延伸知識補充', desc: '物理常識、教學比喻、教科書級延伸（不是原研究範圍）' },
+      verified: { icon: '🔍', label: '文獻交叉驗證', desc: '來自國際學術文獻、自由潛水社群、潛水光學研究' },
+      interpret: { icon: '💭', label: '研究團隊整合', desc: '我們對耆老智慧 × 科學的整合解讀／延伸評估' },
+      practice: { icon: '🎯', label: '練習用題目', desc: '模擬問答、自我練習，不是真實評審回應' }
+    };
+    function srcTag(type, customText) {
+      const t = SOURCE_TYPES[type];
+      if (!t) return '';
+      const text = customText || t.label;
+      return `<span class="source-tag ${type}" title="${t.desc}">${t.icon} ${text}</span>`;
+    }
+
+    function showSourceInfo() {
+      const html = Object.entries(SOURCE_TYPES).map(([key, t]) => `
+        <div class="my-3 p-3 rounded-lg" style="background: white;">
+          <span class="source-tag ${key}">${t.icon} ${t.label}</span>
+          <p class="text-sm mt-2">${t.desc}</p>
+        </div>
+      `).join('');
+      const modal = document.createElement('div');
+      modal.id = 'src-info-modal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;cursor:pointer;animation:fadeIn 0.2s';
+      modal.innerHTML = `
+        <div style="background:#F5EDD8;border-radius:16px;padding:2rem;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;cursor:default" onclick="event.stopPropagation()">
+          <h2 class="serif font-bold text-2xl mb-3" style="color:var(--c-deep)">📋 網站內容的 5 種資料來源</h2>
+          <p class="text-sm mb-3 text-gray-700">為了讓研究內容透明、誠實，我們把網站上的每個區塊都標明來源類別：</p>
+          ${html}
+          <p class="text-xs mt-4 text-gray-600">⚠️ 對科展評審回答時，請依照標籤如實說明：「這是我們的實驗結果」「這是我們參考延伸資料補充的」。</p>
+          <button onclick="document.getElementById('src-info-modal').remove()" class="mt-4 px-6 py-2 rounded-full font-bold text-white" style="background:var(--c-deep)">我了解了</button>
+        </div>`;
+      modal.onclick = () => modal.remove();
+      document.body.appendChild(modal);
     }
 
     function interactivePlaceholder(id) {
@@ -1472,15 +1861,20 @@
     }
 
     // ==========================
-    // 📚 深入學術展開區（呼應審查「科學知識內涵 20%」）
+    // 📚 延伸閱讀清單（給想深入的同學與老師）
+    // 這不是原研究引用的文獻，是研究團隊推薦的延伸閱讀
     // ==========================
     function renderAcademic(expId) {
       const a = ACADEMIC_DEEPDIVE?.[expId];
       if (!a) return '';
       return `
         <details class="academic-collapsible">
-          <summary>📚 深入學術原理（給想學真正理論的同學與老師）</summary>
+          <summary>📚 延伸閱讀清單（給想深入的同學與老師）</summary>
           <div class="academic-body">
+            <p style="background: rgba(232,155,60,0.15); padding: 0.75rem; border-radius: 8px; border-left: 4px solid #E89B3C; margin-bottom: 1rem; font-size: 0.9rem;">
+              ⚠️ 這個區塊的內容是<b>研究團隊整理的延伸閱讀清單</b>（公式、誤差分析、學術引用），<b>不是原研究實際引用過的文獻</b>。提供給有興趣的同學與老師作為延伸學習資源。
+            </p>
+
             <h5>📐 核心公式</h5>
             <div class="formula-box">${a.formula.math}</div>
             <p style="opacity: 0.9">${a.formula.explanation}</p>
@@ -1488,13 +1882,13 @@
             <h5>🔍 推導與應用</h5>
             <ul>${a.derivation.map(d => `<li>${d}</li>`).join('')}</ul>
 
-            <h5>⚠️ 誤差來源</h5>
+            <h5>⚠️ 常見誤差來源（評審可能追問）</h5>
             <ul>${a.errorSources.map(d => `<li>${d}</li>`).join('')}</ul>
 
-            <h5>🚀 進階討論</h5>
+            <h5>🚀 進階討論（連結現代科學前沿）</h5>
             <ul>${a.advancedDiscussion.map(d => `<li>${d}</li>`).join('')}</ul>
 
-            <h5>📖 學術引用</h5>
+            <h5>📖 推薦延伸閱讀（真實存在的文獻清單）</h5>
             <ul class="citation-list">
               ${a.citations.map(c => `<li><b>${c.author}</b>（${c.year}）。${c.title}。<i>${c.source}</i>。</li>`).join('')}
             </ul>
@@ -1752,6 +2146,10 @@
         if (history.length >= 200) {
           const drift = Math.max(...history) - Math.min(...history);
           if (drift < 6) {
+            if (!status.dataset.celebrated) {
+              status.dataset.celebrated = '1';
+              fireConfetti();
+            }
             status.textContent = `🎉 達成中性浮力！（10秒漂移 ${drift.toFixed(1)}%）`;
             status.style.background = '#e7f5ec';
             status.style.color = 'var(--c-leaf)';
@@ -2170,6 +2568,8 @@
           // 結算
           const pct = Math.round(score / questions.length * 100);
           const badge = score >= 8 ? '🏆 小耆老獎章' : score >= 6 ? '🌟 海洋小學徒' : score >= 4 ? '🐟 海邊探險家' : '🌱 繼續努力';
+          // 高分慶祝
+          if (score >= 8) setTimeout(fireConfetti, 200);
           container.innerHTML = `
             <div class="text-center p-8 rounded-2xl" style="background: white;">
               <div class="text-7xl mb-4">${score >= 8 ? '🏆' : score >= 6 ? '🌟' : '🌱'}</div>
@@ -2282,6 +2682,8 @@
       const qa = QA_CARDS;
       let html = `<h1 class="serif font-bold mb-2" style="color: var(--c-deep)">${qa.intro.title}</h1>
         <div class="wave-divider mb-4"></div>
+        ${srcTag('practice')}
+        <p class="text-xs text-gray-500 mb-3">⚠️ 以下 15 張卡片是<b>我們團隊推測「評審可能會問」的問題與練習答案</b>，不是真實評審回應。學生可作為事前演練。</p>
         <p class="text-base mb-4">${qa.intro.subtitle}</p>
         <div class="elder-quote mb-4">
           <h3 class="font-bold mb-2" style="color: var(--c-deep)">📋 視訊問答規則</h3>
