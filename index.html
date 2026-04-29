@@ -2778,12 +2778,12 @@
         if (current >= questions.length) {
           // 結算
           const pct = Math.round(score / questions.length * 100);
-          const badge = score >= 8 ? '🏆 小耆老獎章' : score >= 6 ? '🌟 海洋小學徒' : score >= 4 ? '🐟 海邊探險家' : '🌱 繼續努力';
+          const badge = score >= 16 ? '🏆 小耆老獎章' : score >= 12 ? '🌟 海洋小學徒' : score >= 8 ? '🐟 海邊探險家' : '🌱 繼續努力';
           // 高分慶祝
-          if (score >= 8) setTimeout(fireConfetti, 200);
+          if (score >= 16) setTimeout(fireConfetti, 200);
           container.innerHTML = `
             <div class="text-center p-8 rounded-2xl" style="background: white;">
-              <div class="text-7xl mb-4">${score >= 8 ? '🏆' : score >= 6 ? '🌟' : '🌱'}</div>
+              <div class="text-7xl mb-4">${score >= 16 ? '🏆' : score >= 12 ? '🌟' : score >= 8 ? '🐟' : '🌱'}</div>
               <h2 class="serif font-bold text-3xl mb-2" style="color: var(--c-deep)">你答對了 ${score} / ${questions.length} 題</h2>
               <p class="text-2xl mb-4" style="color: var(--c-sun)">${badge}</p>
               <button class="px-6 py-3 rounded-full font-bold text-white" style="background: var(--c-deep)" onclick="initQuiz(CHAPTERS.find(c=>c.id==='quiz').learnMode.questions)">🔄 再玩一次</button>
