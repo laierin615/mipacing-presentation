@@ -1758,6 +1758,95 @@
                     <p class="p-3 rounded font-bold text-lg" style="background: ${s.color}22; color: ${s.color}">${s.aim}</p>
                     <p class="text-sm mt-2 text-gray-600"><b>原因：</b>${s.why}</p>
                     ${s.when ? `<p class="text-xs mt-1 text-gray-500">📍 適用：${s.when}</p>` : ''}
+
+                    ${s.id === 'C' ? `
+                      <div class="mt-5 pt-5 border-t-2 border-dashed" style="border-color: ${s.color}55">
+                        ${srcTag('verified', '🔍 學術引用：蔡政良（2022）《原住民族文獻》第 51 期')}
+                        <h4 class="font-bold text-lg mt-3 mb-2" style="color: var(--c-deep)">👴 歷史補充：以前阿美族人怎麼下水？— 傳統自製水鏡</h4>
+                        <p class="text-sm text-gray-700 mb-3">在現代蛙鏡普及之前，都蘭部落的阿美族人「自己做水鏡」下海。人類學者蔡政良在田野中記錄下這項已逐漸消失的工藝：</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <div class="rounded-xl shadow border-2 border-white p-3" style="background: linear-gradient(180deg, #fff8ed, #f5e9d0)">
+                              <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto">
+                                <text x="200" y="22" text-anchor="middle" font-size="13" fill="#8b5a2b" font-weight="bold">傳統自製水鏡（依文獻描述繪製）</text>
+                                <g transform="translate(120, 145)">
+                                  <circle r="52" fill="#a0735a" stroke="#5d4129" stroke-width="3"/>
+                                  <circle r="44" fill="#1f1f1f"/>
+                                  <circle r="40" fill="#aed6e8" opacity="0.92"/>
+                                  <ellipse cx="-13" cy="-13" rx="11" ry="6" fill="white" opacity="0.7"/>
+                                </g>
+                                <g transform="translate(280, 145)">
+                                  <circle r="52" fill="#a0735a" stroke="#5d4129" stroke-width="3"/>
+                                  <circle r="44" fill="#1f1f1f"/>
+                                  <circle r="40" fill="#aed6e8" opacity="0.92"/>
+                                  <ellipse cx="-13" cy="-13" rx="11" ry="6" fill="white" opacity="0.7"/>
+                                </g>
+                                <rect x="172" y="139" width="56" height="12" rx="6" fill="#5d4129"/>
+                                <path d="M68 145 Q38 150 22 175" stroke="#3d2410" stroke-width="7" fill="none" stroke-linecap="round"/>
+                                <path d="M332 145 Q362 150 378 175" stroke="#3d2410" stroke-width="7" fill="none" stroke-linecap="round"/>
+                                <text x="120" y="78" text-anchor="middle" font-size="11" fill="#5d4129" font-weight="bold">🪵 木頭外框</text>
+                                <line x1="120" y1="82" x2="120" y2="92" stroke="#5d4129" stroke-width="1.5"/>
+                                <text x="280" y="78" text-anchor="middle" font-size="11" fill="#5d4129" font-weight="bold">🪟 磨圓的玻璃</text>
+                                <line x1="280" y1="82" x2="280" y2="102" stroke="#5d4129" stroke-width="1.5"/>
+                                <text x="200" y="170" text-anchor="middle" font-size="10" fill="#1f1f1f" font-weight="bold">🖤 瀝青黏合</text>
+                                <line x1="200" y1="158" x2="200" y2="151" stroke="#1f1f1f" stroke-width="1.5"/>
+                                <text x="22" y="200" text-anchor="middle" font-size="10" fill="#3d2410" font-weight="bold">🔗 橡皮/繩</text>
+                                <text x="378" y="200" text-anchor="middle" font-size="10" fill="#3d2410" font-weight="bold">🔗 橡皮/繩</text>
+                                <path d="M0 260 Q50 252 100 260 T200 260 T300 260 T400 260 L400 280 L0 280 Z" fill="#4FA3C7" opacity="0.3"/>
+                              </svg>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2 text-center italic">▲ 自製水鏡示意圖（實物標本陳列於東部海岸國家風景區管理處）</p>
+                          </div>
+
+                          <div>
+                            <h5 class="font-bold mb-2" style="color: var(--c-deep)">🛠️ 4 種就地取材的材料</h5>
+                            <ul class="text-sm space-y-2 mb-3">
+                              <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #fff5e6">
+                                <span class="text-xl flex-shrink-0">🪵</span>
+                                <div><b>木頭</b>：手工雕刻成兩個圓形外框</div>
+                              </li>
+                              <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #e8f4fd">
+                                <span class="text-xl flex-shrink-0">🪟</span>
+                                <div><b>玻璃</b>：颱風後撿拾的破碎玻璃，磨成圓形 ← 環保再利用！</div>
+                              </li>
+                              <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #f0eee8">
+                                <span class="text-xl flex-shrink-0">🖤</span>
+                                <div><b>瀝青</b>：把玻璃黏進木框，同時防水</div>
+                              </li>
+                              <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #fff0eb">
+                                <span class="text-xl flex-shrink-0">🔗</span>
+                                <div><b>橡皮或繩子</b>：把兩個鏡框連起來，繞頭固定</div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+
+                        <div class="elder-quote mb-3" style="border-left-color: var(--c-sun); background: #fffaf0">
+                          <h5 class="font-bold mb-2" style="color: var(--c-deep)">📜 都蘭部落水鏡的演變（三階段）</h5>
+                          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                            <div class="p-2 rounded-lg" style="background: #fff5e6; border-top: 3px solid var(--c-sun)">
+                              <div class="font-bold mb-1 text-xs" style="color: var(--c-sun)">1️⃣ 早期 · 自製水鏡</div>
+                              <p class="text-xs">族人就地取材：木頭 + 颱風後玻璃 + 瀝青 + 繩子。</p>
+                            </div>
+                            <div class="p-2 rounded-lg" style="background: #e8f4fd; border-top: 3px solid var(--c-wave)">
+                              <div class="font-bold mb-1 text-xs" style="color: var(--c-wave)">2️⃣ 中期 · 圓形大面鏡</div>
+                              <p class="text-xs">部落青年從軍隊引進的圓形大面鏡，逐漸取代手工水鏡。</p>
+                            </div>
+                            <div class="p-2 rounded-lg" style="background: #e8f0e9; border-top: 3px solid var(--c-leaf)">
+                              <div class="font-bold mb-1 text-xs" style="color: var(--c-leaf)">3️⃣ 現今 · 可平壓面鏡</div>
+                              <p class="text-xs">現代蛙鏡（水下能平衡壓力），讓潛水更深、視野更清楚。</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p class="text-sm p-3 rounded-lg mb-3" style="background: #fef4d7"><b>💡 為什麼這個故事重要？</b>傳統水鏡告訴我們：阿美族人對「水下視覺」的需求遠比現代潛水運動還早，而且他們<u>用身邊撿得到的材料解決了同樣的科學問題</u>。今天我們研究折射、瞄準補償，其實是延續祖先早已開始的工程實作。</p>
+
+                        <p class="text-xs text-gray-600 p-2 rounded" style="background: #f5edd8">
+                          <b>📖 文獻來源：</b>蔡政良（2022）。〈人魚之間的交互界定：都蘭部落阿美族人與近岸海域魚類的動態交逢〉。《原住民族文獻》第 51 期。
+                          <a href="https://ihc.cip.gov.tw/EJournal/EJournalCat/632" target="_blank" rel="noopener" style="color: var(--c-deep); text-decoration: underline; margin-left: 4px">原文連結 ↗</a>
+                        </p>
+                      </div>` : ''}
                   </div>
                 </div>`).join('')}
             </div>
@@ -1817,98 +1906,6 @@
               <p>${l.whyText} ${speakBtn(l.whyText)}</p>
             </div>
             ${interactivePlaceholder('refraction')}
-
-            ${srcTag('verified', '🔍 學術引用：蔡政良（2022）《原住民族文獻》第 51 期')}
-            <h3 class="font-bold text-xl mt-8 mb-3" style="color: var(--c-deep)">👴 以前的阿美族人怎麼下水？— 傳統自製水鏡</h3>
-            <p class="text-sm text-gray-700 mb-4">在現代蛙鏡普及之前，都蘭部落的阿美族人「自己做水鏡」下海。人類學者蔡政良在田野中記錄下這項已逐漸消失的工藝：</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <div class="rounded-xl shadow-lg border-2 border-white p-3" style="background: linear-gradient(180deg, #fff8ed, #f5e9d0)">
-                  <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto">
-                    <text x="200" y="22" text-anchor="middle" font-size="13" fill="#8b5a2b" font-weight="bold">傳統自製水鏡（依文獻描述繪製）</text>
-                    <!-- 左鏡框 -->
-                    <g transform="translate(120, 145)">
-                      <circle r="52" fill="#a0735a" stroke="#5d4129" stroke-width="3"/>
-                      <circle r="44" fill="#1f1f1f"/>
-                      <circle r="40" fill="#aed6e8" opacity="0.92"/>
-                      <ellipse cx="-13" cy="-13" rx="11" ry="6" fill="white" opacity="0.7"/>
-                    </g>
-                    <!-- 右鏡框 -->
-                    <g transform="translate(280, 145)">
-                      <circle r="52" fill="#a0735a" stroke="#5d4129" stroke-width="3"/>
-                      <circle r="44" fill="#1f1f1f"/>
-                      <circle r="40" fill="#aed6e8" opacity="0.92"/>
-                      <ellipse cx="-13" cy="-13" rx="11" ry="6" fill="white" opacity="0.7"/>
-                    </g>
-                    <!-- 鼻樑連接（瀝青+木頭） -->
-                    <rect x="172" y="139" width="56" height="12" rx="6" fill="#5d4129"/>
-                    <!-- 兩側橡皮帶/繩 -->
-                    <path d="M68 145 Q38 150 22 175" stroke="#3d2410" stroke-width="7" fill="none" stroke-linecap="round"/>
-                    <path d="M332 145 Q362 150 378 175" stroke="#3d2410" stroke-width="7" fill="none" stroke-linecap="round"/>
-                    <!-- 標籤 -->
-                    <text x="120" y="78" text-anchor="middle" font-size="11" fill="#5d4129" font-weight="bold">🪵 木頭外框</text>
-                    <line x1="120" y1="82" x2="120" y2="92" stroke="#5d4129" stroke-width="1.5"/>
-                    <text x="280" y="78" text-anchor="middle" font-size="11" fill="#5d4129" font-weight="bold">🪟 磨圓的玻璃</text>
-                    <line x1="280" y1="82" x2="280" y2="102" stroke="#5d4129" stroke-width="1.5"/>
-                    <text x="200" y="170" text-anchor="middle" font-size="10" fill="#1f1f1f" font-weight="bold">🖤 瀝青黏合</text>
-                    <line x1="200" y1="158" x2="200" y2="151" stroke="#1f1f1f" stroke-width="1.5"/>
-                    <text x="22" y="200" text-anchor="middle" font-size="10" fill="#3d2410" font-weight="bold">🔗 橡皮/繩</text>
-                    <text x="378" y="200" text-anchor="middle" font-size="10" fill="#3d2410" font-weight="bold">🔗 橡皮/繩</text>
-                    <!-- 海浪裝飾 -->
-                    <path d="M0 260 Q50 252 100 260 T200 260 T300 260 T400 260 L400 280 L0 280 Z" fill="#4FA3C7" opacity="0.3"/>
-                  </svg>
-                </div>
-                <p class="text-xs text-gray-500 mt-2 text-center italic">▲ 自製水鏡示意圖（實物標本陳列於東部海岸國家風景區管理處）</p>
-              </div>
-
-              <div>
-                <h4 class="font-bold mb-3" style="color: var(--c-deep)">🛠️ 4 種就地取材的材料</h4>
-                <ul class="text-sm space-y-3 mb-3">
-                  <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #fff5e6">
-                    <span class="text-2xl flex-shrink-0">🪵</span>
-                    <div><b>木頭</b>：手工雕刻成兩個圓形外框</div>
-                  </li>
-                  <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #e8f4fd">
-                    <span class="text-2xl flex-shrink-0">🪟</span>
-                    <div><b>玻璃</b>：颱風過後撿拾破碎玻璃，再磨成圓形 ← 環保再利用！</div>
-                  </li>
-                  <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #f0eee8">
-                    <span class="text-2xl flex-shrink-0">🖤</span>
-                    <div><b>瀝青</b>：把玻璃黏進木框，同時防水</div>
-                  </li>
-                  <li class="flex items-start gap-2 p-2 rounded-lg" style="background: #fff0eb">
-                    <span class="text-2xl flex-shrink-0">🔗</span>
-                    <div><b>橡皮或繩子</b>：把兩個鏡框連起來，再繞頭固定</div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="elder-quote mb-4" style="border-left-color: var(--c-sun)">
-              <h4 class="font-bold mb-2" style="color: var(--c-deep)">📜 都蘭部落水鏡的演變（三階段）</h4>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                <div class="p-3 rounded-lg" style="background: #fff5e6; border-top: 3px solid var(--c-sun)">
-                  <div class="font-bold mb-1" style="color: var(--c-sun)">1️⃣ 早期 · 自製水鏡</div>
-                  <p class="text-xs">族人就地取材：木頭 + 颱風後玻璃 + 瀝青 + 繩子。</p>
-                </div>
-                <div class="p-3 rounded-lg" style="background: #e8f4fd; border-top: 3px solid var(--c-wave)">
-                  <div class="font-bold mb-1" style="color: var(--c-wave)">2️⃣ 中期 · 圓形大面鏡</div>
-                  <p class="text-xs">部落青年從軍隊引進的圓形大面鏡，逐漸取代手工水鏡。</p>
-                </div>
-                <div class="p-3 rounded-lg" style="background: #e8f0e9; border-top: 3px solid var(--c-leaf)">
-                  <div class="font-bold mb-1" style="color: var(--c-leaf)">3️⃣ 現今 · 可平壓面鏡</div>
-                  <p class="text-xs">現代蛙鏡（水下能平衡壓力），讓潛水深度更深、視野更清楚。</p>
-                </div>
-              </div>
-            </div>
-
-            <p class="text-sm p-3 rounded-lg mb-6" style="background: #fef4d7"><b>💡 為什麼這個故事重要？</b>傳統水鏡告訴我們：阿美族人對「水下視覺」的需求，遠比現代潛水運動還早，而且他們<u>用身邊撿得到的材料解決了同樣的科學問題</u>。今天我們研究折射、瞄準補償，其實是延續祖先早已開始的工程實作。</p>
-
-            <p class="text-xs text-gray-600 mb-6 p-2 rounded" style="background: #f5edd8">
-              <b>📖 文獻來源：</b>蔡政良（2022）。〈人魚之間的交互界定：都蘭部落阿美族人與近岸海域魚類的動態交逢〉。《原住民族文獻》第 51 期。
-              <a href="https://ihc.cip.gov.tw/EJournal/EJournalCat/632" target="_blank" rel="noopener" style="color: var(--c-deep); text-decoration: underline; margin-left: 4px">原文連結 ↗</a>
-            </p>
 
             ${srcTag('research', '🔬 田野觀察 + 耆老訪談魚種知識')}
             <h3 class="font-bold text-xl mt-8 mb-3" style="color: var(--c-deep)">🐟 長濱海域常見魚種辨識卡</h3>
