@@ -258,7 +258,7 @@ const CHAPTERS = [
 
   // 6. 實驗 3
   {
-    id: 'exp3', num: 6, title: '實驗 3 · 水裡的眼睛會騙你',
+    id: 'exp3', num: 6, title: '實驗 3 · 水裡的眼睛',
     featured: true,
     presentMode: {
       heading: '實驗 3 · 光折射 × 射擊補償',
