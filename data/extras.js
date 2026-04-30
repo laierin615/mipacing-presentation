@@ -1149,7 +1149,79 @@ const SCIENCE_TERMS = [
   }
 ];
 
+// ============================================================
+// 🐟 長濱海域常見魚種辨識卡（放在實驗 3 光折射補充）
+// 因為 Mipacing 戴蛙鏡水下要先「辨識」魚種，才能決定瞄不瞄、射不射
+// 不同魚種的鱗厚、行為、保育規範都會影響獵法
+// ============================================================
+const FISH_SPECIES = [
+  {
+    amis: 'Fati\'alos', zh: '石斑', emoji: '🐟', color: '#4A7C59',
+    habitat: '石縫深處',
+    feature: '靜止伏擊型，會躲在縫裡',
+    note: '★ Mipacing 主要目標魚種',
+    aim: '正面視覺，折射偏差小'
+  },
+  {
+    amis: 'Co\'ing', zh: '刺尾鯛（倒吊）', emoji: '🐠', color: '#E89B3C',
+    habitat: '礁石區成群',
+    feature: '群游、色彩鮮豔',
+    note: '常見食用魚',
+    aim: '群魚移動快，需提前量'
+  },
+  {
+    amis: 'Tadakolongay', zh: '線紋刺尾鯛（倒吊）', emoji: '🐠', color: '#FFD700',
+    habitat: '礁石',
+    feature: '白天快速、夜間靜止',
+    note: '夜間易射',
+    aim: '夜間鱗反光，注意視覺角度'
+  },
+  {
+    amis: 'Fice\'ki', zh: '白毛 / 黑毛', emoji: '🐟', color: '#0B3D5C',
+    habitat: '潮間帶',
+    feature: '群游、食用魚',
+    note: '★ 主要食用魚',
+    aim: '中等距離，標準瞄準'
+  },
+  {
+    amis: 'Kaperecay', zh: '鸚哥魚', emoji: '🐠', color: '#5b3580',
+    habitat: '珊瑚礁',
+    feature: '保育類、鱗片很厚',
+    note: '⛔ 保育類，不抓！',
+    aim: '若射要斜射穿鱗（傳統知識）'
+  },
+  {
+    amis: 'Lokedaw', zh: '獅子魚', emoji: '🐡', color: '#C2452D',
+    habitat: '岩縫、暗區',
+    feature: '有神經毒、鰭刺',
+    note: '⚠️ 禁忌徒手抓',
+    aim: '可射但要小心鰭刺'
+  },
+  {
+    amis: 'Kong', zh: '河豚', emoji: '🐡', color: '#8a5a16',
+    habitat: '沙底、礁石',
+    feature: '可食用，肝有劇毒',
+    note: '⚠️ 料理需專業',
+    aim: '射擊容易，料理難'
+  },
+  {
+    amis: 'Tatafik', zh: '鯊魚', emoji: '🦈', color: '#3D1F1A',
+    habitat: '深水區',
+    feature: '大型掠食者',
+    note: '⚠️ 危險，立刻上岸',
+    aim: '不獵，避開為主'
+  },
+  {
+    amis: 'Kakahong', zh: '飛魚', emoji: '🐟', color: '#4FA3C7',
+    habitat: '浮面、開闊水域',
+    feature: '會飛離水面',
+    note: '通常用釣法',
+    aim: '不下潛獵，水面釣'
+  }
+];
+
 // 暴露給全域
+window.FISH_SPECIES = FISH_SPECIES;
 window.SCIENCE_TERMS = SCIENCE_TERMS;
 window.SCENE_SVGS = SCENE_SVGS;
 window.TIDE_SYSTEM_SVG = TIDE_SYSTEM_SVG;

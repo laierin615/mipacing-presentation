@@ -1290,20 +1290,29 @@
 
         case 'methods':
           return `
-            <h1 class="serif font-bold mb-8" style="color: var(--c-deep)">${p.heading}</h1>
+            <h1 class="serif font-bold mb-6" style="color: var(--c-deep)">${p.heading}</h1>
+
+            <h2 class="serif font-bold mb-4 mt-2" style="color: var(--c-deep); font-size: 2rem">📋 第一部分：研究方法 4 步驟</h2>
             <div class="grid grid-cols-4 gap-6">
-              ${p.flow.map((f, i) => `
+              ${p.researchFlow.map((f, i) => `
                 <div class="text-center keypoint-card relative">
                   <div class="absolute -top-3 -left-3 w-10 h-10 rounded-full flex items-center justify-center font-black text-lg" style="background: var(--c-sun); color: white;">${i+1}</div>
-                  <div class="text-7xl mb-3">${f.icon}</div>
+                  <div class="text-6xl mb-3">${f.icon}</div>
                   <div class="font-bold text-xl mb-2" style="color: var(--c-deep)">${f.label}</div>
                   <p class="text-base">${f.text}</p>
                 </div>`).join('')}
             </div>
-            <div class="flex justify-around mt-4 text-3xl" style="color: var(--c-sun)">
-              <span>↓</span><span>↓</span><span>↓</span><span>↓</span>
+
+            <h2 class="serif font-bold mb-4 mt-10" style="color: var(--c-deep); font-size: 2rem">🤿 第二部分：Mipacing 完整作業流程 6 步驟</h2>
+            <div class="grid grid-cols-6 gap-2">
+              ${p.mipacingFlow.map(f => `
+                <div class="text-center p-4 rounded-xl text-white" style="background: ${f.color}">
+                  <div class="text-5xl mb-2">${f.icon}</div>
+                  <div class="font-bold text-base mb-1">${f.step}. ${f.label}</div>
+                  <div class="text-xs opacity-80">${f.exp}</div>
+                </div>`).join('')}
             </div>
-            <p class="text-2xl text-center mt-4 font-bold" style="color: var(--c-deep)">⟹ 把耆老的智慧用科學語言記下來</p>`;
+            <p class="text-2xl text-center mt-6 font-bold" style="color: var(--c-deep)">⟹ 把耆老的智慧用科學語言記下來</p>`;
 
         case 'exp1':
           return `
@@ -1392,17 +1401,7 @@
             </div>
             <p class="text-3xl font-bold text-center" style="color: var(--c-leaf)">💡 ${p.conclusion}</p>`;
 
-        case 'synth':
-          return `
-            <h1 class="serif font-bold mb-8" style="color: var(--c-deep)">${p.heading}</h1>
-            <div class="grid grid-cols-6 gap-2">
-              ${p.flow.map(f => `
-                <div class="text-center p-4 rounded-xl text-white" style="background: ${f.color}">
-                  <div class="text-5xl mb-2">${f.icon}</div>
-                  <div class="font-bold text-base mb-1">${f.step}. ${f.label}</div>
-                  <div class="text-xs opacity-80">${f.exp}</div>
-                </div>`).join('')}
-            </div>`;
+        // synth 章節已合併到 methods（移除）
 
         case 'tek':
           return `
@@ -1465,13 +1464,12 @@
       cover:    { icon: '🌊', subtitle: '解密阿美族 Mipacing 漁獵文化的科學智慧' },
       why:      { icon: '🤔', subtitle: '為什麼這個研究值得做？' },
       qhypoth:  { icon: '🎯', subtitle: '研究問題與假設' },
-      methods:  { icon: '🧭', subtitle: '我們是怎麼做研究的' },
+      methods:  { icon: '🔗', subtitle: '研究架構 × Mipacing 完整作業流程' },
       exp1:     { icon: '🌙', subtitle: '月亮、潮汐、魚的行為對照' },
       exp2:     { icon: '⚖️', subtitle: '浮力、密度與中性浮力' },
       exp3:     { icon: '👁️', subtitle: '光的折射與射擊補償' },
       exp4:     { icon: '💨', subtitle: '潛水生理學與安全規範' },
       exp5:     { icon: '🎣', subtitle: '5 種漁法的永續比較' },
-      synth:    { icon: '🔗', subtitle: 'Mipacing 完整作業流程' },
       tek:      { icon: '💭', subtitle: '耆老的話 = 科學的話 = 我們的對話' },
       glossary: { icon: '📖', subtitle: '阿美語關鍵詞 30 個' },
       quiz:     { icon: '🏆', subtitle: '測試你學到了多少' },
@@ -1565,11 +1563,31 @@
           return html;
 
         case 'methods':
+          html += `${srcTag('research', '🔬 第一部分：研究方法時程')}
+            <h3 class="font-bold text-xl mb-3" style="color: var(--c-deep)">📋 我們的研究時程（2026 年 1-4 月）</h3>`;
           html += l.timeline.map(t => `
-            <div class="flex gap-4 my-4 p-4 rounded-xl" style="background: white;">
+            <div class="flex gap-4 my-3 p-4 rounded-xl" style="background: white;">
               <div class="px-4 py-2 rounded-full text-white font-bold" style="background: var(--c-deep); align-self: start;">${t.date}</div>
               <p class="flex-1 self-center">${t.task}</p>
             </div>`).join('');
+          html += `
+            ${srcTag('interpret', '💭 第二部分：Mipacing 流程整合')}
+            <h3 class="font-bold text-xl mb-2 mt-8" style="color: var(--c-deep)">${l.mipacingFlowTitle}</h3>
+            <p class="text-lg mb-4">${l.mipacingFlowIntro}</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 my-6">
+              ${c.presentMode.mipacingFlow.map(f => {
+                const target = ({exp1: 4, exp2: 5, exp3: 6, exp4: 7, exp5: 8})[f.exp.replace('實驗 ', 'exp')] || 0;
+                return `
+                <div class="text-center p-4 rounded-xl text-white cursor-pointer" style="background: ${f.color}" onclick="goTo(${target})">
+                  <div class="text-4xl mb-2">${f.icon}</div>
+                  <div class="font-bold mb-1">${f.label}</div>
+                  <div class="text-xs opacity-80">${f.exp}</div>
+                </div>`;
+              }).join('')}
+            </div>
+            <div class="elder-quote my-6 text-center">
+              <p class="serif text-2xl" style="color: var(--c-red)">${l.mipacingFlowSummary}</p>
+            </div>`;
           return html;
 
         case 'exp1':
@@ -1799,6 +1817,28 @@
               <p>${l.whyText} ${speakBtn(l.whyText)}</p>
             </div>
             ${interactivePlaceholder('refraction')}
+
+            ${srcTag('research', '🔬 田野觀察 + 耆老訪談魚種知識')}
+            <h3 class="font-bold text-xl mt-8 mb-3" style="color: var(--c-deep)">🐟 長濱海域常見魚種辨識卡</h3>
+            <p class="text-sm text-gray-600 mb-4">戴蛙鏡水下射魚時，要先「看清楚是什麼魚」才能決定瞄不瞄、射不射。光折射讓視覺位置偏移之外，<b>不同魚種的鱗厚、行為、保育規範也會影響獵法</b>。以下是長濱海域常見的 9 種魚：</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+              ${FISH_SPECIES.map(f => `
+                <div class="keypoint-card" style="border-top: 4px solid ${f.color}">
+                  <div class="flex items-start gap-2 mb-2">
+                    <div class="text-3xl flex-shrink-0">${f.emoji}</div>
+                    <div>
+                      <h4 class="font-bold" style="color: ${f.color}">${f.zh}</h4>
+                      <p class="text-xs italic text-gray-500">阿美語：${f.amis}</p>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-1"><b>📍 棲地：</b>${f.habitat}</p>
+                  <p class="text-xs mb-1"><b>🔍 特徵：</b>${f.feature}</p>
+                  <p class="text-xs mb-1"><b>🎯 瞄準：</b>${f.aim}</p>
+                  <p class="text-sm font-bold mt-2 p-2 rounded" style="background: ${f.color}15; color: ${f.color}">${f.note}</p>
+                </div>`).join('')}
+            </div>
+            <p class="text-sm p-3 rounded-lg" style="background: #fef4d7"><b>💡 為什麼放在光折射章節？</b>因為「水下看到的不只是位置偏，連魚的種類都要在折射、變大、距離縮短的視覺條件下快速辨識」。耆老 Akong Faol 說「海底每一塊石頭、每一條魚都認得」就是這種能力的最高境界。</p>
+
             ${renderAcademic('exp3')}`;
           return html;
 
@@ -1912,21 +1952,7 @@
             </details>`;
           return html;
 
-        case 'synth':
-          html += `
-            <p class="text-lg mb-4">${l.story} ${speakBtn(l.story)}</p>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 my-6">
-              ${c.presentMode.flow.map(f => `
-                <div class="text-center p-4 rounded-xl text-white cursor-pointer" style="background: ${f.color}" onclick="goTo(${{exp1: 4, exp2: 5, exp3: 6, exp4: 7, exp5: 8}[f.exp.replace('實驗 ', 'exp')] || 0})">
-                  <div class="text-4xl mb-2">${f.icon}</div>
-                  <div class="font-bold mb-1">${f.label}</div>
-                  <div class="text-xs opacity-80">${f.exp}</div>
-                </div>`).join('')}
-            </div>
-            <div class="elder-quote my-6 text-center">
-              <p class="serif text-2xl" style="color: var(--c-red)">${l.summary}</p>
-            </div>`;
-          return html;
+        // synth 章節已合併到 methods（移除自學模式 case）
 
         case 'tek':
           html += `

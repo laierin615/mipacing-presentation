@@ -123,16 +123,24 @@ const CHAPTERS = [
     }
   },
 
-  // 3. 研究方法地圖
+  // 3. 研究架構 × Mipacing 完整流程（原第 3 + 第 9 章合併）
   {
-    id: 'methods', num: 3, title: '我們是怎麼做研究的？',
+    id: 'methods', num: 3, title: '研究架構 × Mipacing 完整流程',
     presentMode: {
-      heading: '研究方法 · 四步驟流程',
-      flow: [
+      heading: '研究方法 × Mipacing 流程',
+      researchFlow: [
         { step: 1, icon: '👴', label: '耆老訪談', text: '訪問 5 位耆老，把他們的話錄下來' },
         { step: 2, icon: '🧪', label: '實驗設計', text: '把耆老說的話變成可以測量的實驗' },
         { step: 3, icon: '📊', label: '現場驗證', text: '到海邊和實驗室，做 5 個科學實驗' },
         { step: 4, icon: '🌟', label: '文化整合', text: '把科學數據和阿美族文化連結起來' }
+      ],
+      mipacingFlow: [
+        { step: 1, color: '#0B3D5C', icon: '🌙', label: '看月相 / 潮汐', exp: '實驗 1' },
+        { step: 2, color: '#4FA3C7', icon: '🎒', label: '準備裝備', exp: '實驗 2' },
+        { step: 3, color: '#4FA3C7', icon: '⚖️', label: '調中性浮力', exp: '實驗 2' },
+        { step: 4, color: '#E89B3C', icon: '🎯', label: '光折射補償', exp: '實驗 3' },
+        { step: 5, color: '#C2452D', icon: '💨', label: '監控體能', exp: '實驗 4' },
+        { step: 6, color: '#4A7C59', icon: '🌱', label: '永續取用', exp: '實驗 5' }
       ]
     },
     learnMode: {
@@ -142,7 +150,10 @@ const CHAPTERS = [
         { date: '3 月', task: '訪問 Akong Faol 和 Fayi Lakaw，到海邊現場做實驗' },
         { date: '4 月', task: '跟 Kaka Kaysang 一起下海實作 Mipacing' },
         { date: '4 月底', task: '把所有資料整理寫成報告' }
-      ]
+      ],
+      mipacingFlowTitle: '🤿 Mipacing 完整作業流程（從研究方法對應到實際漁獵）',
+      mipacingFlowIntro: '原來 Mipacing 不只是「下海打魚」這麼簡單。阿公從出門前就在用科學：看月亮判斷潮汐、選對的木頭做槍、配重達到中性浮力、瞄準時往下壓、累了就上岸、最後只拿夠用的回家。整個過程是一套完整的科學系統！',
+      mipacingFlowSummary: '阿公們不需要拿過諾貝爾獎，他們的智慧就是科學。'
     }
   },
 
@@ -414,29 +425,9 @@ const CHAPTERS = [
     amisHighlight: ['Mipacing', 'Pasela\'']
   },
 
-  // 9. 跨實驗整合
+  // 9. TEK 對話對照表（原第 10 章，合併後 num 變 9）
   {
-    id: 'synth', num: 9, title: '整合 · Mipacing 完整流程',
-    presentMode: {
-      heading: '一次 Mipacing 的完整流程',
-      flow: [
-        { step: 1, color: '#0B3D5C', icon: '🌙', label: '看月相 / 潮汐', exp: '實驗 1' },
-        { step: 2, color: '#4FA3C7', icon: '🎒', label: '準備裝備', exp: '實驗 2' },
-        { step: 3, color: '#4FA3C7', icon: '⚖️', label: '調中性浮力', exp: '實驗 2' },
-        { step: 4, color: '#E89B3C', icon: '🎯', label: '光折射補償', exp: '實驗 3' },
-        { step: 5, color: '#C2452D', icon: '💨', label: '監控體能', exp: '實驗 4' },
-        { step: 6, color: '#4A7C59', icon: '🌱', label: '永續取用', exp: '實驗 5' }
-      ]
-    },
-    learnMode: {
-      story: '原來 Mipacing 不只是「下海打魚」這麼簡單。阿公從出門前就在用科學：看月亮判斷潮汐、選對的木頭做槍、配重達到中性浮力、瞄準時往下壓、累了就上岸、最後只拿夠用的回家。整個過程是一套完整的科學系統！',
-      summary: '阿公們不需要拿過諾貝爾獎，他們的智慧就是科學。'
-    }
-  },
-
-  // 10. TEK 對話對照表
-  {
-    id: 'tek', num: 10, title: '耆老的話 = 科學的話 = 我們的對話',
+    id: 'tek', num: 9, title: '耆老的話 = 科學的話 = 我們的對話',
     featured: true,
     presentMode: {
       heading: '耆老知識 × 科學原理 × 我們的對話',
@@ -456,7 +447,7 @@ const CHAPTERS = [
 
   // 11. 阿美語小辭典
   {
-    id: 'glossary', num: 11, title: '阿美語小辭典',
+    id: 'glossary', num: 10, title: '阿美語小辭典',
     presentMode: {
       heading: '阿美語關鍵詞',
       featured: ['Mipacing', 'Pa\'araw no folad', 'Sapihokhok', 'Pasela\'', 'Sela\'']
@@ -468,7 +459,7 @@ const CHAPTERS = [
 
   // 12. 小測驗（20 題）
   {
-    id: 'quiz', num: 12, title: '小測驗 · 我學到什麼？',
+    id: 'quiz', num: 11, title: '小測驗 · 我學到什麼？',
     skipInPresent: true,
     learnMode: {
       hint: '20 題挑戰！答對 16 題以上可以拿到「小耆老獎章」！',
@@ -510,14 +501,14 @@ const CHAPTERS = [
 
   // 13. Q&A 準備區（新增章節）
   {
-    id: 'qa', num: 13, title: 'Q&A 準備區 · 評審會問什麼？',
+    id: 'qa', num: 12, title: 'Q&A 準備區 · 評審會問什麼？',
     skipInPresent: true,
     learnMode: { useQAData: true }
   },
 
   // 14. 致謝（變第 14 章）
   {
-    id: 'credits', num: 14, title: '致謝 · 田野紀錄',
+    id: 'credits', num: 13, title: '致謝 · 田野紀錄',
     featured: true,
     presentMode: {
       heading: '謝謝陪我們的人',
