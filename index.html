@@ -6,7 +6,7 @@
   <title>耆老好會 · Pacing 海味藏冰箱 — 解密阿美族 Mipacing 漁獵文化</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
@@ -920,8 +920,225 @@
 
     /* 列印 */
     @media print {
-      #top-bar, #side-nav, .nav-arrows { display: none; }
+      #top-bar, #side-nav, .nav-arrows, .mario-bar, .mario-bubbles, .swimming-fish, .seabed { display: none; }
       .chapter { page-break-after: always; padding: 1cm; }
+    }
+
+    /* ========================================== */
+    /* 🎮 瑪利歐水下世界遊戲化主題（只在自學模式） */
+    /* ========================================== */
+    .pixel-font, .mario-bar, .pixel-btn, .world-tag {
+      font-family: 'Press Start 2P', 'Noto Sans TC', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    /* 自學模式：深藍水底漸層背景 */
+    body.learn-mode {
+      background: linear-gradient(180deg, #5fcde4 0%, #2d6cdb 30%, #1d4a9a 65%, #07266a 100%) !important;
+      background-attachment: fixed;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* 上升泡泡 */
+    .mario-bubbles {
+      position: fixed;
+      inset: 56px 0 0 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    body.present-mode .mario-bubbles { display: none; }
+    .bubble {
+      position: absolute;
+      bottom: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.3) 60%, transparent);
+      border: 1px solid rgba(255,255,255,0.5);
+      animation: bubbleFloat linear infinite;
+      box-shadow: inset 0 0 4px rgba(255,255,255,0.6);
+    }
+    @keyframes bubbleFloat {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 0.7; }
+      50% { transform: translateY(-50vh) translateX(20px); }
+      90% { opacity: 0.55; }
+      100% { transform: translateY(-110vh) translateX(-15px); opacity: 0; }
+    }
+
+    /* 章節卡片：白底+雙層 pixel 邊框（金色描邊+深藍框+黑陰影） */
+    body.learn-mode .chapter {
+      background: #ffffff !important;
+      border-radius: 0 !important;
+      padding: 1.75rem 1.5rem !important;
+      margin: 1.5rem auto !important;
+      max-width: 920px !important;
+      border: 4px solid #2a4d8c !important;
+      box-shadow:
+        0 0 0 3px #ffce00,
+        0 6px 0 #07266a,
+        0 12px 22px rgba(0,0,0,0.45) !important;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Mario 頂部 STATUS BAR */
+    .mario-bar {
+      background: #000;
+      color: #fff;
+      border: 4px solid #ffce00;
+      padding: 9px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      position: sticky;
+      top: 64px;
+      z-index: 25;
+      margin: 14px 240px 4px 240px;
+      text-transform: uppercase;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 4px 0 #07266a;
+    }
+    .mario-bar > span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .mario-bar .mario-label { color: #ffce00; font-size: 10px; }
+    .mario-bar .mario-value { color: #fff; }
+    .mario-bar .coin-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle at 30% 30%, #fff5a8, #ffce00 50%, #b88800);
+      border-radius: 50%;
+      border: 1px solid #5d4500;
+      animation: coinSpin 1.4s linear infinite;
+    }
+    @keyframes coinSpin {
+      0%, 100% { transform: scaleX(1); }
+      50% { transform: scaleX(0.18); }
+    }
+    .mario-bar .progress-bar-container {
+      display: inline-block;
+      width: 70px;
+      height: 9px;
+      background: #2a2a2a;
+      border: 1px solid #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .mario-bar .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffce00 0%, #ff9d00 100%);
+      transition: width 0.4s;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.2);
+    }
+    body.present-mode .mario-bar { display: none; }
+
+    /* 游動的魚 */
+    .swimming-fish {
+      position: fixed;
+      font-size: 28px;
+      z-index: 2;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+      will-change: transform;
+    }
+    body.present-mode .swimming-fish { display: none; }
+    .fish-1 { top: 22%; animation: swimRight 30s linear infinite; }
+    .fish-2 { top: 52%; animation: swimLeft 38s linear infinite; animation-delay: -10s; }
+    .fish-3 { top: 70%; animation: swimRight 34s linear infinite; animation-delay: -18s; font-size: 22px; }
+    @keyframes swimRight {
+      0% { transform: translateX(-150px) scaleX(1); }
+      100% { transform: translateX(calc(100vw + 150px)) scaleX(1); }
+    }
+    @keyframes swimLeft {
+      0% { transform: translateX(calc(100vw + 150px)) scaleX(-1); }
+      100% { transform: translateX(-150px) scaleX(-1); }
+    }
+
+    /* 底部海床（海草珊瑚剪影） */
+    .seabed {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(7,38,106,0.85) 60%, rgba(0,15,55,0.95));
+      text-align: center;
+      overflow: hidden;
+    }
+    .seabed::after {
+      content: '🌿  🪸  🐚  🌿  🪸  🌊  🐚  🌿  🪸  🌊  🌿  🪸';
+      display: block;
+      padding-top: 12px;
+      font-size: 22px;
+      letter-spacing: 6px;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
+    }
+    body.present-mode .seabed { display: none; }
+
+    /* World tag (1-1, 1-2...) */
+    .world-tag {
+      display: inline-block;
+      background: #000;
+      color: #ffce00;
+      font-size: 10px;
+      padding: 3px 6px;
+      margin-right: 8px;
+      border: 2px solid #ffce00;
+      text-transform: uppercase;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
+    /* Side-nav 重新調整以配合水下主題 */
+    body.learn-mode #side-nav {
+      background: linear-gradient(180deg, #07266a, #021344) !important;
+      border-right: 4px solid #ffce00;
+    }
+    body.learn-mode #side-nav button.active {
+      background: rgba(255,206,0,0.25) !important;
+      border-left-color: #ffce00 !important;
+    }
+    body.learn-mode #side-nav button.visited::after {
+      content: '🪙';
+      font-size: 0.9rem;
+    }
+
+    /* Pixel-style 按鈕（自學模式選用） */
+    .pixel-btn {
+      background: #ffce00;
+      color: #000;
+      border: 4px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 12px 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.08s;
+      font-family: 'Press Start 2P', monospace;
+    }
+    .pixel-btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+    .pixel-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #000; }
+
+    /* RWD 調整 */
+    @media (max-width: 768px) {
+      .mario-bar {
+        margin: 10px 8px 0 8px !important;
+        font-size: 9px;
+        padding: 6px 8px;
+        gap: 6px;
+      }
+      .mario-bar .mario-label { font-size: 8px; }
+      body.learn-mode .chapter {
+        margin: 0.75rem auto !important;
+        padding: 1.25rem 0.75rem !important;
+      }
+      .seabed { height: 40px; }
+      .seabed::after { font-size: 18px; letter-spacing: 4px; padding-top: 8px; }
+      .swimming-fish { font-size: 22px; }
+      .fish-3 { font-size: 18px; }
     }
   </style>
 </head>
@@ -956,6 +1173,29 @@
   <!-- 章節導覽（自學模式顯示） -->
   <!-- ============================================ -->
   <nav id="side-nav" aria-label="章節導覽"></nav>
+
+  <!-- ============================================ -->
+  <!-- 🎮 瑪利歐水下世界裝飾（自學模式） -->
+  <!-- ============================================ -->
+  <div class="mario-bubbles" id="mario-bubbles" aria-hidden="true"></div>
+  <div class="swimming-fish fish-1" aria-hidden="true">🐟</div>
+  <div class="swimming-fish fish-2" aria-hidden="true">🐠</div>
+  <div class="swimming-fish fish-3" aria-hidden="true">🐡</div>
+  <div class="seabed" aria-hidden="true"></div>
+
+  <!-- ============================================ -->
+  <!-- Mario STATUS BAR -->
+  <!-- ============================================ -->
+  <div class="mario-bar" id="mario-bar" aria-label="進度狀態列">
+    <span><span class="mario-label">🍄 MIPACING</span></span>
+    <span><span class="mario-label">WORLD</span> <span class="mario-value" id="mario-world">1-1</span></span>
+    <span><span class="coin-icon"></span> <span class="mario-value" id="mario-coins">×00</span></span>
+    <span>
+      <span class="mario-label">PROGRESS</span>
+      <span class="progress-bar-container"><span class="progress-fill" id="mario-progress-fill" style="width:0%"></span></span>
+      <span class="mario-value" id="mario-progress-text">0/14</span>
+    </span>
+  </div>
 
   <!-- ============================================ -->
   <!-- 主內容區 -->
@@ -1014,6 +1254,7 @@
     // ==========================
     function init() {
       buildSideNav();
+      initMarioBubbles();
       window.addEventListener('hashchange', handleHashChange);
       document.addEventListener('keydown', handleKeyboard);
       document.getElementById('menu-btn').addEventListener('click', () => {
@@ -1188,6 +1429,48 @@
       document.getElementById('ch-indicator').textContent = `第 ${c.num} / ${CHAPTERS.length - 1} 章`;
       document.getElementById('btn-prev').disabled = currentChapterIdx === 0;
       document.getElementById('btn-next').disabled = currentChapterIdx === CHAPTERS.length - 1;
+      updateMarioBar();
+    }
+
+    // ==========================
+    // 🎮 瑪利歐水下世界遊戲化邏輯
+    // ==========================
+    function initMarioBubbles() {
+      const container = document.getElementById('mario-bubbles');
+      if (!container || container.children.length > 0) return;
+      const count = 22;
+      for (let i = 0; i < count; i++) {
+        const b = document.createElement('div');
+        b.className = 'bubble';
+        const size = 6 + Math.random() * 22;
+        b.style.width = size + 'px';
+        b.style.height = size + 'px';
+        b.style.left = (Math.random() * 100) + '%';
+        b.style.animationDuration = (8 + Math.random() * 10) + 's';
+        b.style.animationDelay = (-Math.random() * 15) + 's';
+        container.appendChild(b);
+      }
+    }
+
+    function chapterToWorld(idx) {
+      if (idx <= 3) return `1-${idx + 1}`;
+      if (idx <= 8) return `2-${idx - 3}`;
+      return `3-${idx - 8}`;
+    }
+
+    function updateMarioBar() {
+      const visited = (() => { try { return JSON.parse(localStorage.getItem('mipacing_visited') || '[]'); } catch(e) { return []; } })();
+      const total = CHAPTERS.length;
+      const coins = visited.length;
+      const world = chapterToWorld(currentChapterIdx);
+      const worldEl = document.getElementById('mario-world');
+      const coinsEl = document.getElementById('mario-coins');
+      const fillEl = document.getElementById('mario-progress-fill');
+      const txtEl = document.getElementById('mario-progress-text');
+      if (worldEl) worldEl.textContent = world;
+      if (coinsEl) coinsEl.textContent = '×' + String(coins).padStart(2, '0');
+      if (fillEl) fillEl.style.width = ((coins / total) * 100) + '%';
+      if (txtEl) txtEl.textContent = `${coins}/${total}`;
     }
     // ==========================
     // 渲染章節（dispatcher）
