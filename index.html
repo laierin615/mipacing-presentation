@@ -536,6 +536,30 @@
       margin-left: 4px;
       opacity: 0.8;
     }
+    #side-nav button.priority-nav {
+      background: linear-gradient(135deg, rgba(232,155,60,0.28), rgba(194,69,45,0.18));
+      border: 2px solid rgba(232,155,60,0.9);
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 6px 18px rgba(232,155,60,0.22);
+      margin-bottom: 0.9rem;
+    }
+    #side-nav button.priority-nav::before {
+      width: 4px;
+      background: var(--c-sun);
+    }
+    #side-nav button.priority-nav::after {
+      content: '最重要';
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: var(--c-sun);
+      color: #0d1929;
+      font-size: 0.68rem;
+      font-weight: 900;
+      vertical-align: middle;
+    }
     body.present-only-featured #side-nav button:not(.featured) {
       display: none;
     }
@@ -1413,9 +1437,21 @@
     function buildSideNav() {
       const nav = document.getElementById('side-nav');
       const visited = (() => { try { return JSON.parse(localStorage.getItem('mipacing_visited') || '[]'); } catch(e) { return []; } })();
-      nav.innerHTML = CHAPTERS.map((c, i) => {
-        const classes = [c.featured ? 'featured' : '', visited.includes(c.id) ? 'visited' : ''].filter(Boolean).join(' ');
-        return `<button data-idx="${i}" class="${classes}" onclick="goTo(${i})" title="${c.featured ? '⭐ 視訊簡報 10 分鐘精選' : ''}">${c.num === 0 ? '🏠' : c.num}. ${c.title}</button>`;
+      const navOrder = CHAPTERS.map((_, i) => i).sort((a, b) => {
+        if (CHAPTERS[a].priorityNav && !CHAPTERS[b].priorityNav) return -1;
+        if (!CHAPTERS[a].priorityNav && CHAPTERS[b].priorityNav) return 1;
+        return a - b;
+      });
+      nav.innerHTML = navOrder.map((i) => {
+        const c = CHAPTERS[i];
+        const classes = [
+          c.priorityNav ? 'priority-nav' : '',
+          c.featured ? 'featured' : '',
+          visited.includes(c.id) ? 'visited' : ''
+        ].filter(Boolean).join(' ');
+        const title = c.priorityNav ? '最重要：出賽問答準備區' : (c.featured ? '⭐ 視訊簡報 10 分鐘精選' : '');
+        const label = c.priorityNav ? `⭐ ${c.title}` : `${c.num === 0 ? '🏠' : c.num}. ${c.title}`;
+        return `<button data-idx="${i}" class="${classes}" onclick="goTo(${i})" title="${title}">${label}</button>`;
       }).join('');
     }
     function updateSideNav() {
@@ -3505,13 +3541,14 @@
     // ==========================
     function renderQAChapter(l) {
       const qa = QA_CARDS;
+      const cardCount = qa.categories.reduce((sum, cat) => sum + cat.cards.length, 0);
       let html = `<h1 class="serif font-bold mb-2" style="color: var(--c-deep)">${qa.intro.title}</h1>
         <div class="wave-divider mb-4"></div>
         ${srcTag('practice')}
-        <p class="text-xs text-gray-500 mb-3">⚠️ 以下 15 張卡片是<b>我們團隊推測「評審可能會問」的問題與練習答案</b>，不是真實評審回應。學生可作為事前演練。</p>
+        <p class="text-xs text-gray-500 mb-3">⚠️ ${qa.intro.note || `以下 ${cardCount} 張卡片可作為問答演練。`}</p>
         <p class="text-base mb-4">${qa.intro.subtitle}</p>
         <div class="elder-quote mb-4">
-          <h3 class="font-bold mb-2" style="color: var(--c-deep)">📋 視訊問答規則</h3>
+          <h3 class="font-bold mb-2" style="color: var(--c-deep)">📋 問答準備規則</h3>
           <ul class="space-y-1 list-disc list-inside text-sm">
             ${qa.intro.rules.map(r => `<li>${r}</li>`).join('')}
           </ul>

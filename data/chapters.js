@@ -499,9 +499,11 @@ const CHAPTERS = [
     }
   },
 
-  // 13. Q&A 準備區（新增章節）
+  // 13. 問答準備區（出賽實際提問，索引置頂）
   {
-    id: 'qa', num: 12, title: 'Q&A 準備區 · 評審會問什麼？',
+    id: 'qa', num: 12, title: '問答準備區 · 出賽實問實答',
+    featured: true,
+    priorityNav: true,
     skipInPresent: true,
     learnMode: { useQAData: true }
   },
