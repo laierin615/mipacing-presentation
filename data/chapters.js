@@ -499,9 +499,9 @@ const CHAPTERS = [
     }
   },
 
-  // 13. 問答準備區（出賽實際提問，索引置頂）
+  // 13. 問答準備區（初賽實際提問 + 決賽模擬追問，索引置頂）
   {
-    id: 'qa', num: 12, title: '問答準備區 · 出賽實問實答',
+    id: 'qa', num: 12, title: '問答準備區 · 真題＋決賽模擬',
     featured: true,
     priorityNav: true,
     skipInPresent: true,
